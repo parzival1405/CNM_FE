@@ -12,7 +12,7 @@ import {
 import { Search, GroupAdd, PersonAdd } from "@material-ui/icons";
 import useDebounce from "../../hooks/useDebounce";
 import { useDispatch } from "react-redux";
-import { showAddFriendModal } from "../../redux/actions/modal";
+import { showAddFriendModal, showAddGroupModal } from "../../redux/actions/modal";
 const SearchStyled = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -56,6 +56,10 @@ function SearchComponent() {
   const dispatch = useDispatch();
   const handleShowAddFriendModal = () => {
     dispatch(showAddFriendModal());
+  }
+
+  const handleShowAddGroupModal = () =>{ 
+    dispatch(showAddGroupModal());
   }
 
   useEffect(() => {
@@ -121,7 +125,7 @@ function SearchComponent() {
             <IconButton onClick={handleShowAddFriendModal}>
               <PersonAdd />
             </IconButton>
-            <IconButton>
+            <IconButton onClick={handleShowAddGroupModal}>
               <GroupAdd style={{ fontSize: "1.9rem" }} />
             </IconButton>
           </Box>

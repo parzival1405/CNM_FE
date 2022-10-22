@@ -18,6 +18,7 @@ import { hideModal } from "../../redux/actions/modal";
 import BaseModal from "./BaseModal";
 import { getUserByPhoneNumber,removeUserState } from "../../redux/actions/userResultFromModalAddFriendAction";
 import useDebounce from "../../hooks/useDebounce";
+import { requestAddFriend } from "../../redux/actions/friends";
 function AddFriendModal({ socket }) {
   const classes = useStyles();
   const { isShowAddFriendModal } = useSelector((state) => state.modal);
@@ -43,8 +44,8 @@ function AddFriendModal({ socket }) {
 
   const handleRequestAddFriend = React.useCallback(() => {
     // xu ly here
-    // dispatch(requestAddFriend(userResult, user, token, socket));
-    // dispatch(hideModal("isShowAddFriendModal"));
+    dispatch(requestAddFriend(userResult));
+    dispatch(hideModal("isShowAddFriendModal"));
   }, [user, token, dispatch, userResult, socket]);
 
   const handleHideModal = () => {

@@ -11,6 +11,7 @@ import { GLOBALTYPES } from "./constants/actionType";
 import Demo from "./components/Demo";
 import Profile from "./components/Modal/Profile";
 import AddFriendModal from "./components/Modal/AddFriendModal";
+import AddGroupModal from "./components/Modal/AddGroupModal";
 function App() {
   const dispatch = useDispatch();
   const user = JSON.parse(sessionStorage.getItem("profile"));
@@ -24,6 +25,7 @@ function App() {
         {/* {user && <SocketClient />} */}
         {user && <Profile />}
         {user && <AddFriendModal/>}
+        {user && <AddGroupModal />}
         <Routes>
           <Route path="/auth" element={<Auth />}></Route>
           <Route

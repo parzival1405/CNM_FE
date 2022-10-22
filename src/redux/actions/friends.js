@@ -13,3 +13,14 @@ export const getAllYourFriends = (navigate) => async (dispatch) => {
         console.log(error);
     }
 }
+
+export const requestAddFriend = (userResult) => async (dispatch) => {
+    try{
+        const data = {
+            userId: userResult._id,
+          };
+        await api.requestAddFriend(data);
+    } catch (error) {
+        console.log(error);
+    }
+}
