@@ -2,16 +2,17 @@ import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Paper } from "@material-ui/core";
 import Chat from "./pages/Chat/Chat";
-import Auth from "./pages/Auth";
+import Register from "./pages/Auth/AuthRegister";
 import "./App.css";
 import SocketClient from "./SocketClient";
 import { useDispatch } from "react-redux";
-import { signin } from "./redux/actions/auth";
 import { GLOBALTYPES } from "./constants/actionType";
 import Demo from "./components/Demo";
 import Profile from "./components/Modal/Profile";
 import AddFriendModal from "./components/Modal/AddFriendModal";
 import AddGroupModal from "./components/Modal/AddGroupModal";
+import AddFriendToGroupModal from "./components/Modal/AddFriendToGroupModal";
+import Login from "./pages/Auth/AuthLogin";
 function App() {
   const dispatch = useDispatch();
   const user = JSON.parse(sessionStorage.getItem("profile"));
@@ -26,11 +27,13 @@ function App() {
         {user && <Profile />}
         {user && <AddFriendModal/>}
         {user && <AddGroupModal />}
+        {user && <AddFriendToGroupModal/>}
         <Routes>
-          <Route path="/auth" element={<Auth />}></Route>
+          <Route path="/register" element={<Register />}></Route>
+          <Route path="/login" element={<Login />}></Route>
           <Route
             path="/"
-            element={user ? <Chat /> : <Navigate to="/auth" replace />}
+            element={user ? <Chat /> : <Navigate to="/login" replace />}
           ></Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

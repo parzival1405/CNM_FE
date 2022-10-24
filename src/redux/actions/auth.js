@@ -26,7 +26,7 @@ export const signin = (formData,navigate) => async (dispatch) =>  {
 export const logout = (navigate) => async (dispatch) =>  {
     try{ 
         dispatch({type: GLOBALTYPES.LOGOUT})
-        navigate('/auth')
+        navigate('/login')
     } catch (error) {
         console.log(error);
     }

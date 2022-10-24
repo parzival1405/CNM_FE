@@ -11,22 +11,29 @@ import Demo from "../../components/Demo";
 function Chat() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const {user} = useSelector((state) => state.auth)
+  const { user } = useSelector((state) => state.auth);
   const socket = useRef();
   useEffect(() => {
     dispatch(getAllYourConversations(navigate));
-  }, [dispatch,user]);
+  }, [dispatch, user]);
 
   useEffect(() => {
     if (user) {
-      socket.current = io("http://localhost:5000",{ transports : ['websocket'] });
-      socket.current.emit("add-user", user);
+      // socket.current = io("http://localhost:5000",{ transports : ['websocket'] });
+      // socket.current.emit("add-user", user);
+      socket.current = io("http://localhost:5000", {
+        query: {
+          _id:user._id,
+          friends:user.friends,
+          username:user.username,
+          avatarURL:user.avatarURL
+        },
+      });
+      // socket.current.emit("add-user", user);
     }
   }, [user]);
 
-  return (
-    <Demo socket={socket}/>
-  );
+  return <Demo socket={socket} />;
 }
 
 export default Chat;

@@ -9,3 +9,11 @@ export const setCurrentConversation = (currentConversation) => async (dispatch) 
         console.log(error);
     }
 }
+
+export const addMembersToGroup = (listMember,currentConversation,user) => async (dispatch) => {
+    try{
+        dispatch({type: GLOBALTYPES.CURRENTCONVERSATION, data:currentConversation})
+    } catch (error) {
+        console.log(error);
+    }
+}

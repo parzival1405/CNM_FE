@@ -20,7 +20,6 @@ function Conversation({ conversation, socket }) {
   const { currentConversation, isRoom } = useSelector(
     (state) => state.currentConversation
   );
-  console.log(user)
   const _friends = conversation?.member?.filter((m) => m._id !== user._id);
 
   const handleChangeCurrentConversation = () => {
@@ -29,7 +28,6 @@ function Conversation({ conversation, socket }) {
     }
     dispatch(setCurrentConversation(conversation));
   };
-  console.log(_friends, conversation);
   return (
     <ListItem button onClick={handleChangeCurrentConversation}>
       <ListItemAvatar>

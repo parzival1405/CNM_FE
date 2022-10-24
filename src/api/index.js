@@ -31,3 +31,5 @@ export const getAllConversations= () => API.post('api/conversation/getAllConvers
 export const getUserByPhonenumber = (data) => API.post('api/user/getUserByPhonenumber',data);
 export const requestAddFriend = (data) => API.post('api/user/requestAddFriend',data);
 export const createConversation = (data) => API.post('api/conversation/createConversation',data);
+
+export const getDataS3API = () => API.post('api/s3url');

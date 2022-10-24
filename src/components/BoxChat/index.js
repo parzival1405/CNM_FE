@@ -9,6 +9,7 @@ import clsx from "clsx";
 import { GLOBALTYPES } from "../../constants/actionType";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllMessage,sendMessage, sendMessageTest } from "../../redux/actions/messages";
+import { getDataS3API } from "../../api";
 const Wrapper = styled("div")(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
@@ -44,15 +45,46 @@ function BoxChat({ socket, room = false }) {
     // };
   }, [currentConversation]);
 
-  const handleSendMsg = (message) => {
-    dispatch(
-      sendMessage({
-        sender: user._id,
-        conversation:currentConversation,
-        text:message,
-        isRoom:isRoom
-      },socket.current)
-    );
+  const handleSendMsg = (message,media) => {
+    if(media.length > 0){
+      media.map(async (item) => {
+        const {
+          data: { url },
+        } = await getDataS3API();
+        await fetch(url, {
+          method: "PUT",
+          headers: {
+            "Content-Type": item.type,
+          },
+          body: item,
+        });
+        const imageUrl = url.split("?")[0];
+        
+        dispatch(sendMessage({ 
+          sender: user._id,
+          conversation:currentConversation,
+          text:message,
+          isRoom:isRoom,
+          type:"text",
+          media: [
+            {
+              url: imageUrl,
+              type: item.type,
+            },
+          ],}
+        ,socket.current));
+      })
+    }else{
+      dispatch(
+        sendMessage({
+          sender: user._id,
+          conversation:currentConversation,
+          text:message,
+          isRoom:isRoom,
+          type:"text"
+        },socket.current)
+      );
+    }
   };
 
   useEffect(() => {

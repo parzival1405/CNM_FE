@@ -12,7 +12,8 @@ import {
 import { AvatarGroup } from "@material-ui/lab";
 
 import { Search, GroupAdd, PersonAdd, Edit } from "@material-ui/icons";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { showAddFriendToGroupModal } from "../../redux/actions/modal";
 
 const HeaderInfo = ({ currentConversation }) => {
   const { user } = useSelector((state) => state.auth);
@@ -48,6 +49,10 @@ function HeaderBoxChat() {
   const { currentConversation,isRoom } = useSelector(
     (state) => state.currentConversation
   );
+  const dispatch = useDispatch();
+  const handleShowAddFriendToGroupModal = () => {
+    dispatch(showAddFriendToGroupModal())
+  }
   return (
     <Box>
       <AppBar position="static">
@@ -59,7 +64,7 @@ function HeaderBoxChat() {
               <Search />
             </IconButton>
             {isRoom ? (
-              <IconButton>
+              <IconButton onClick={handleShowAddFriendToGroupModal}>
                 <GroupAdd style={{ fontSize: "1.9rem" }} />
               </IconButton>
             ) : (

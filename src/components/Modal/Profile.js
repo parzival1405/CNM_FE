@@ -10,10 +10,10 @@ function Profile() {
   const { user, token } = useSelector((state) => state.auth);
   const { socket } = useSelector((state) => state);
   const dispatch = useDispatch();
-//   const [avatar, setAvatar] = useState(() => `${user.profilePicture}`);
-//   const [username, setUsername] = useState(() => `${user.username}`);
-//   const [gender, setGender] = useState(() => `${user.gender}`);
-//   const [image, setImage] = useState({});
+  // const [avatar, setAvatar] = useState(() => user.avatarURL);
+  // const [username, setUsername] = useState(() => ser.username);
+  // const [gender, setGender] = useState(() => `${user.gender}`);
+  // const [image, setImage] = useState({});
 
   const [avatar, setAvatar] = useState('');
   const [username, setUsername] = useState('');
@@ -30,7 +30,7 @@ function Profile() {
         <form action="" className={classes.form} 
         // onSubmit={handleSubmitForm}
         >
-          {/* <Avatar className={classes.avatar} src={avatar} />
+          <Avatar className={classes.avatar} src={avatar} />
           <h3 className={classes.username}>ten user</h3>
           <Input
             className={classes.setting}
@@ -102,7 +102,7 @@ function Profile() {
               <MenuItem value={true}>Nam</MenuItem>
               <MenuItem value={false}>Nu</MenuItem>
             </Select>
-          </FormControl> */}
+          </FormControl>
 
           <div className={classes.actionSetting}>
             <Button variant="contained" onClick={handleHideModal}>
