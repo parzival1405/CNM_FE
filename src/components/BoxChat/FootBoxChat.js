@@ -47,7 +47,7 @@ function FootBoxChat({ handleSendMsg }) {
 
   const sendChat = (event) => {
     event.preventDefault();
-    if (msg.length > 0) {
+    if (msg.length > 0 || media.length > 0) {
       handleSendMsg(msg, media);
       setMsg("");
     }

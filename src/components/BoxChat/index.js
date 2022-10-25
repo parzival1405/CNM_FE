@@ -47,10 +47,12 @@ function BoxChat({ socket, room = false }) {
 
   const handleSendMsg = (message,media) => {
     if(media.length > 0){
+      let mediaArray = []
       media.map(async (item) => {
         const {
           data: { url },
         } = await getDataS3API();
+        const imageUrl = url.split("?")[0];
         await fetch(url, {
           method: "PUT",
           headers: {
@@ -58,22 +60,35 @@ function BoxChat({ socket, room = false }) {
           },
           body: item,
         });
-        const imageUrl = url.split("?")[0];
         
-        dispatch(sendMessage({ 
+        mediaArray.push({
+          url: imageUrl,
+          type: item.type,
+        },)
+        // dispatch(sendMessage({ 
+        //   sender: user._id,
+        //   conversation:currentConversation,
+        //   text:message,
+        //   isRoom:isRoom,
+        //   type:"text",
+        //   media: [
+        //     {
+        //       url: imageUrl,
+        //       type: item.type,
+        //     },
+        //   ],}
+        // ,socket.current));
+      })
+      dispatch(
+        sendMessage({
           sender: user._id,
           conversation:currentConversation,
           text:message,
           isRoom:isRoom,
           type:"text",
-          media: [
-            {
-              url: imageUrl,
-              type: item.type,
-            },
-          ],}
-        ,socket.current));
-      })
+          media:media
+        },socket.current)
+      );
     }else{
       dispatch(
         sendMessage({
@@ -81,7 +96,8 @@ function BoxChat({ socket, room = false }) {
           conversation:currentConversation,
           text:message,
           isRoom:isRoom,
-          type:"text"
+          type:"text",
+          media:media
         },socket.current)
       );
     }
