@@ -4,10 +4,9 @@ import clsx from "clsx";
 import useStyles from "./MessageStyles";
 import moment from "moment";
 import { useSelector } from "react-redux";
+import "./Message.css";
 function Messages({ message }) {
-  const {user} = useSelector(
-    (state) => state.auth
-  );
+  const { user } = useSelector((state) => state.auth);
   const { currentConversation } = useSelector(
     (state) => state.currentConversation
   );
@@ -17,7 +16,7 @@ function Messages({ message }) {
     <div
       className={clsx(
         classes.chatMessage,
-        message?.sender?._id == user._id? `${classes.chatMessageRight}` : ""
+        message?.sender?._id == user._id ? `${classes.chatMessageRight}` : ""
       )}
     >
       <Avatar
@@ -27,20 +26,26 @@ function Messages({ message }) {
       <div
         className={clsx(
           classes.wrapper,
-          message?.sender?._id == user._id ? `${classes.wrapperEnd}` : ""
+          message?.sender?._id == user._id ? `${classes.wrapperEnd}` : "",
+          "message_container"
         )}
       >
         {message.text && (
           <div
             className={clsx(
               classes.textWrapper,
-              message?.sender?._id == user._id ? `${classes.textWrapperColor}` : ""
+              message?.sender?._id == user._id
+                ? `${classes.textWrapperColor}`
+                : "",
+              "message_content"
             )}
           >
             <Typography
               className={clsx(
                 classes.textContent,
-                message?.sender?._id == user._id ? `${classes.flexFirstRight}` : ""
+                message?.sender?._id == user._id
+                  ? `${classes.flexFirstRight}`
+                  : ""
               )}
               color="textPrimary"
               component="p"
@@ -48,14 +53,14 @@ function Messages({ message }) {
             >
               {message?.text}
             </Typography>
-            <Typography
+            {/* <Typography
               component="span"
               variant="caption"
               color="textSecondary"
               className={classes.times}
             >
               {moment(message?.createdAt).fromNow()}
-            </Typography>
+            </Typography> */}
           </div>
         )}
       </div>

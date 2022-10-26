@@ -17,21 +17,20 @@ export const validationRegister = Yup.object().shape({
     [Yup.ref("password"), null],
     "Mật khẩu không trùng khớp"
   ),
-//   gender:Yup.string.when(['gender'],{
-//     is: (gender) => (Boolean) || false,
-//     then: Yup.string().required('Chọn giới tính')
-//   })
+  //   gender:Yup.string.when(['gender'],{
+  //     is: (gender) => (Boolean) || false,
+  //     then: Yup.string().required('Chọn giới tính')
+  //   })
 });
-export const validationLogin= Yup.object().shape({
-    phoneNumber: Yup.string()
-      .matches(
-        /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
-        "Số điện thoại không hợp lệ"
-      )
-      .required("Không được để trống"),
-    password: Yup.string()
-      .required("Không được để trống"),
-  });
+export const validationLogin = Yup.object().shape({
+  phoneNumber: Yup.string()
+    .matches(
+      /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
+      "Số điện thoại không hợp lệ"
+    )
+    .required("Không được để trống"),
+  password: Yup.string().required("Không được để trống"),
+});
 export const validateionCreateGroup = Yup.object().shape({
   label: Yup.string()
     .min(4, "Quá ngắn")

@@ -17,10 +17,12 @@ export default makeStyles((theme) => ({
     flexDirection: "column",
     justifyItems: "flex-start",
     alignItems: "start",
+    width: "auto",
     maxWidth: "50%",
   },
   wrapperEnd: {
     alignItems: "end",
+    textAlign: "end",
   },
   textWrapper: {
     backgroundColor: theme.palette.grey[300],
@@ -30,11 +32,13 @@ export default makeStyles((theme) => ({
     minWidth: "10rem",
   },
   textWrapperColor: {
-    background: `linear-gradient(to left bottom, ${theme.palette.secondary.main}, ${theme.palette.secondary.main})`,
+    // background: `linear-gradient(to left bottom, ${theme.palette.secondary.main}, ${theme.palette.secondary.main})`,
+    backgroundColor: "#0978f5",
   },
   textContent: {
     // backgroundColor:"red",
     fontSize: "16px",
+    color: "white",
   },
   emojiWrapper: {
     position: "absolute",

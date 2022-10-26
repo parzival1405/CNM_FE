@@ -1,14 +1,14 @@
 import React, { useEffect, useRef } from "react";
 import FootBoxChat from "./FootBoxChat";
 import HeaderBoxChat from "./HeaderBoxChat";
-import { styled, Box, Paper } from "@material-ui/core";
+import { styled, Paper } from "@material-ui/core";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Messages from "../Message/Message";
 import useStyles from "./ChatBodyStyle";
 import clsx from "clsx";
 import { GLOBALTYPES } from "../../constants/actionType";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllMessage,sendMessage, sendMessageTest } from "../../redux/actions/messages";
+import { getAllMessage, sendMessage } from "../../redux/actions/messages";
 import { getDataS3API } from "../../api";
 const Wrapper = styled("div")(({ theme }) => ({
   display: "flex",
@@ -21,7 +21,7 @@ function BoxChat({ socket, room = false }) {
 
   const { isLoading, messages } = useSelector((state) => state.messages);
   const { user, token } = useSelector((state) => state.auth);
-  const { currentConversation,isRoom } = useSelector(
+  const { currentConversation, isRoom } = useSelector(
     (state) => state.currentConversation
   );
   const dispatch = useDispatch();
@@ -45,9 +45,9 @@ function BoxChat({ socket, room = false }) {
     // };
   }, [currentConversation]);
 
-  const handleSendMsg = (message,media) => {
-    if(media.length > 0){
-      let mediaArray = []
+  const handleSendMsg = (message, media) => {
+    if (media.length > 0) {
+      let mediaArray = [];
       media.map(async (item) => {
         const {
           data: { url },
@@ -60,12 +60,12 @@ function BoxChat({ socket, room = false }) {
           },
           body: item,
         });
-        
+
         mediaArray.push({
           url: imageUrl,
           type: item.type,
-        },)
-        // dispatch(sendMessage({ 
+        });
+        // dispatch(sendMessage({
         //   sender: user._id,
         //   conversation:currentConversation,
         //   text:message,
@@ -78,27 +78,33 @@ function BoxChat({ socket, room = false }) {
         //     },
         //   ],}
         // ,socket.current));
-      })
+      });
       dispatch(
-        sendMessage({
-          sender: user._id,
-          conversation:currentConversation,
-          text:message,
-          isRoom:isRoom,
-          type:"text",
-          media:media
-        },socket.current)
+        sendMessage(
+          {
+            sender: user._id,
+            conversation: currentConversation,
+            text: message,
+            isRoom: isRoom,
+            type: "text",
+            media: media,
+          },
+          socket.current
+        )
       );
-    }else{
+    } else {
       dispatch(
-        sendMessage({
-          sender: user._id,
-          conversation:currentConversation,
-          text:message,
-          isRoom:isRoom,
-          type:"text",
-          media:media
-        },socket.current)
+        sendMessage(
+          {
+            sender: user._id,
+            conversation: currentConversation,
+            text: message,
+            isRoom: isRoom,
+            type: "text",
+            media: media,
+          },
+          socket.current
+        )
       );
     }
   };
@@ -108,12 +114,13 @@ function BoxChat({ socket, room = false }) {
       socket.current.on(
         isRoom ? "groupMessage-receive" : "msg-receive",
         (data) => {
-          console.log(data)
-            dispatch({ type: GLOBALTYPES.ADDMESSAGE, data })
+          console.log(data);
+          dispatch({ type: GLOBALTYPES.ADDMESSAGE, data });
         }
       );
     }
-    return () => socket.current.off(isRoom ? "groupMessage-receive" : "msg-receive");
+    return () =>
+      socket.current.off(isRoom ? "groupMessage-receive" : "msg-receive");
   }, [currentConversation]);
 
   useEffect(() => {
@@ -145,7 +152,9 @@ function BoxChat({ socket, room = false }) {
           scrollableTarget="scrollableDiv"
         >
           {!isLoading &&
-            messages.map((message,index) => <Messages key={index} message={message} />)}
+            messages.map((message, index) => (
+              <Messages key={index} message={message} />
+            ))}
         </InfiniteScroll>
       </Paper>
       <FootBoxChat handleSendMsg={handleSendMsg} />

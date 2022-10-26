@@ -1,20 +1,13 @@
 import React, { useEffect } from "react";
-import {
-    List,
-    styled,
-    Avatar,
-    Box,
-    IconButton,
-  } from "@material-ui/core";
-  import BasicPopover from "../Popover";
-  import { Textsms, Contacts, Settings } from "@material-ui/icons";
+import { List, Avatar, Box, IconButton } from "@material-ui/core";
+import BasicPopover from "../Popover";
+import { Textsms, Contacts, Settings } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { logout } from "../../redux/actions/auth";
 import decode from "jwt-decode";
 function Nav() {
-    
-  const {user,token} = useSelector((state) => state.auth)
+  const { user, token } = useSelector((state) => state.auth);
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();

@@ -13,6 +13,7 @@ import AddFriendModal from "./components/Modal/AddFriendModal";
 import AddGroupModal from "./components/Modal/AddGroupModal";
 import AddFriendToGroupModal from "./components/Modal/AddFriendToGroupModal";
 import Login from "./pages/Auth/AuthLogin";
+import Forgot from "./pages/Auth/ForgotPass";
 function App() {
   const dispatch = useDispatch();
   const user = JSON.parse(sessionStorage.getItem("profile"));
@@ -25,12 +26,13 @@ function App() {
       <Paper style={{ height: "100%", boxShadow: "none" }}>
         {/* {user && <SocketClient />} */}
         {user && <Profile />}
-        {user && <AddFriendModal/>}
+        {user && <AddFriendModal />}
         {user && <AddGroupModal />}
-        {user && <AddFriendToGroupModal/>}
+        {user && <AddFriendToGroupModal />}
         <Routes>
           <Route path="/register" element={<Register />}></Route>
           <Route path="/login" element={<Login />}></Route>
+          <Route path="/forgot" element={<Forgot />}></Route>
           <Route
             path="/"
             element={user ? <Chat /> : <Navigate to="/login" replace />}

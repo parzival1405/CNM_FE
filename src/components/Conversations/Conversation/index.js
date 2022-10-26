@@ -6,11 +6,11 @@ import {
   ListItemText,
 } from "@material-ui/core";
 import { AvatarGroup } from "@material-ui/lab";
-import {
-  getAllMessage,
-  sendMessage,
-  sendMessageTest,
-} from "../../../redux/actions/messages";
+// import {
+//   getAllMessage,
+//   sendMessage,
+//   sendMessageTest,
+// } from "../../../redux/actions/messages";
 import { setCurrentConversation } from "../../../redux/actions/currentConversation";
 import { useDispatch, useSelector } from "react-redux";
 
