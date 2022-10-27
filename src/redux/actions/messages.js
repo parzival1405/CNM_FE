@@ -13,10 +13,10 @@ export const sendMessage = (messageData, socket) => async (dispatch) => {
     } = await api.sendMessage(messageData);
 
 
-    socket.emit(isRoom ? "sendGroupMessage" : "send-msg", {
+    socket.emit(isRoom ? "sendGroupMessage" : "send-msg", JSON.stringify({
       ...data,
       conversation: messageData.conversation,
-    });
+    }));
     dispatch({ type: GLOBALTYPES.ADDMESSAGE, data });
     dispatch({ type: GLOBALTYPES.END_LOADING });
   } catch (error) {
