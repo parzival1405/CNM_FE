@@ -9,6 +9,8 @@ import clsx from "clsx";
 import { GLOBALTYPES } from "../../constants/actionType";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllMessage,sendMessage, sendMessageTest } from "../../redux/actions/messages";
+import DrawerInfoChat from "../Bar/DrawerInfoChat";
+
 const Wrapper = styled("div")(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
@@ -37,7 +39,6 @@ function BoxChat({ socket, room = false }) {
         })
       );
     }
-
     // return () => {
     //   socket.current.emit("disconnect",currentChat._id);
     //   socket.off();
@@ -72,6 +73,11 @@ function BoxChat({ socket, room = false }) {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  const [open, setOpen] = React.useState(false);
+
+  const openDrawer =() => {
+    setOpen(true);
+  }
   return (
     <Wrapper>
       <HeaderBoxChat />
@@ -101,6 +107,7 @@ function BoxChat({ socket, room = false }) {
         </InfiniteScroll>
       </Paper>
       <FootBoxChat handleSendMsg={handleSendMsg} />
+     <DrawerInfoChat handleDrawerOpen={openDrawer} style={{with:0,height:0}} ></DrawerInfoChat>
     </Wrapper>
   );
 }

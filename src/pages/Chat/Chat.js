@@ -19,7 +19,7 @@ function Chat() {
 
   useEffect(() => {
     if (user) {
-      socket.current = io("http://localhost:5000",{ transports : ['websocket'] });
+      socket.current = io("http://localhost:8000",{ transports : ['websocket'] });
       socket.current.emit("add-user", user);
     }
   }, [user]);

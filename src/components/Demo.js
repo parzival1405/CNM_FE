@@ -10,6 +10,7 @@ import BoxChat from "./BoxChat";
 import { useSelector } from "react-redux";
 import Nav from "./Nav";
 import Slider from "./Slider";
+import DrawerInfoChat from "./Bar/DrawerInfoChat";
 
 function Demo({socket}) {
   const {currentConversation} = useSelector((state) => state.currentConversation)
