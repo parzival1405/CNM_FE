@@ -9,7 +9,7 @@ import clsx from "clsx";
 import { GLOBALTYPES } from "../../constants/actionType";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllMessage,sendMessage, sendMessageTest } from "../../redux/actions/messages";
-import { getDataS3API } from "../../api";
+import { demoPostFile, getDataS3API } from "../../api";
 const Wrapper = styled("div")(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
@@ -45,50 +45,29 @@ function BoxChat({ socket, room = false }) {
     // };
   }, [currentConversation]);
 
-  const handleSendMsg = (message,media) => {
+  const handleSendMsg = async (message,media) => {
     if(media.length > 0){
-      let mediaArray = []
-      media.map(async (item) => {
-        const {
-          data: { url },
-        } = await getDataS3API();
-        const imageUrl = url.split("?")[0];
-        await fetch(url, {
-          method: "PUT",
-          headers: {
-            "Content-Type": item.type,
-          },
-          body: item,
-        });
-        
+      await media.map(async (item) => {
+        let mediaArray = [];
+        const formData = new FormData()
+        formData.append("media", item);
+        const {data:{data}} = await demoPostFile(formData);
+        console.log(data);
         mediaArray.push({
-          url: imageUrl,
+          url: data,
           type: item.type,
-        },)
-        // dispatch(sendMessage({ 
-        //   sender: user._id,
-        //   conversation:currentConversation,
-        //   text:message,
-        //   isRoom:isRoom,
-        //   type:"text",
-        //   media: [
-        //     {
-        //       url: imageUrl,
-        //       type: item.type,
-        //     },
-        //   ],}
-        // ,socket.current));
+        })
+        dispatch(
+          sendMessage({
+            sender: user._id,
+            conversation:currentConversation,
+            text:message,
+            isRoom:isRoom,
+            type:item.type,
+            media:mediaArray
+          },socket.current)
+        );
       })
-      dispatch(
-        sendMessage({
-          sender: user._id,
-          conversation:currentConversation,
-          text:message,
-          isRoom:isRoom,
-          type:"text",
-          media:media
-        },socket.current)
-      );
     }else{
       dispatch(
         sendMessage({
@@ -97,7 +76,7 @@ function BoxChat({ socket, room = false }) {
           text:message,
           isRoom:isRoom,
           type:"text",
-          media:media
+          media: media
         },socket.current)
       );
     }
