@@ -15,6 +15,41 @@ export default (state = initialState, action) => {
         ...state,
         conversations: [action?.data, ...state.conversations],
       };
+    case GLOBALTYPES.UPDATE_COUNT_WAITING_MESSAGE: {
+      let conversationSend = state.conversations.find(
+        (convers) => convers._id === action?.payload._id
+      );
+      let count_waiting_msg = conversationSend.count_waiting_msg
+        ? conversationSend.count_waiting_msg + 1
+        : 1;
+      conversationSend = {
+        ...conversationSend,
+        count_waiting_msg,
+      };
+      return {
+        ...state,
+        conversations: state.conversations.map((conver) =>
+          conver._id == conversationSend._id ? conversationSend : conver
+        ),
+      };
+    }
+    case GLOBALTYPES.REMOVE_COUNT_WAITING_MESSAGE: {
+      let conversationSend = state.conversations.find(
+        (convers) => convers._id === action?.payload._id
+      );
+      if (conversationSend) {
+        conversationSend = {
+          ...conversationSend,
+          count_waiting_msg : undefined,
+        };
+      }
+      return {
+        ...state,
+        conversations: state.conversations.map((conver) =>
+          conver._id == conversationSend._id ? conversationSend : conver
+        ),
+      };
+    }
     case GLOBALTYPES.START_LOADING:
       return {
         ...state,

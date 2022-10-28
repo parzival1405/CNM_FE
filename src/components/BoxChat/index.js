@@ -16,7 +16,7 @@ const Wrapper = styled("div")(({ theme }) => ({
   height: "100%",
 }));
 
-function BoxChat({ room = false }) {
+function BoxChat() {
   const classes = useStyles();
 
   const { isLoading, messages } = useSelector((state) => state.messages);
@@ -32,9 +32,9 @@ function BoxChat({ room = false }) {
 
   useEffect(() => {
     if (currentConversation) {
-      if (isRoom) {
-        socket.current.emit("joinRoom", currentConversation._id);
-      }
+      // if (isRoom) {
+      //   socket.current.emit("joinRoom", currentConversation._id);
+      // }
       dispatch(
         getAllMessage({
           conversation: currentConversation._id,
@@ -65,7 +65,6 @@ function BoxChat({ room = false }) {
             sender: user._id,
             conversation:currentConversation,
             text:message,
-            isRoom:isRoom,
             type:item.type,
             media:mediaArray
           },socket.current)
@@ -77,7 +76,6 @@ function BoxChat({ room = false }) {
           sender: user._id,
           conversation:currentConversation,
           text:message,
-          isRoom:isRoom,
           type:"text",
           media: media
         },socket.current)
@@ -88,13 +86,23 @@ function BoxChat({ room = false }) {
   useEffect(() => {
     if (socket.current) {
       socket.current.on(
-        isRoom ? "groupMessage-receive" : "msg-receive",
+        "msg-receive",
         (data) => {
+          if (
+            currentConversation === undefined ||
+            data.conversation._id !== currentConversation?._id
+          ) {
+            dispatch({
+              type: GLOBALTYPES.UPDATE_COUNT_WAITING_MESSAGE,
+              payload: data.conversation,
+            });
+          } else {
             dispatch({ type: GLOBALTYPES.ADDMESSAGE, data })
+          }
         }
       );
     }
-    return () => socket.current.off(isRoom ? "groupMessage-receive" : "msg-receive");
+    return () => socket.current.off("msg-receive");
   }, [currentConversation]);
 
   // useEffect(() => {
@@ -117,13 +125,20 @@ function BoxChat({ room = false }) {
   useEffect(() => {
     if (socket.current) {
       socket.current.on(
-        isRoom ? "delete-groupMessage-receive" : "delete-receive",
+        "delete-receive",
         (data) => {
+          if (
+            currentConversation === undefined ||
+            data.conversation._id !== currentConversation?._id
+          ) {
+            console.log("here")
+          } else {
             dispatch({ type: GLOBALTYPES.DELETEMESSAGE, data })
+          }
         }
       );
     }
-    return () => socket.current.off(isRoom ? "delete-groupMessage-receive" : "delete-receive");
+    return () => socket.current.off("delete-receive");
   }, [currentConversation]);
 
   useEffect(() => {

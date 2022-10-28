@@ -18,7 +18,6 @@ function BasicPopover({ children, idMessage }) {
   const { socket } = useSelector(
     (state) => state.socket
   );
-  console.log(socket);
   const dispatch = useDispatch();
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);

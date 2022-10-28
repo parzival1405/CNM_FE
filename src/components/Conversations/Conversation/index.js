@@ -24,13 +24,10 @@ function Conversation({ conversation }) {
     (state) => state.socket
   );
   const _friends = conversation?.member?.filter((m) => m._id !== user._id);
-
   const handleChangeCurrentConversation = () => {
-    if (isRoom) {
-      socket.current.emit("leaveRoom", currentConversation._id);
-    }
     dispatch(setCurrentConversation(conversation));
   };
+  
   return (
     <ListItem button onClick={handleChangeCurrentConversation}>
       <ListItemAvatar>
@@ -46,7 +43,7 @@ function Conversation({ conversation }) {
             ? _friends[0].username?.slice(0, 30)
             : conversation.label?.slice(0, 30)
         }
-        secondary="Secondary text"
+        secondary={conversation?.count_waiting_msg ? `Có ${conversation?.count_waiting_msg} tin nhắn chưa xem` : "second text"}
       />
     </ListItem>
   );
