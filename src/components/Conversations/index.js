@@ -4,7 +4,7 @@ import { Grid, List } from "@material-ui/core";
 import Conversation from "./Conversation";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-function Conversations({ socket }) {
+function Conversations() {
   const { isLoading, conversations } = useSelector(
     (state) => state.conversations
   );
@@ -14,7 +14,6 @@ function Conversations({ socket }) {
       <List style={{ maxHeight: 640, overflow: "auto" }}>
         {conversations?.map((conversation) => (
           <Conversation
-            socket={socket}
             key={conversation._id}
             conversation={conversation}
           />

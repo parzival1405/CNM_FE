@@ -1,41 +1,52 @@
 import React, { useState } from "react";
 import {
   Box,
-  Button,
-  Divider,
   IconButton,
   List,
   ListItem,
   ListItemText,
   Popover,
-  Typography,
-  ListItemIcon,
 } from "@material-ui/core";
-import { Textsms, Contacts, Settings } from "@material-ui/icons";
-import Profile from "../Modal/Profile";
 import { useDispatch, useSelector } from "react-redux";
-import { showFormSettingModal } from "../../redux/actions/modal";
+import { deleteMessage } from "../../redux/actions/messages";
 
-function BasicPopover({ children, handleLogout }) {
+function BasicPopover({ children, idMessage }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const { currentConversation, isRoom } = useSelector(
+    (state) => state.currentConversation
+  );
+  const { socket } = useSelector(
+    (state) => state.socket
+  );
+  console.log(socket);
   const dispatch = useDispatch();
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const {user} = useSelector((state) => state.auth)
-
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  const handleShowFormSettingModal = () => {
-    dispatch(showFormSettingModal());
+  const handleDeleteMessage = () => {
+    dispatch(
+      deleteMessage({
+        id: idMessage,
+        isRoom: isRoom,
+        conversation: currentConversation,
+      },socket.current)
+    );
   };
 
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
-
+  const body = (
+    <List>
+      <ListItem button onClick={handleDeleteMessage}>
+        <ListItemText primary="Xóa tin nhắn" />
+      </ListItem>
+    </List>
+  );
   return (
     <div>
       <IconButton
@@ -53,11 +64,11 @@ function BasicPopover({ children, handleLogout }) {
         onClose={handleClose}
         anchorOrigin={{
           vertical: "bottom",
-          horizontal: "right",
+          horizontal: "center",
         }}
         transformOrigin={{
-          vertical: "center",
-          horizontal: "left",
+          vertical: "top",
+          horizontal: "right",
         }}
       >
         <Box
@@ -68,23 +79,7 @@ function BasicPopover({ children, handleLogout }) {
             bgcolor: "background.paper",
           }}
         >
-          <List>
-            <ListItem>
-              <ListItemText primary={user.username} />
-            </ListItem>
-          </List>
-          <Divider variant="middle" />
-          <List>
-            <ListItem button onClick={handleShowFormSettingModal}>
-              <ListItemText primary="Hồ sơ" />
-            </ListItem>
-          </List>
-          <Divider variant="middle" />
-          <List>
-            <ListItem button onClick={handleLogout}>
-              <ListItemText primary="Đăng xuất" />
-            </ListItem>
-          </List>
+          {body}
         </Box>
       </Popover>
     </div>

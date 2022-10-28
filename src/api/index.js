@@ -44,3 +44,5 @@ export const demoPostFile = (formData) =>
       "Content-Type": "multipart/form-data",
     },
   });
+
+  export const deleteMessage = (data) => API.post("api/message/deleteMessage",data);

@@ -3,7 +3,7 @@ import FootBoxChat from "./FootBoxChat";
 import HeaderBoxChat from "./HeaderBoxChat";
 import { styled, Box, Paper } from "@material-ui/core";
 import InfiniteScroll from "react-infinite-scroll-component";
-import Messages from "../Message/Message";
+import Message from "../Message/Message";
 import useStyles from "./ChatBodyStyle";
 import clsx from "clsx";
 import { GLOBALTYPES } from "../../constants/actionType";
@@ -16,13 +16,16 @@ const Wrapper = styled("div")(({ theme }) => ({
   height: "100%",
 }));
 
-function BoxChat({ socket, room = false }) {
+function BoxChat({ room = false }) {
   const classes = useStyles();
 
   const { isLoading, messages } = useSelector((state) => state.messages);
   const { user, token } = useSelector((state) => state.auth);
   const { currentConversation,isRoom } = useSelector(
     (state) => state.currentConversation
+  );
+  const { socket } = useSelector(
+    (state) => state.socket
   );
   const dispatch = useDispatch();
   const scrollRef = useRef();
@@ -87,12 +90,40 @@ function BoxChat({ socket, room = false }) {
       socket.current.on(
         isRoom ? "groupMessage-receive" : "msg-receive",
         (data) => {
-          console.log(data)
             dispatch({ type: GLOBALTYPES.ADDMESSAGE, data })
         }
       );
     }
     return () => socket.current.off(isRoom ? "groupMessage-receive" : "msg-receive");
+  }, [currentConversation]);
+
+  // useEffect(() => {
+  //   socket.on("addMessageToClient", (msg) => {
+  //     if (
+  //       currentConversation === undefined ||
+  //       msg.data.conversation !== currentConversation?.data?._id
+  //     ) {
+  //       dispatch({
+  //         type: GLOBALTYPES.UPDATE_COUNT_WAITING_MESSAGE,
+  //         payload: msg.data.conversation,
+  //       });
+  //     } else {
+  //       dispatch({ type: GLOBALTYPES.ADD_MESSAGE, payload: msg.data });
+  //     }
+  //   });
+  //   return () => socket.off("addMessageToClient");
+  // }, [socket, dispatch, conversations, currentConversation]);
+
+  useEffect(() => {
+    if (socket.current) {
+      socket.current.on(
+        isRoom ? "delete-groupMessage-receive" : "delete-receive",
+        (data) => {
+            dispatch({ type: GLOBALTYPES.DELETEMESSAGE, data })
+        }
+      );
+    }
+    return () => socket.current.off(isRoom ? "delete-groupMessage-receive" : "delete-receive");
   }, [currentConversation]);
 
   useEffect(() => {
@@ -124,7 +155,7 @@ function BoxChat({ socket, room = false }) {
           scrollableTarget="scrollableDiv"
         >
           {!isLoading &&
-            messages.map((message,index) => <Messages key={index} message={message} />)}
+            messages.map((message,index) => <Message key={index} message={message} />)}
         </InfiniteScroll>
       </Paper>
       <FootBoxChat handleSendMsg={handleSendMsg} />

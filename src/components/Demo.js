@@ -19,10 +19,10 @@ function Demo({socket}) {
         <Nav/>
       </Grid>
       <Grid item md={3}>
-        <Conversations socket={socket}/>
+        <Conversations/>
       </Grid>
       <Grid item style={{ flexGrow: 1 ,height:"inherit" }}>
-        {currentConversation ? <BoxChat socket={socket} style={{ height: "100%" }} /> : 
+        {currentConversation ? <BoxChat style={{ height: "100%" }} /> : 
         ""
         // <Slider/>
         }
