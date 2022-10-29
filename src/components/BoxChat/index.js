@@ -92,13 +92,23 @@ function BoxChat() {
             currentConversation === undefined ||
             data.conversation._id !== currentConversation?._id
           ) {
+            console.log("here")
             dispatch({
               type: GLOBALTYPES.UPDATE_COUNT_WAITING_MESSAGE,
               payload: data.conversation,
             });
+            
           } else {
+            console.log(data.conversation._id,currentConversation?._id)
             dispatch({ type: GLOBALTYPES.ADDMESSAGE, data })
           }
+          dispatch({
+            type: GLOBALTYPES.UPDATE_LAST_MSG_CONVERSATION,
+            payload: {
+              data:data,
+              conversation: data.conversation,
+            },
+          });
         }
       );
     }

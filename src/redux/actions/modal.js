@@ -63,3 +63,11 @@ export const showAddFriendToGroupModal = () => async (dispatch) => {
     });
   } catch (err) {}
 };
+
+export const ShowOTP = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: GLOBALTYPES.SHOW_OTP_MODAL,
+    });
+  } catch (err) {}
+};

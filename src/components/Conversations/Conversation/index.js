@@ -20,14 +20,11 @@ function Conversation({ conversation }) {
   const { currentConversation, isRoom } = useSelector(
     (state) => state.currentConversation
   );
-  const { socket } = useSelector(
-    (state) => state.socket
-  );
+  const { socket } = useSelector((state) => state.socket);
   const _friends = conversation?.member?.filter((m) => m._id !== user._id);
   const handleChangeCurrentConversation = () => {
     dispatch(setCurrentConversation(conversation));
   };
-  
   return (
     <ListItem button onClick={handleChangeCurrentConversation}>
       <ListItemAvatar>
@@ -43,7 +40,15 @@ function Conversation({ conversation }) {
             ? _friends[0].username?.slice(0, 30)
             : conversation.label?.slice(0, 30)
         }
-        secondary={conversation?.count_waiting_msg ? `Có ${conversation?.count_waiting_msg} tin nhắn chưa xem` : "second text"}
+        secondary={
+          conversation?.count_waiting_msg
+            ? `Có ${conversation?.count_waiting_msg} tin nhắn chưa xem`
+            : user?._id === conversation?.lastMessage?.sender?._id
+            ? `Bạn:${conversation?.lastMessage?.text}`
+            : conversation?.lastMessage
+            ? `${conversation?.lastMessage?.sender?.username}:${conversation?.lastMessage?.text}`
+            : ""
+        }
       />
     </ListItem>
   );

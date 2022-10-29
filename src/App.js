@@ -9,13 +9,15 @@ import { useDispatch } from "react-redux";
 import { GLOBALTYPES } from "./constants/actionType";
 import Demo from "./components/Demo";
 import Profile from "./components/Modal/Profile";
+import Test from "./components/Modal/Test";
 import AddFriendModal from "./components/Modal/AddFriendModal";
 import AddGroupModal from "./components/Modal/AddGroupModal";
 import AddFriendToGroupModal from "./components/Modal/AddFriendToGroupModal";
 import Login from "./pages/Auth/AuthLogin";
 function App() {
   const dispatch = useDispatch();
-  const user = JSON.parse(sessionStorage.getItem("profile"));
+  const user = null 
+  JSON.parse(sessionStorage.getItem("profile"));
 
   if (user) {
     dispatch({ type: GLOBALTYPES.AUTH, data: user });
@@ -24,6 +26,7 @@ function App() {
     <BrowserRouter>
       <Paper style={{ height: "100%", boxShadow: "none" }}>
         {/* {user && <SocketClient />} */}
+        <Test/>
         {user && <Profile />}
         {user && <AddFriendModal/>}
         {user && <AddGroupModal />}

@@ -191,7 +191,7 @@ function Messages({ message }) {
                 component="p"
                 variant="body"
               >
-                Đã xóa tin nhắn
+                Tin nhắn đã thu hồi
               </Typography>
               <Typography
                 component="span"

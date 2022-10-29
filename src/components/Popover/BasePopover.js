@@ -42,7 +42,7 @@ function BasicPopover({ children, idMessage }) {
   const body = (
     <List>
       <ListItem button onClick={handleDeleteMessage}>
-        <ListItemText primary="Xóa tin nhắn" />
+        <ListItemText primary="Thu hồi tin nhắn" />
       </ListItem>
     </List>
   );
