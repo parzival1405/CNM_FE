@@ -43,6 +43,7 @@ function FootBoxChat({ handleSendMsg }) {
     if (msg.length > 0 || media.length > 0) {
       handleSendMsg(msg, media);
       setMsg("");
+      setMedia([]);
     }
   };
 
@@ -64,6 +65,7 @@ function FootBoxChat({ handleSendMsg }) {
     });
     // if (err) setMediaErr(err);
     // else setMediaErr("");
+    console.log(files)
     setMedia([...media, ...newMedia]);
   };
 

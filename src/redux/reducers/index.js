@@ -8,6 +8,7 @@ import conversations from "./conversations";
 import currentConversation from "./currentConversation"
 import modal from "./modal"
 import userResultFromModalAddFriendReducer from './userResultFromModalAddFriendReducer'
+import socket from "./socket";
 
 export default combineReducers({
     auth,
@@ -17,5 +18,6 @@ export default combineReducers({
     conversations,
     currentConversation,
     modal,
+    socket,
     userResultFromModalAddFriend:userResultFromModalAddFriendReducer
 })

@@ -8,6 +8,7 @@ import "./Chat.css";
 import * as api from "../../api";
 import { io } from "socket.io-client";
 import Demo from "../../components/Demo";
+import { initSocket } from "../../redux/actions/socket";
 function Chat() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ function Chat() {
         },
       });
       // socket.current.emit("add-user", user);
+      dispatch(initSocket({socket:socket}))
     }
   }, [user]);
 

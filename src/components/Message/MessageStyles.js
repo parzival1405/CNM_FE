@@ -81,9 +81,9 @@ export default makeStyles((theme) => ({
   },
   mediaRight: {
     alignItems: "end",
+    width: "150px",
   },
   imageWrapper: {
-    width: "25% !important",
     transition: "all .2s ease",
     position: "relative",
     "&:hover": {
@@ -104,4 +104,11 @@ export default makeStyles((theme) => ({
       color: theme.palette.error.dark,
     },
   },
+  video:{
+    width:"350px",
+  },
+  action:{
+    display:"flex",
+    alignItems:"center",
+  }
 }));
