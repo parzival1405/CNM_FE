@@ -1,37 +1,37 @@
 import * as Yup from "yup";
 export const validationRegister = Yup.object().shape({
-  username: Yup.string()
-    .min(4, "Quá ngắn")
-    .max(15, "Quá dài")
-    .required("Không được để trống"),
+  username: Yup.string().required("*Bạn phải điền tên hiển thị!"),
   phoneNumber: Yup.string()
     .matches(
-      /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
-      "Số điện thoại không hợp lệ"
+      /^(032|033|034|035|036|037|038|039|086|096|097|098|070|079|077|076|078|089|090|093|083|084|085|081|082|088|091|094|056|058|092|059|099)[0-9]{7}$/,
+      "*Số điện thoại không hợp lệ!"
     )
-    .required("Không được để trống"),
+    .required("*Bạn phải điền số điện thoại!"),
   password: Yup.string()
     .min(6, "Mật khẩu ít nhất 6 kí tự")
-    .required("Không được để trống"),
-  confirmPassword: Yup.string().oneOf(
-    [Yup.ref("password"), null],
-    "Mật khẩu không trùng khớp"
-  ),
-//   gender:Yup.string.when(['gender'],{
-//     is: (gender) => (Boolean) || false,
-//     then: Yup.string().required('Chọn giới tính')
-//   })
+    .required("*Bạn phải điền mật khẩu!"),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password"), null], "*Mật khẩu không trùng khớp!")
+    .required("*Bạn phải xác nhận mật khẩu!"),
+  dayofbirth: Yup.string().required("*Bạn phải chọn ngày sinh!"),
 });
-export const validationLogin= Yup.object().shape({
-    phoneNumber: Yup.string()
-      .matches(
-        /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
-        "Số điện thoại không hợp lệ"
-      )
-      .required("Không được để trống"),
-    password: Yup.string()
-      .required("Không được để trống"),
-  });
+export const validationLogin = Yup.object().shape({
+  phoneNumber: Yup.string()
+    .matches(
+      /^(032|033|034|035|036|037|038|039|086|096|097|098|070|079|077|076|078|089|090|093|083|084|085|081|082|088|091|094|056|058|092|059|099)[0-9]{7}$/,
+      "*Số điện thoại không hợp lệ!"
+    )
+    .required("*Bạn phải điền số điện thoại!"),
+  password: Yup.string().required("*Bạn phải điền mật khẩu!"),
+});
+export const validationForgotPass = Yup.object().shape({
+  phoneNumber: Yup.string()
+    .matches(
+      /^(032|033|034|035|036|037|038|039|086|096|097|098|070|079|077|076|078|089|090|093|083|084|085|081|082|088|091|094|056|058|092|059|099)[0-9]{7}$/,
+      "*Số điện thoại không hợp lệ!"
+    )
+    .required("*Bạn phải điền số điện thoại!"),
+});
 export const validateionCreateGroup = Yup.object().shape({
   label: Yup.string()
     .min(4, "Quá ngắn")
@@ -73,7 +73,7 @@ export const validateionOTP = Yup.object().shape({
 export const validationForgotPassword = Yup.object().shape({
   phoneNumber: Yup.string()
     .matches(
-      /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
+      /^(032|033|034|035|036|037|038|039|086|096|097|098|070|079|077|076|078|089|090|093|083|084|085|081|082|088|091|094|056|058|092|059|099)[0-9]{7}$/,
       "Số điện thoại không hợp lệ"
     )
     .required("Không được để trống"),

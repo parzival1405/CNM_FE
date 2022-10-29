@@ -3,23 +3,16 @@ import {
   IconButton,
   Box,
   AppBar,
-  Toolbar,
   TextField,
   styled,
   FormControl,
   Tooltip,
+  InputBase,
 } from "@material-ui/core";
 import Picker from "emoji-picker-react";
-import {
-  SendOutlined,
-  Image,
-  EmojiEmotions,
-  AttachFile,
-  Cancel
-} from "@material-ui/icons";
+import { SendOutlined, Image, EmojiEmotions, Cancel } from "@material-ui/icons";
 import useStyles from "./styles";
-import {fileShow,videoShow,imageShow} from "../../utils/mediaShow"
-
+import { fileShow, videoShow, imageShow } from "../../utils/mediaShow";
 
 const StyledFormControl = styled(FormControl)(({ theme }) => ({
   backgroundColor: "#fff",
@@ -90,7 +83,7 @@ function FootBoxChat({ handleSendMsg }) {
             <IconButton
               onClick={() => handleEmojiPickerhideShow(!showEmojiPicker)}
             >
-              <EmojiEmotions style={{ color: "#000" }} />
+              <EmojiEmotions style={{ color: "#0978f5" }} />
             </IconButton>
             {showEmojiPicker && (
               // <EmojiPicker>
@@ -98,15 +91,13 @@ function FootBoxChat({ handleSendMsg }) {
               // </EmojiPicker>
             )}
           </Box>
-          <TextField
-            style={{ flexGrow: 1, margin: "16px 0" }}
-            label="Nhập tin nhắn"
-            variant="outlined"
-            size="small"
+          <InputBase
+            style={{ flexGrow: 2, margin: "16px 0" }}
+            placeholder="Nhập tin nhắn"
             value={msg}
             onChange={(e) => setMsg(e.target.value)}
           />
-          
+
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <input
@@ -121,29 +112,29 @@ function FootBoxChat({ handleSendMsg }) {
             <label htmlFor="file" style={{ display: "flex" }}>
               <Tooltip title="Thêm ảnh">
                 <IconButton component="span">
-                  <Image style={{ color: "#000" }} />
+                  <Image style={{ color: "#0978f5" }} />
                 </IconButton>
               </Tooltip>
             </label>
           </Box>
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton onClick={(event) => sendChat(event)}>
-              <SendOutlined style={{ color: "#000" }} />
+              <SendOutlined style={{ color: "#0978f5" }} />
             </IconButton>
           </Box>
         </StyledFormControl>
         {media?.map((item, index) => (
-            <div key={index} className={classes.mediaItem}>
-              {item.type.match(/video/i) ? 
-              videoShow(URL.createObjectURL(item)) 
-              : item.type.match(/image/i) 
+          <div key={index} className={classes.mediaItem}>
+            {item.type.match(/video/i)
+              ? videoShow(URL.createObjectURL(item))
+              : item.type.match(/image/i)
               ? imageShow(URL.createObjectURL(item))
               : fileShow(URL.createObjectURL(item), item)}
-              <span onClick={() => handleDeleteMedia(index)}>
-                <Cancel />{" "}
-              </span>
-            </div>
-          ))}
+            <span onClick={() => handleDeleteMedia(index)}>
+              <Cancel />{" "}
+            </span>
+          </div>
+        ))}
       </AppBar>
     </Box>
   );

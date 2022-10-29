@@ -1,11 +1,9 @@
 import React from "react";
 import {
-  styled,
   IconButton,
   Box,
   AppBar,
   Toolbar,
-  InputBase,
   CardHeader,
   Avatar,
 } from "@material-ui/core";
@@ -46,13 +44,13 @@ const HeaderInfo = ({ currentConversation }) => {
 };
 
 function HeaderBoxChat() {
-  const { currentConversation,isRoom } = useSelector(
+  const { currentConversation, isRoom } = useSelector(
     (state) => state.currentConversation
   );
   const dispatch = useDispatch();
   const handleShowAddFriendToGroupModal = () => {
-    dispatch(showAddFriendToGroupModal())
-  }
+    dispatch(showAddFriendToGroupModal());
+  };
   return (
     <Box>
       <AppBar position="static">
