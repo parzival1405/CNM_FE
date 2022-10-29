@@ -1,5 +1,5 @@
 import React from "react";
-import { InputBase } from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
 import { Link, useNavigate } from "react-router-dom";
 import SigninImage from "../../assets/signup.jpg";
 import { useDispatch } from "react-redux";
@@ -63,7 +63,8 @@ function Login() {
               <Form onSubmit={handleSubmit} method="POST">
                 <div className="form-group-column">
                   <label htmlFor="">Số điện thoại</label>
-                  <InputBase
+                  <TextField
+                    variant="outlined"
                     className="tf"
                     error={errors.phoneNumber}
                     helperText={errors.phoneNumber}
@@ -73,12 +74,12 @@ function Login() {
                     name="phoneNumber"
                     placeholder="Nhập số điện thoại"
                     onChange={handleChange}
-                    required
                   />
                 </div>
                 <div className="form-group-column">
                   <label htmlFor="">Mật khẩu</label>
-                  <InputBase
+                  <TextField
+                    variant="outlined"
                     className="tf"
                     error={errors.password}
                     helperText={errors.password}
@@ -87,7 +88,6 @@ function Login() {
                     name="password"
                     placeholder="Nhập mật khẩu"
                     onChange={handleChange}
-                    required
                   />
                 </div>
                 {/* Sử lý form quên mật khẩu */}
@@ -104,13 +104,13 @@ function Login() {
                 </div>
                 <div id="recaptcha"></div>
                 <div className="auth__form-container_fields-content_button">
-                  <button
+                  <Button
                     style={{ width: "500px", fontSize: "16px" }}
                     disabled={isSubmitting}
                     type="submit"
                   >
                     Đăng nhập
-                  </button>
+                  </Button>
                 </div>
               </Form>
             )}

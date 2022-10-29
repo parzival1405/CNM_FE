@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 // import Icon from '../assets/Icon'
 // import {GoogleLogin} from 'react-google-login';
-import { InputBase } from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
 
 import { Link, useNavigate } from "react-router-dom";
 import signinImage from "../../assets/signup.jpg";
@@ -80,7 +80,8 @@ function Register() {
               <Form onSubmit={handleSubmit} method="POST">
                 <div className="form-group-column">
                   <label>Số điện thoại</label>
-                  <InputBase
+                  <TextField
+                    variant="outlined"
                     className="tf"
                     error={errors.phoneNumber}
                     helperText={errors.phoneNumber}
@@ -90,12 +91,12 @@ function Register() {
                     name="phoneNumber"
                     placeholder="Nhập số điện thoại"
                     onChange={handleChange}
-                    required
                   />
                 </div>
                 <div className="form-group-column">
                   <label htmlFor="">Tên hiển thị</label>
-                  <InputBase
+                  <TextField
+                    variant="outlined"
                     className="tf"
                     error={errors.username}
                     helperText={errors.username}
@@ -105,12 +106,12 @@ function Register() {
                     name="username"
                     placeholder="Nhập tên hiển thị"
                     onChange={handleChange}
-                    required
                   />
                 </div>
                 <div className="form-group-column">
                   <label htmlFor="">Ngày sinh</label>
-                  <InputBase
+                  <TextField
+                    variant="outlined"
                     id="dob"
                     className="tf"
                     error={errors.dayofbirth}
@@ -120,8 +121,7 @@ function Register() {
                     type="date"
                     name="dayofbirth"
                     onChange={handleChange}
-                    required
-                    placeholderText="Ngay sinh"
+                    placeholderText="Ngày sinh"
                   />
                 </div>
                 {/* {isSignup && (
@@ -150,7 +150,8 @@ function Register() {
                 )} */}
                 <div className="form-group-column">
                   <label htmlFor="">Mật khẩu</label>
-                  <InputBase
+                  <TextField
+                    variant="outlined"
                     className="tf"
                     error={errors.password}
                     helperText={errors.password}
@@ -159,12 +160,12 @@ function Register() {
                     name="password"
                     placeholder="Nhập mật khẩu"
                     onChange={handleChange}
-                    required
                   />
                 </div>
                 <div className="form-group-column">
                   <label htmlFor="">Xác nhận mật khẩu</label>
-                  <InputBase
+                  <TextField
+                    variant="outlined"
                     className="tf"
                     error={errors.confirmPassword}
                     helperText={errors.confirmPassword}
@@ -173,18 +174,17 @@ function Register() {
                     name="confirmPassword"
                     placeholder="Xác nhận mật khẩu"
                     onChange={handleChange}
-                    required
                   />
                 </div>
                 <div id="recaptcha"></div>
                 <div className="auth__form-container_fields-content_button">
-                  <button
+                  <Button
                     disabled={isSubmitting}
                     type="submit"
                     style={{ width: "500px", fontSize: "16px" }}
                   >
                     Đăng ký
-                  </button>
+                  </Button>
                 </div>
               </Form>
             )}

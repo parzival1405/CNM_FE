@@ -2,9 +2,9 @@ import { Avatar, Typography } from "@material-ui/core";
 import React from "react";
 import clsx from "clsx";
 import useStyles from "./MessageStyles";
-import moment from "moment";
+
 import { useSelector } from "react-redux";
-import "./Message.css";
+
 function Messages({ message }) {
   const { user } = useSelector((state) => state.auth);
   const { currentConversation } = useSelector(
@@ -26,8 +26,7 @@ function Messages({ message }) {
       <div
         className={clsx(
           classes.wrapper,
-          message?.sender?._id == user._id ? `${classes.wrapperEnd}` : "",
-          "message_container"
+          message?.sender?._id == user._id ? `${classes.wrapperEnd}` : ""
         )}
       >
         {message.text && (
@@ -36,8 +35,7 @@ function Messages({ message }) {
               classes.textWrapper,
               message?.sender?._id == user._id
                 ? `${classes.textWrapperColor}`
-                : "",
-              "message_content"
+                : ""
             )}
           >
             <Typography

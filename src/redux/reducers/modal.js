@@ -10,6 +10,7 @@ export default function modalReducers(
     isShowFormSettingModal: false,
     isShowFormChangePasswordModal: false,
     isShowDeleteMemberGroupModal: false,
+    isShowOTP: false,
   },
   action
 ) {
@@ -54,6 +55,11 @@ export default function modalReducers(
       return {
         ...state,
         isShowFormChangePasswordModal: true,
+      };
+    case GLOBALTYPES.SHOW_OTP_MODAL:
+      return {
+        ...state,
+        isShowOTP: true,
       };
     default:
       return state;

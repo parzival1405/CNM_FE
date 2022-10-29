@@ -1848,12 +1848,12 @@ width: 500px;
   border: 2px solid #707070;
   border-radius: 4px;
 }
-.tf:hover,:focus{
+.tf:focus{
   border: 2px solid #0077ff;
 }
 label{
   margin-bottom: 4px;
 }
 .auth__form-container_fields-content p, label, input{
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
 }

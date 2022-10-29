@@ -14,6 +14,7 @@ import AddGroupModal from "./components/Modal/AddGroupModal";
 import AddFriendToGroupModal from "./components/Modal/AddFriendToGroupModal";
 import Login from "./pages/Auth/AuthLogin";
 import Forgot from "./pages/Auth/ForgotPass";
+import Test from "./components/Modal/Test";
 function App() {
   const dispatch = useDispatch();
   const user = JSON.parse(sessionStorage.getItem("profile"));
@@ -26,6 +27,7 @@ function App() {
       <Paper style={{ height: "100%", boxShadow: "none" }}>
         {/* {user && <SocketClient />} */}
         {user && <Profile />}
+        <Test />
         {user && <AddFriendModal />}
         {user && <AddGroupModal />}
         {user && <AddFriendToGroupModal />}

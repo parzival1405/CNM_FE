@@ -17,8 +17,8 @@ export default makeStyles((theme) => ({
     flexDirection: "column",
     justifyItems: "flex-start",
     alignItems: "start",
-    width: "auto",
-    maxWidth: "50%",
+    // width: "auto",
+    // maxWidth: "50%",
   },
   wrapperEnd: {
     alignItems: "end",

@@ -1,18 +1,18 @@
 import React from "react";
-import { InputBase } from "@material-ui/core";
-import { useNavigate } from "react-router-dom";
+import { Button, TextField } from "@material-ui/core";
+
 import signinImage from "../../assets/signup.jpg";
 import { useDispatch } from "react-redux";
-import { signin } from "../../redux/actions/auth";
-import { Form, Formik } from "formik";
-import { validationLogin } from "../../utils/Validation";
 
-function Login() {
-  const navigate = useNavigate();
+import { Form, Formik } from "formik";
+import { validationForgotPass } from "../../utils/Validation";
+import { isShowOTP } from "../../redux/actions/modal";
+
+function Forgot() {
   const dispatch = useDispatch();
 
-  const handleSubmit = async (values) => {
-    dispatch(signin(values, navigate));
+  const handleShowOTP = () => {
+    dispatch(isShowOTP());
   };
 
   return (
@@ -25,9 +25,8 @@ function Login() {
               phoneNumber: "",
               newpassword: "",
             }}
-            validationSchema={validationLogin}
+            validationSchema={validationForgotPass}
             onSubmit={(values, { setSubmitting, resetForm }) => {
-              handleSubmit(values);
               setSubmitting(true);
               resetForm();
               setSubmitting(false);
@@ -47,7 +46,8 @@ function Login() {
                   <label htmlFor="">
                     Nhập số điện thoại để nhận mã xác thực
                   </label>
-                  <InputBase
+                  <TextField
+                    variant="outlined"
                     className="tf"
                     error={errors.phoneNumber}
                     helperText={errors.phoneNumber}
@@ -57,18 +57,34 @@ function Login() {
                     name="phoneNumber"
                     placeholder="Nhập số điện thoại"
                     onChange={handleChange}
-                    required
+                  />
+                </div>
+                <div className="form-group-column" style={{ display: "none" }}>
+                  <label htmlFor="">Nhập lại mật khẩu mới</label>
+                  <TextField
+                    variant="outlined"
+                    className="tf"
+                    error={errors.newpassword}
+                    helperText={errors.newpassword}
+                    touched={touched.newpassword}
+                    value={values.newpassword}
+                    type="password"
+                    name="newpassword"
+                    placeholder="Nhập mật khẩu mới"
+                    onChange={handleChange}
                   />
                 </div>
                 <div id="recaptcha"></div>
                 <div className="auth__form-container_fields-content_button">
-                  <button
+                  <Button
                     style={{ width: "500px", fontSize: "16px" }}
-                    disabled={isSubmitting}
-                    type="submit"
+                    disabled={
+                      values.phoneNumber && !errors.phoneNumber ? false : true
+                    }
+                    onClick={handleShowOTP}
                   >
                     Tiếp tục
-                  </button>
+                  </Button>
                 </div>
               </Form>
             )}
@@ -82,4 +98,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Forgot;
