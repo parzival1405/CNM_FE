@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 export default makeStyles((theme) => ({
   chatMessage: {
     display: "flex",
-    marginBottom: "1rem",
+    marginBottom: "4px",
   },
   chatMessageRight: {
     justifyContent: "flex-end",
@@ -17,19 +17,20 @@ export default makeStyles((theme) => ({
     flexDirection: "column",
     justifyItems: "flex-start",
     alignItems: "start",
-    // width: "auto",
-    // maxWidth: "50%",
+    width: "auto",
+    maxWidth: "50%",
   },
   wrapperEnd: {
     alignItems: "end",
     textAlign: "end",
   },
   textWrapper: {
-    backgroundColor: theme.palette.grey[300],
+    // backgroundColor: theme.palette.grey[300],
+    backgroundColor: "#E1E1E1",
     padding: "1rem",
     borderRadius: ".5rem",
     position: "relative",
-    minWidth: "10rem",
+    width: "auto",
   },
   textWrapperColor: {
     // background: `linear-gradient(to left bottom, ${theme.palette.secondary.main}, ${theme.palette.secondary.main})`,
@@ -37,8 +38,19 @@ export default makeStyles((theme) => ({
   },
   textContent: {
     // backgroundColor:"red",
-    fontSize: "16px",
+    fontSize: "18px",
+    color: "black",
+    fontFamily: "ROBOTO",
+    marginBottom: "10px",
+  },
+  flexFirstRight: {
     color: "white",
+  },
+  times: {
+    color: "#757575",
+  },
+  timesRight: {
+    color: "#F5F5F5",
   },
   emojiWrapper: {
     position: "absolute",
@@ -77,11 +89,11 @@ export default makeStyles((theme) => ({
   media: {
     display: "flex",
     flexDirection: "column",
-    marginTop: "1rem",
+    // marginTop: "1rem",
   },
   mediaRight: {
     alignItems: "end",
-    width: "150px",
+    // width: "150px",
   },
   imageWrapper: {
     transition: "all .2s ease",
@@ -104,11 +116,11 @@ export default makeStyles((theme) => ({
       color: theme.palette.error.dark,
     },
   },
-  video:{
-    width:"350px",
+  video: {
+    width: "350px",
   },
-  action:{
-    display:"flex",
-    alignItems:"center",
-  }
+  action: {
+    display: "flex",
+    alignItems: "center",
+  },
 }));
