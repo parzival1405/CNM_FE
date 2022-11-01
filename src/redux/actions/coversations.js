@@ -12,14 +12,17 @@ export const getAllYourConversations = (navigate) => async (dispatch) => {
   }
 };
 
-export const createConversation = (data2) => async (dispatch) => {
+export const createConversation = (data2,socket) => async (dispatch) => {
+
   try {
     dispatch({ type: GLOBALTYPES.START_LOADING });
+    
     const { data } = await api.createConversation(data2);
     dispatch({
       type: GLOBALTYPES.POST_CONVERSATION,
       data,
     });
+    socket.emit("addConversation", JSON.stringify({...data}));
     dispatch({ type: GLOBALTYPES.END_LOADING });
   } catch (error) {
     console.log(error);

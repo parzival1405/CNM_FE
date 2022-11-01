@@ -34,8 +34,7 @@ function Chat() {
       dispatch(initSocket({socket:socket}))
     }
   }, [user]);
-
-  return <Demo socket={socket} />;
+  return <Demo/>;
 }
 
 export default Chat;

@@ -23,17 +23,25 @@ function AddFriendToGroupModal() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { isShowAddFriendToGroupModal } = useSelector((state) => state.modal);
+  const { socket } = useSelector((state) => state.socket);
   const { user, token } = useSelector((state) => state.auth);
-  const { currentConversation } = useSelector((state) => state.currentConversation);
-  
+  const { currentConversation } = useSelector(
+    (state) => state.currentConversation
+  );
+
   const listFriend = user?.friends;
   const [listMember, setListMember] = useState([]);
 
   const handleSubmitForm = React.useCallback(() => {
-    dispatch(addMembersToGroup(listMember, currentConversation, user));
+    const _listMember = listMember.map((member) => member._id);
+    const data = {
+      conversationId: currentConversation._id,
+      newMember: _listMember,
+    };
+    dispatch(addMembersToGroup(data), socket.current);
     setListMember([]);
     handleHideModal();
-  }, [dispatch, token, listMember, user._id]);
+  }, [dispatch, token, listMember, user]);
 
   const handleAddMember = (item) => {
     if (listMember.includes(item)) return;
@@ -56,7 +64,10 @@ function AddFriendToGroupModal() {
           className={classes.form}
           noValidate
           autoComplete="off"
-          onSubmit={handleSubmitForm}
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmitForm();
+          }}
         >
           <div>
             {
@@ -94,7 +105,10 @@ function AddFriendToGroupModal() {
             <List style={{ height: "400px", overflowY: "scroll" }}>
               {listFriend?.map((item, index) => (
                 <ListItem
-                  disabled={currentConversation && isMemberOfGroup(currentConversation, item._id)}
+                  disabled={
+                    currentConversation &&
+                    isMemberOfGroup(currentConversation, item._id)
+                  }
                   button
                   onClick={() => handleAddMember(item)}
                   key={index}
@@ -105,7 +119,9 @@ function AddFriendToGroupModal() {
                   <ListItemText
                     primary={item.username}
                     secondary={
-                      currentConversation && isMemberOfGroup(currentConversation, item._id) && "Thành viên"
+                      currentConversation &&
+                      isMemberOfGroup(currentConversation, item._id) &&
+                      "Thành viên"
                     }
                   />
                 </ListItem>

@@ -53,7 +53,6 @@ function AddFriendModal({ socket }) {
     setPhoneNumber("");
   };
 
-  console.log(userResult);
   const body = (
     <Fade in={isShowAddFriendModal}>
       <Paper className={classes.paper} id="modal-add-friend">

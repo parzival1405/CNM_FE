@@ -26,12 +26,12 @@ function AddGroupModal() {
   const dispatch = useDispatch();
   const { isShowAddGroupModal } = useSelector((state) => state.modal);
   const { user, token } = useSelector((state) => state.auth);
-  // const { socket } = useSelector((state) => state);
+  const { socket } = useSelector((state) => state.socket);
   const listFriend = user?.friends;
   const [listMember, setListMember] = useState([]);
   const [listMemberErr, setListMemberErr] = useState("");
 
-  const handleSubmitForm = React.useCallback(
+  const handleSubmitForm =
     (values) => {
       const _listMember = listMember.map((member) => member._id);
       if (_listMember.length < 2) {
@@ -45,13 +45,12 @@ function AddGroupModal() {
         member: _listMember,
         createdBy: user._id,
       };
-      // dispatch(postConversation(data, token, socket, user));
-      dispatch(createConversation(data));
+      dispatch(createConversation(data,socket.current));
       setListMember([]);
       handleHideModal();
-    },
-    [dispatch, token, listMember, user._id]
-  );
+    }
+  //   [dispatch, token, listMember, user._id]
+  // );
 
   const handleAddMember = (item) => {
     if (listMember.includes(item)) return;

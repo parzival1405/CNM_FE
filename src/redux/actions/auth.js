@@ -43,3 +43,16 @@ export const refresh = () => async (dispatch) => {
     }
   }
 };
+
+export const updateProfile = (data) => async (dispatch) => {
+ 
+    try {
+      await api.updateProfile(data);
+      dispatch({
+        type: GLOBALTYPES.UPDATEPROFILE,
+        data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+};

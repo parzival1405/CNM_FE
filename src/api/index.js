@@ -15,6 +15,9 @@ API.interceptors.request.use((req) => {
 export const signIn = (formData) => API.post("api/auth/signin", formData);
 export const signUp = (formData) => API.post("api/auth/signup", formData);
 
+
+export const updateProfile = (data) => API.post("api/user/updateProfile",data);
+
 export const getAllFriends = () => API.post("api/user/getAllFriends");
 
 export const sendMessage = (data) => API.post("api/message/sendMessage", data);
@@ -49,4 +52,5 @@ export const demoPostFile = (formData) =>
 
   export const deleteMessage = (data) => API.post("api/message/deleteMessage",data);
 
-  export const updateLastMessage = (data) => API.post("api/conversation/updateLastMessage",data)
+  export const updateLastMessage = (data) => API.post("api/conversation/updateLastMessage",data);
+  export const addMemberGroup = (data) => API.post("api/conversation/addMemberGroup",data);

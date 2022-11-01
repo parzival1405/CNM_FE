@@ -44,9 +44,10 @@ const HeaderInfo = ({ currentConversation }) => {
 };
 
 function HeaderBoxChat() {
-  const { currentConversation, isRoom } = useSelector(
+  const { currentConversation } = useSelector(
     (state) => state.currentConversation
   );
+  const isRoom = currentConversation.member.length > 2;
   const dispatch = useDispatch();
   const handleShowAddFriendToGroupModal = () => {
     dispatch(showAddFriendToGroupModal());

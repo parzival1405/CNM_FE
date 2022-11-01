@@ -8,7 +8,7 @@ import SocketClient from "./SocketClient";
 import { useDispatch, useSelector } from "react-redux";
 import { GLOBALTYPES } from "./constants/actionType";
 import Demo from "./components/Demo";
-import Profile from "./components/Modal/Profile";
+import ProfileModal from "./components/Modal/ProfileModal";
 import OTPModal from "./components/Modal/OTPModal";
 import AddFriendModal from "./components/Modal/AddFriendModal";
 import AddGroupModal from "./components/Modal/AddGroupModal";
@@ -31,7 +31,7 @@ function App() {
       <Paper style={{ height: "100%", boxShadow: "none" }}>
         {/* {user && <SocketClient />} */}
         <OTPModal/>
-        {user && <Profile />}
+        {user && <ProfileModal />}
         {user && <AddFriendModal />}
         {user && <AddGroupModal />}
         {user && <AddFriendToGroupModal />}

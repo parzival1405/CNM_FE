@@ -67,6 +67,14 @@ export default (state = initialState, action) => {
         ),
       };
     }
+    case GLOBALTYPES.UPDATEMEMBER:
+      const conversation =  action?.data
+      return {
+        ...state,
+        conversations: state.conversations.map((conver) =>
+          conver._id == conversation._id ? conversation : conver
+        ),
+      };
     case GLOBALTYPES.START_LOADING:
       return {
         ...state,

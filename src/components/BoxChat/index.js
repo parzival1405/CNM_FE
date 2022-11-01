@@ -32,9 +32,6 @@ function BoxChat() {
 
   useEffect(() => {
     if (currentConversation) {
-      // if (isRoom) {
-      //   socket.current.emit("joinRoom", currentConversation._id);
-      // }
       dispatch(
         getAllMessage({
           conversation: currentConversation._id,
@@ -42,10 +39,6 @@ function BoxChat() {
       );
     }
 
-    // return () => {
-    //   socket.current.emit("disconnect",currentChat._id);
-    //   socket.off();
-    // };
   }, [currentConversation]);
 
   const handleSendMsg = async (message,media) => {
@@ -92,7 +85,6 @@ function BoxChat() {
             currentConversation === undefined ||
             data.conversation._id !== currentConversation?._id
           ) {
-            console.log("here")
             dispatch({
               type: GLOBALTYPES.UPDATE_COUNT_WAITING_MESSAGE,
               payload: data.conversation,
@@ -114,23 +106,6 @@ function BoxChat() {
     }
     return () => socket.current.off("msg-receive");
   }, [currentConversation]);
-
-  // useEffect(() => {
-  //   socket.on("addMessageToClient", (msg) => {
-  //     if (
-  //       currentConversation === undefined ||
-  //       msg.data.conversation !== currentConversation?.data?._id
-  //     ) {
-  //       dispatch({
-  //         type: GLOBALTYPES.UPDATE_COUNT_WAITING_MESSAGE,
-  //         payload: msg.data.conversation,
-  //       });
-  //     } else {
-  //       dispatch({ type: GLOBALTYPES.ADD_MESSAGE, payload: msg.data });
-  //     }
-  //   });
-  //   return () => socket.off("addMessageToClient");
-  // }, [socket, dispatch, conversations, currentConversation]);
 
   useEffect(() => {
     if (socket.current) {

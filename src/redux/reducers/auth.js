@@ -15,7 +15,12 @@ export default (state = initState, action) => {
       return initState;
     case GLOBALTYPES.RE_AUTH:
       return action?.data ;
-    case GLOBALTYPES.LOGOUT:
+      case GLOBALTYPES.UPDATEPROFILE:
+        const newProfile = {...state.user,...action?.data}
+        console.log(newProfile);
+        sessionStorage.clear();
+        sessionStorage.setItem("profile", JSON.stringify({ user:newProfile,token:state.token }));
+        return {...state,user: newProfile }
     default:
       return state;
   }

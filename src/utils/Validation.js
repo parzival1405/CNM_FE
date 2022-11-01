@@ -13,7 +13,14 @@ export const validationRegister = Yup.object().shape({
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password"), null], "*Mật khẩu không trùng khớp!")
     .required("*Bạn phải xác nhận mật khẩu!"),
-  dayofbirth: Yup.string().required("*Bạn phải chọn ngày sinh!"),
+  dob: Yup.string().required("*Bạn phải chọn ngày sinh!"),
+});
+
+export const validationChangeProfile = Yup.object().shape({
+  username: Yup.string().required("*Bạn phải điền tên hiển thị!"),
+  avatarURL: Yup.string().required("*Bạn phải điền đường dẫn avatar"),
+  dob: Yup.string().required("*Bạn phải chọn ngày sinh!"),
+  gender: Yup.bool()
 });
 export const validationLogin = Yup.object().shape({
   phoneNumber: Yup.string()
