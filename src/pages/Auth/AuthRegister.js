@@ -75,7 +75,7 @@ function Register() {
                 <div className="auth__form-container_fields-content_input">
                   <label htmlFor="phoneNumber">Số điện thoại</label>
                   <TextField
-                    error={errors.phoneNumber}
+                    error={errors.phoneNumber?.length > 0}
                     helperText={errors.phoneNumber}
                     touched={touched.phoneNumber}
                     value={values.phoneNumber}
@@ -89,7 +89,7 @@ function Register() {
                   <div className="auth__form-container_fields-content_input">
                     <label htmlFor="username">Tên hiển thị</label>
                     <TextField
-                      error={errors.username}
+                      error={errors.username?.length > 0}
                       helperText={errors.username}
                       touched={touched.username}
                       value={values.username}
@@ -127,7 +127,7 @@ function Register() {
                 <div className="auth__form-container_fields-content_input">
                   <label htmlFor="password">Mật khẩu</label>
                   <TextField
-                    error={errors.password}
+                    error={errors.password?.length > 0}
                     helperText={errors.password}
                     touched={touched.password}
                     type="password"
@@ -141,7 +141,7 @@ function Register() {
                   <div className="auth__form-container_fields-content_input">
                     <label htmlFor="confirmPassword">Xác nhận mật khẩu</label>
                     <TextField
-                      error={errors.confirmPassword}
+                      error={errors.confirmPassword?.length > 0}
                       helperText={errors.confirmPassword}
                       touched={touched.confirmPassword}
                       type="password"
@@ -161,82 +161,6 @@ function Register() {
               </Form>
             )}
           </Formik>
-          {/* <form onSubmit={handleSubmit} method="POST">
-            <div className="auth__form-container_fields-content_input">
-              <label htmlFor="phoneNumber">Số điện thoại</label>
-              <input
-                type="text"
-                name="phoneNumber"
-                placeholder="Nhập số điện thoại"
-                onChange={handleChange}
-                required
-              />
-            </div>
-            {isSignup && (
-              <div className="auth__form-container_fields-content_input">
-                <label htmlFor="username">Tên hiển thị</label>
-                <input
-                  type="text"
-                  name="username"
-                  placeholder="Nhập tên"
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-            )}
-            {isSignup && (
-              <div className="auth__form-container_fields-content_input">
-                <label>Giới tính</label>
-                <input
-                  type="radio"
-                  name="gender"
-                  className=""
-                  value={true}
-                  onChange={handleChange}
-                  required
-                />
-                <label htmlFor="gender">Nam</label>
-                <br />
-                <input
-                  type="radio"
-                  name="gender"
-                  className=""
-                  value={false}
-                  onChange={handleChange}
-                  required
-                />
-                <label htmlFor="gender">Nữ</label>
-              </div>
-            )}
-            <div className="auth__form-container_fields-content_input">
-              <label htmlFor="password">Mật khẩu</label>
-              <input
-                type="password"
-                name="password"
-                className=""
-                placeholder="Nhập mật khẩu"
-                onChange={handleChange}
-                required
-              />
-            </div>
-            {isSignup && (
-              <div className="auth__form-container_fields-content_input">
-                <label htmlFor="confirmPassword">Xác nhận mật khẩu</label>
-                <input
-                  type="password"
-                  name="confirmPassword"
-                  className=""
-                  placeholder="Xác nhận lại mật khẩu"
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-            )}
-            <div id="recaptcha"></div>
-            <div className="auth__form-container_fields-content_button">
-              <button>{isSignup ? "Đăng ký" : "Đăng nhập"}</button>
-            </div>
-          </form> */}
           <div className="auth__form-container_fields-account">
             <p>Đã có tài khoản ?</p>
             <Link to={"/login"}>

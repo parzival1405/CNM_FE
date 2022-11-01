@@ -9,7 +9,6 @@ export default (state = initState, action) => {
   switch (action.type) {
     case GLOBALTYPES.AUTH:
       sessionStorage.setItem("profile", JSON.stringify({ ...action?.data }));
-      // localStorage.setItem('profile',JSON.stringify({...action?.data}))
       return action?.data ;
     case GLOBALTYPES.LOGOUT:
       sessionStorage.clear();

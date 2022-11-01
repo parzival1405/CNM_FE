@@ -57,54 +57,13 @@ function Login() {
 
     if (user.isVerifyOtp) {
       handleSendSms(values);
-      dispatch(ShowOTP())
-      // history.replace({
-      //   pathname: "/confirm",
-      //   data: dt,
-      // });
+      dispatch(ShowOTP(data))
     } else {
       alert("sai j day");
     }
   };
   const handleSubmit = async (values) => {
-    // const data = {
-    //   phoneNumber: values.phoneNumber,
-    //   password: values.password,
-    // };
-
-    // const {user} = await api.checkOTP(data)
-
-    // // if (res.data.msg) {
-    // if (user.isVerifyOtp) {
-    //   console.log(user)
-    //   // handleSendSms(values);
-
-    //   // history.replace({
-    //   //   pathname: "/confirm",
-    //   //   data: dt,
-    //   // });
-    // } else {
-    //   alert("Số điện thoại đã được sử dụng");
-    // }
-    // dispatch(signin(values, navigate));
-    //   let recaptcha = new firebase.auth.RecaptchaVerifier('recaptcha', {
-    //       'size': 'invisible'
-    //   });
-    //   const phoneNumberVN = "+84" + form.phoneNumber.slice(1,form.phoneNumber.length);
-
-    //   auth.signInWithPhoneNumber(phoneNumberVN, recaptcha).then((result) => {
-    //       let code = prompt('Nhập mã OTP')
-    //       if(code != null){
-    //           result.confirm(code).then((result)=> {
-    //               console.log(result.user)
-    //               dispatch(signin(form, navigate));
-    //           }).catch(err => {
-    //               alert('Sai mã OTP')
-    //           })
-    //       }
-    //   }).catch(err => {
-    //       console.log(err)
-    //   })
+    dispatch(signin(values, navigate));
   };
 
   return (
@@ -119,7 +78,7 @@ function Login() {
             }}
             validationSchema={validationLogin}
             onSubmit={(values, { setSubmitting, resetForm }) => {
-              handleSubmitForm(values);
+              handleSubmit(values);
               setSubmitting(true);
               resetForm();
               setSubmitting(false);
@@ -138,7 +97,7 @@ function Login() {
                 <div className="auth__form-container_fields-content_input">
                   <label htmlFor="phoneNumber">Số điện thoại</label>
                   <TextField
-                    error={errors.phoneNumber}
+                    error={errors.phoneNumber?.length > 0}
                     helperText={errors.phoneNumber}
                     touched={touched.phoneNumber}
                     value={values.phoneNumber}
@@ -152,7 +111,7 @@ function Login() {
                 <div className="auth__form-container_fields-content_input">
                   <label htmlFor="password">Mật khẩu</label>
                   <TextField
-                    error={errors.password}
+                    error={errors.password?.length > 0}
                     helperText={errors.password}
                     touched={touched.password}
                     type="password"
