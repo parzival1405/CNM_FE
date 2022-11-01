@@ -6,13 +6,13 @@ import { useDispatch } from "react-redux";
 
 import { Form, Formik } from "formik";
 import { validationForgotPass } from "../../utils/Validation";
-import { isShowOTP } from "../../redux/actions/modal";
+import { ShowOTP } from "../../redux/actions/modal";
 
 function Forgot() {
   const dispatch = useDispatch();
 
   const handleShowOTP = () => {
-    dispatch(isShowOTP());
+    dispatch(ShowOTP());
   };
 
   return (

@@ -8,12 +8,18 @@ export const sendMessage = (messageData, socket) => async (dispatch) => {
       data: { data },
     } = await api.sendMessage(messageData);
 
-
+    dispatch({
+      type: GLOBALTYPES.UPDATE_LAST_MSG_CONVERSATION,
+      payload: {
+        data:data,
+        conversation: messageData.conversation,
+      },
+    });
     socket.emit("send-msg", JSON.stringify({
       ...data,
       conversation: messageData.conversation,
     }));
-
+    
     dispatch({ type: GLOBALTYPES.ADDMESSAGE, data });
     dispatch({ type: GLOBALTYPES.END_LOADING });
   } catch (error) {

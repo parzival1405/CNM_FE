@@ -5,7 +5,6 @@ const initialState = { isLoading: true, conversations: [] };
 export default (state = initialState, action) => {
   switch (action.type) {
     case GLOBALTYPES.GETALLCONVERSATION:
-      console.log(action.data);
       return {
         ...state,
         conversations: action?.data,
@@ -41,6 +40,24 @@ export default (state = initialState, action) => {
         conversationSend = {
           ...conversationSend,
           count_waiting_msg : undefined,
+        };
+      }
+      return {
+        ...state,
+        conversations: state.conversations.map((conver) =>
+          conver._id == conversationSend._id ? conversationSend : conver
+        ),
+      };
+    }
+    case GLOBALTYPES.UPDATE_LAST_MSG_CONVERSATION: {
+      const msg = action.payload.data;
+      let conversationSend = state.conversations.find(
+        (convers) => convers._id === action?.payload.conversation._id
+      );
+      if (conversationSend) {
+        conversationSend = {
+          ...conversationSend,
+          lastMessage: msg,
         };
       }
       return {

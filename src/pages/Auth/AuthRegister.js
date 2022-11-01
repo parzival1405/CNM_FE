@@ -81,9 +81,9 @@ function Register() {
                 <div className="form-group-column">
                   <label>Số điện thoại</label>
                   <TextField
+                    error={errors.phoneNumber?.length > 0}
                     variant="outlined"
                     className="tf"
-                    error={errors.phoneNumber}
                     helperText={errors.phoneNumber}
                     touched={touched.phoneNumber}
                     value={values.phoneNumber}
@@ -151,9 +151,9 @@ function Register() {
                 <div className="form-group-column">
                   <label htmlFor="">Mật khẩu</label>
                   <TextField
+                    error={errors.password?.length > 0}
                     variant="outlined"
                     className="tf"
-                    error={errors.password}
                     helperText={errors.password}
                     touched={touched.password}
                     type="password"
@@ -167,7 +167,7 @@ function Register() {
                   <TextField
                     variant="outlined"
                     className="tf"
-                    error={errors.confirmPassword}
+                    error={errors.confirmPassword?.length > 0}
                     helperText={errors.confirmPassword}
                     touched={touched.confirmPassword}
                     type="password"
@@ -189,91 +189,10 @@ function Register() {
               </Form>
             )}
           </Formik>
-          {/* <form onSubmit={handleSubmit} method="POST">
-            <div className="form-group-column">
-              <label htmlFor="phoneNumber">Số điện thoại</label>
-              <input
-                type="text"
-                name="phoneNumber"
-                placeholder="Nhập số điện thoại"
-                onChange={handleChange}
-                required
-              />
-            </div>
-            {isSignup && (
-              <div className="form-group-column">
-                <label htmlFor="username">Tên hiển thị</label>
-                <input
-                  type="text"
-                  name="username"
-                  placeholder="Nhập tên"
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-            )}
-            {isSignup && (
-              <div className="form-group-column">
-                <label>Giới tính</label>
-                <input
-                  type="radio"
-                  name="gender"
-                  className=""
-                  value={true}
-                  onChange={handleChange}
-                  required
-                />
-                <label htmlFor="gender">Nam</label>
-                <br />
-                <input
-                  type="radio"
-                  name="gender"
-                  className=""
-                  value={false}
-                  onChange={handleChange}
-                  required
-                />
-                <label htmlFor="gender">Nữ</label>
-              </div>
-            )}
-            <div className="form-group-column">
-              <label htmlFor="password">Mật khẩu</label>
-              <input
-                type="password"
-                name="password"
-                className=""
-                placeholder="Nhập mật khẩu"
-                onChange={handleChange}
-                required
-              />
-            </div>
-            {isSignup && (
-              <div className="form-group-column">
-                <label htmlFor="confirmPassword">Xác nhận mật khẩu</label>
-                <input
-                  type="password"
-                  name="confirmPassword"
-                  className=""
-                  placeholder="Xác nhận lại mật khẩu"
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-            )}
-            <div id="recaptcha"></div>
-            <div className="auth__form-container_fields-content_button">
-              <button>{isSignup ? "Đăng ký" : "Đăng nhập"}</button>
-            </div>
-          </form> */}
-          <div
-            className="auth__form-container_fields-account"
-            style={{ marginTop: "10px" }}
-          >
-            <p style={{ marginRight: "8px", color: "#707070" }}>
-              Đã có tài khoản?{" "}
-            </p>
-            <Link to={"/login"} style={{ fontWeight: "bold" }}>
-              Đăng nhập ngay!
+          <div className="auth__form-container_fields-account">
+            <p>Đã có tài khoản ?</p>
+            <Link to={"/login"}>
+              Đăng nhập
             </Link>
           </div>
         </div>

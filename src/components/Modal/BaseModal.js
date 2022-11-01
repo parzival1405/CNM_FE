@@ -23,7 +23,7 @@ function BaseModal({body, isShow}) {
                   timeout: 500,
                 }}
                 >
-                <p>{body}</p>
+                {body}
             </Modal>
         </div>
     )

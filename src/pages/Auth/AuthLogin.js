@@ -5,32 +5,59 @@ import SigninImage from "../../assets/signup.jpg";
 import { useDispatch } from "react-redux";
 import { signin } from "../../redux/actions/auth";
 import { Form, Formik } from "formik";
+import { firebase, auth } from "../../Firebase"
 import { validationLogin } from "../../utils/Validation";
+import * as api from '../../api'
+import { ShowOTP } from "../../redux/actions/modal";
 import { blue } from "@material-ui/core/colors";
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const configureCaptcha = () => {
+    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+      "recaptcha",
+      {
+        size: "invisible",
+        callback: (response) => {
+          handleSendSms();
+        },
+        defaultCountry: "IN",
+      }
+    );
+  };
 
+  const handleSendSms = (values) => {
+    configureCaptcha();
+    const phoneNumber = "+84" + values.phoneNumber.slice(1);
+    const appVerifier = window.recaptchaVerifier;
+    firebase
+      .auth()
+      .signInWithPhoneNumber(phoneNumber, appVerifier)
+      .then((confirmationResult) => {
+        window.confirmationResult = confirmationResult;
+      })
+      .catch((error) => {
+        console.log("SMS not sent", error);
+      });
+  };
+
+  const handleSubmitForm = async (values) => {
+    const data = {
+      phoneNumber: values.phoneNumber,
+      password: values.password,
+    };
+
+    const {data:{user}} = await api.checkOTP(data)
+
+    if (user.isVerifyOtp) {
+      handleSendSms(values);
+      dispatch(ShowOTP(data))
+    } else {
+      alert("sai j day");
+    }
+  };
   const handleSubmit = async (values) => {
     dispatch(signin(values, navigate));
-    //   let recaptcha = new firebase.auth.RecaptchaVerifier('recaptcha', {
-    //       'size': 'invisible'
-    //   });
-    //   const phoneNumberVN = "+84" + form.phoneNumber.slice(1,form.phoneNumber.length);
-
-    //   auth.signInWithPhoneNumber(phoneNumberVN, recaptcha).then((result) => {
-    //       let code = prompt('Nhập mã OTP')
-    //       if(code != null){
-    //           result.confirm(code).then((result)=> {
-    //               console.log(result.user)
-    //               dispatch(signin(form, navigate));
-    //           }).catch(err => {
-    //               alert('Sai mã OTP')
-    //           })
-    //       }
-    //   }).catch(err => {
-    //       console.log(err)
-    //   })
   };
 
   return (
@@ -64,9 +91,9 @@ function Login() {
                 <div className="form-group-column">
                   <label htmlFor="">Số điện thoại</label>
                   <TextField
+                    error={errors.phoneNumber?.length > 0}
                     variant="outlined"
                     className="tf"
-                    error={errors.phoneNumber}
                     helperText={errors.phoneNumber}
                     touched={touched.phoneNumber}
                     value={values.phoneNumber}
@@ -79,9 +106,9 @@ function Login() {
                 <div className="form-group-column">
                   <label htmlFor="">Mật khẩu</label>
                   <TextField
+                    error={errors.password?.length > 0}
                     variant="outlined"
                     className="tf"
-                    error={errors.password}
                     helperText={errors.password}
                     touched={touched.password}
                     type="password"

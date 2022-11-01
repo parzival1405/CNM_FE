@@ -9,6 +9,7 @@ import currentConversation from "./currentConversation"
 import modal from "./modal"
 import userResultFromModalAddFriendReducer from './userResultFromModalAddFriendReducer'
 import socket from "./socket";
+import dataToOTPModal from "./dataToOTPModal"
 
 export default combineReducers({
     auth,
@@ -19,5 +20,6 @@ export default combineReducers({
     currentConversation,
     modal,
     socket,
-    userResultFromModalAddFriend:userResultFromModalAddFriendReducer
+    userResultFromModalAddFriend:userResultFromModalAddFriendReducer,
+    dataToOTPModal
 })

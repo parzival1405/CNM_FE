@@ -45,4 +45,8 @@ export const demoPostFile = (formData) =>
     },
   });
 
+  export const checkOTP = (data) => API.post("api/auth/checkOTP",data);
+
   export const deleteMessage = (data) => API.post("api/message/deleteMessage",data);
+
+  export const updateLastMessage = (data) => API.post("api/conversation/updateLastMessage",data)
