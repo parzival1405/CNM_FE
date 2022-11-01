@@ -20,7 +20,7 @@ function BasicPopover({ children, handleLogout }) {
     setAnchorEl(event.currentTarget);
   };
 
-  const {user} = useSelector((state) => state.auth)
+  const { user } = useSelector((state) => state.auth);
 
   const handleClose = () => {
     setAnchorEl(null);

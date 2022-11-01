@@ -93,7 +93,13 @@ function Messages({ message }) {
                     component="span"
                     variant="caption"
                     color="textSecondary"
-                    className={classes.times}
+                    // className={classes.times}
+                    className={clsx(
+                      classes.times,
+                      message?.sender?._id == user._id
+                        ? `${classes.timesRight}`
+                        : ""
+                    )}
                   >
                     {moment(message?.createdAt).fromNow()}
                   </Typography>
@@ -197,7 +203,12 @@ function Messages({ message }) {
                 component="span"
                 variant="caption"
                 color="textSecondary"
-                className={classes.times}
+                className={clsx(
+                  classes.times,
+                  message?.sender?._id == user._id
+                    ? `${classes.timesRight}`
+                    : ""
+                )}
               >
                 {moment(message?.createdAt).fromNow()}
               </Typography>
