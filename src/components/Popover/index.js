@@ -1,19 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Box,
-  Button,
   Divider,
   IconButton,
   List,
   ListItem,
   ListItemText,
   Popover,
-  Typography,
-  ListItemIcon,
 } from "@material-ui/core";
-import { Textsms, Contacts, Settings } from "@material-ui/icons";
-import Profile from "../Modal/Profile";
-import { useDispatch, useSelector } from "react-redux";
+// import { Textsms, Contacts, Settings } from "@material-ui/icons";
+// import Profile from "../Modal/Profile";
+import { useDispatch } from "react-redux";
 import { showFormSettingModal } from "../../redux/actions/modal";
 
 function BasicPopover({ children, handleLogout }) {

@@ -17,6 +17,8 @@ import Login from "./pages/Auth/AuthLogin";
 import { initSocket } from "./redux/actions/socket";
 import { io } from "socket.io-client";
 import { refresh } from "./redux/actions/auth";
+import Forgot from "./pages/Auth/ForgotPass";
+import Test from "./components/Modal/Test";
 function App() {
   const dispatch = useDispatch();
   const { user, token } = useSelector((state) => state.auth);
@@ -31,12 +33,14 @@ function App() {
         {/* {user && <SocketClient />} */}
         <OTPModal/>
         {user && <Profile />}
-        {user && <AddFriendModal/>}
+        <Test />
+        {user && <AddFriendModal />}
         {user && <AddGroupModal />}
-        {user && <AddFriendToGroupModal/>}
+        {user && <AddFriendToGroupModal />}
         <Routes>
           <Route path="/register" element={<Register />}></Route>
           <Route path="/login" element={user ? <Navigate to="/"/> : <Login />}></Route>
+          <Route path="/forgot" element={<Forgot />}></Route>
           <Route
             path="/"
             element={user ? <Chat /> : <Navigate to="/login" replace />}

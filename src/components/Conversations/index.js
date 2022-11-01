@@ -1,6 +1,6 @@
 import React from "react";
 import SearchComponent from "../Search";
-import { Grid, List } from "@material-ui/core";
+import { List } from "@material-ui/core";
 import Conversation from "./Conversation";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";

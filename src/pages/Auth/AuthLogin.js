@@ -1,21 +1,14 @@
-import React, { useState } from "react";
-// import Icon from '../assets/Icon'
-// import {GoogleLogin} from 'react-google-login';
-import {
-  Button,
-  InputAdornment,
-  TextField,
-  Typography,
-} from "@material-ui/core";
+import React from "react";
+import { Button, TextField } from "@material-ui/core";
 import { Link, useNavigate } from "react-router-dom";
-import signinImage from "../../assets/signup.jpg";
+import SigninImage from "../../assets/signup.jpg";
 import { useDispatch } from "react-redux";
-import { signup, signin } from "../../redux/actions/auth";
+import { signin } from "../../redux/actions/auth";
 import { Form, Formik } from "formik";
-import { firebase, auth } from "../../Firebase";
 import { validationLogin } from "../../utils/Validation";
 import * as api from '../../api'
 import { ShowOTP } from "../../redux/actions/modal";
+import { blue } from "@material-ui/core/colors";
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -67,10 +60,10 @@ function Login() {
   };
 
   return (
-    <div className="auth__form-container">
+    <div className="auth__form-container" style={{ height: "100vh" }}>
       <div className="auth__form-container_fields">
         <div className="auth__form-container_fields-content">
-          <p>Đăng nhập</p>
+          <p>ĐĂNG NHẬP</p>
           <Formik
             initialValues={{
               phoneNumber: "",
@@ -94,10 +87,12 @@ function Login() {
               isSubmitting,
             }) => (
               <Form onSubmit={handleSubmit} method="POST">
-                <div className="auth__form-container_fields-content_input">
-                  <label htmlFor="phoneNumber">Số điện thoại</label>
+                <div className="form-group-column">
+                  <label htmlFor="">Số điện thoại</label>
                   <TextField
                     error={errors.phoneNumber?.length > 0}
+                    variant="outlined"
+                    className="tf"
                     helperText={errors.phoneNumber}
                     touched={touched.phoneNumber}
                     value={values.phoneNumber}
@@ -105,41 +100,63 @@ function Login() {
                     name="phoneNumber"
                     placeholder="Nhập số điện thoại"
                     onChange={handleChange}
-                    required
                   />
                 </div>
-                <div className="auth__form-container_fields-content_input">
-                  <label htmlFor="password">Mật khẩu</label>
+                <div className="form-group-column">
+                  <label htmlFor="">Mật khẩu</label>
                   <TextField
                     error={errors.password?.length > 0}
+                    variant="outlined"
+                    className="tf"
                     helperText={errors.password}
                     touched={touched.password}
                     type="password"
                     name="password"
-                    className=""
                     placeholder="Nhập mật khẩu"
                     onChange={handleChange}
-                    required
                   />
+                </div>
+                {/* Sử lý form quên mật khẩu */}
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-start",
+                    marginTop: "10px",
+                  }}
+                >
+                  <Link to={"/forgot"} style={{ color: blue }}>
+                    Quên mật khẩu?
+                  </Link>
                 </div>
                 <div id="recaptcha"></div>
                 <div className="auth__form-container_fields-content_button">
-                  <button disabled={isSubmitting} type="submit">
+                  <Button
+                    style={{ width: "500px", fontSize: "16px" }}
+                    disabled={isSubmitting}
+                    type="submit"
+                  >
                     Đăng nhập
-                  </button>
+                  </Button>
                 </div>
               </Form>
             )}
           </Formik>
 
-          <div className="auth__form-container_fields-account">
-            <p>Chưa có tài khoản ? </p>
-            <Link to={"/register"}>Đăng ký</Link>
+          <div
+            className="auth__form-container_fields-account"
+            style={{ marginTop: "10px" }}
+          >
+            <p style={{ marginRight: "8px", color: "#707070" }}>
+              Chưa có tài khoản?{" "}
+            </p>
+            <Link to={"/register"} style={{ fontWeight: "bold" }}>
+              Đăng ký ngay!
+            </Link>
           </div>
         </div>
       </div>
       <div className="auth__form-container_image">
-        <img src={signinImage} />
+        <img style={{ height: "100vh" }} src={SigninImage} alt="" />
       </div>
     </div>
   );
