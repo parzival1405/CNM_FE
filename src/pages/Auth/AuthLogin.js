@@ -5,6 +5,7 @@ import SigninImage from "../../assets/signup.jpg";
 import { useDispatch } from "react-redux";
 import { signin } from "../../redux/actions/auth";
 import { Form, Formik } from "formik";
+import { firebase, auth } from "../../Firebase"
 import { validationLogin } from "../../utils/Validation";
 import * as api from '../../api'
 import { ShowOTP } from "../../redux/actions/modal";

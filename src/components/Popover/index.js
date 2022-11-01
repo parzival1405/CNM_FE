@@ -10,7 +10,7 @@ import {
 } from "@material-ui/core";
 // import { Textsms, Contacts, Settings } from "@material-ui/icons";
 // import Profile from "../Modal/Profile";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { showFormSettingModal } from "../../redux/actions/modal";
 
 function BasicPopover({ children, handleLogout }) {
