@@ -10,6 +10,7 @@ import { GLOBALTYPES } from "../../constants/actionType";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllMessage,sendMessage, sendMessageTest } from "../../redux/actions/messages";
 import { demoPostFile, getDataS3API } from "../../api";
+import DrawerInfoChat from "../Bar/DrawerInfoChat";
 const Wrapper = styled("div")(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
@@ -130,6 +131,11 @@ function BoxChat() {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  const [open, setOpen] = React.useState(false);
+
+  const openDrawer =() => {
+    setOpen(true);
+  }
   return (
     <Wrapper>
       <HeaderBoxChat />
@@ -159,6 +165,7 @@ function BoxChat() {
         </InfiniteScroll>
       </Paper>
       <FootBoxChat handleSendMsg={handleSendMsg} />
+      <DrawerInfoChat handleDrawerOpen={openDrawer} style={{with:0,height:0}} ></DrawerInfoChat>
     </Wrapper>
   );
 }
