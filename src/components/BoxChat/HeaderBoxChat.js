@@ -44,7 +44,7 @@ const HeaderInfo = ({ currentConversation }) => {
         subheader="Truy cập ... giờ trước"
         subheaderTypographyProps={{ color: "white" }}
       />
-      {_friends.length > 2 ? (
+      {_friends.length >= 2 ? (
         <IconButton
           aria-label="settings"
           onClick={handleShowChangeGroupLabelModal}

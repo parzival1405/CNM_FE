@@ -95,13 +95,13 @@ function Demo() {
       <Grid item md={3}>
         <Conversations />
       </Grid>
-      <Grid item style={{ flexGrow: 1, height: "inherit" }}>
+      {/* <Grid item style={{ flexGrow: 1, height: "inherit" }}>
         {
           currentConversation ? <BoxChat style={{ height: "100%" }} /> : ""
           // <Slider/>
         }
-      </Grid>
-      {/* <Grid item md={8}>
+      </Grid> */}
+      <Grid item md={8}>
         <div className="friend-request__container">
         <div className="friend-request__container--list" style={{
           padding: "20px 100px"
@@ -110,7 +110,7 @@ function Demo() {
         </div>
           
         </div>
-      </Grid> */}
+      </Grid>
     </Grid>
   );
 }
