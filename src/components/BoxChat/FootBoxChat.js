@@ -65,7 +65,7 @@ function FootBoxChat({ handleSendMsg }) {
     });
     // if (err) setMediaErr(err);
     // else setMediaErr("");
-    console.log(files)
+    console.log(files);
     setMedia([...media, ...newMedia]);
   };
 
@@ -77,7 +77,10 @@ function FootBoxChat({ handleSendMsg }) {
 
   return (
     <Box>
-      <AppBar position="static">
+      <AppBar
+        position="static"
+        style={{ boxShadow: "none", border: "1px solid #f0ecf4" }}
+      >
         <StyledFormControl onSubmit={(event) => demoSubmit(event)}>
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton

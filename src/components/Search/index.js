@@ -12,7 +12,10 @@ import {
 import { Search, GroupAdd, PersonAdd } from "@material-ui/icons";
 import useDebounce from "../../hooks/useDebounce";
 import { useDispatch } from "react-redux";
-import { showAddFriendModal, showAddGroupModal } from "../../redux/actions/modal";
+import {
+  showAddFriendModal,
+  showAddGroupModal,
+} from "../../redux/actions/modal";
 const SearchStyled = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -56,11 +59,11 @@ function SearchComponent() {
   const dispatch = useDispatch();
   const handleShowAddFriendModal = () => {
     dispatch(showAddFriendModal());
-  }
+  };
 
-  const handleShowAddGroupModal = () =>{ 
+  const handleShowAddGroupModal = () => {
     dispatch(showAddGroupModal());
-  }
+  };
 
   useEffect(() => {
     if (!debouncedValue.trim()) {
@@ -107,7 +110,14 @@ function SearchComponent() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar
+        position="static"
+        style={{
+          backgroundColor: "#0978f5",
+          boxShadow: "none",
+          borderLeft: "1px solid #bfd4e7",
+        }}
+      >
         <Toolbar>
           <SearchStyled style={{ marginLeft: 0 }}>
             <Search />

@@ -35,6 +35,7 @@ function Conversation({ conversation }) {
         </AvatarGroup>
       </ListItemAvatar>
       <ListItemText
+        style={{ paddingLeft: "5px" }}
         primary={
           _friends.length === 1
             ? _friends[0].username?.slice(0, 30)

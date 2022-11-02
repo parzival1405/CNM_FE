@@ -11,7 +11,7 @@ function Conversations() {
   return (
     <>
       <SearchComponent />
-      <List style={{ maxHeight: 640, overflow: "auto" }}>
+      <List style={{ maxHeight: 640, overflow: "auto",padding: "0" }}>
         {conversations?.map((conversation) => (
           <Conversation
             key={conversation._id}

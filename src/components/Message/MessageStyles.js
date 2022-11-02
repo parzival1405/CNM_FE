@@ -27,7 +27,7 @@ export default makeStyles((theme) => ({
   textWrapper: {
     // backgroundColor: theme.palette.grey[300],
     backgroundColor: "#E1E1E1",
-    padding: "1rem",
+    padding: "0.5rem 1rem 0.2rem 1rem",
     borderRadius: ".5rem",
     position: "relative",
     width: "auto",

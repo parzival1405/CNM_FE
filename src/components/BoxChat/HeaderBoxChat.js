@@ -20,7 +20,7 @@ const HeaderInfo = ({ currentConversation }) => {
   );
   return (
     <CardHeader
-      style={{ padding: "12px 0" }}
+      style={{ padding: "12px 0", height: "5vh" }}
       avatar={
         <AvatarGroup max={2}>
           {_friends.map((friend) => (
@@ -30,7 +30,7 @@ const HeaderInfo = ({ currentConversation }) => {
       }
       action={
         <IconButton aria-label="settings">
-          <Edit />
+          <Edit style={{ color: "white" }} />
         </IconButton>
       }
       title={
@@ -39,6 +39,7 @@ const HeaderInfo = ({ currentConversation }) => {
           : currentConversation.label.slice(0, 30)
       }
       subheader="Truy cập ... giờ trước"
+      subheaderTypographyProps={{ color: "white" }}
     />
   );
 };
@@ -54,7 +55,14 @@ function HeaderBoxChat() {
   };
   return (
     <Box>
-      <AppBar position="static">
+      <AppBar
+        position="static"
+        style={{
+          backgroundColor: "#0978f5",
+          boxShadow: "none",
+          borderLeft: "1px solid #bfd4e7",
+        }}
+      >
         <Toolbar>
           <HeaderInfo currentConversation={currentConversation} />
           <Box sx={{ flexGrow: 1 }} />
