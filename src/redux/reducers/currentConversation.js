@@ -15,6 +15,11 @@ export default (state = initialState, action) => {
           ...state,
           currentConversation: action?.data,
         };
+        case GLOBALTYPES.CHANGE_GROUP_NAME:
+        return {
+          ...state,
+          currentConversation: action?.data,
+        };
     default:
       return state;
   }

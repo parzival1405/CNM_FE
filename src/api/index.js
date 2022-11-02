@@ -54,3 +54,4 @@ export const demoPostFile = (formData) =>
 
   export const updateLastMessage = (data) => API.post("api/conversation/updateLastMessage",data);
   export const addMemberGroup = (data) => API.post("api/conversation/addMemberGroup",data);
+  export const changeLabel = (data) => API.post("api/conversation/changeLabel",data);

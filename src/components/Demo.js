@@ -31,7 +31,9 @@ const listFriendsRequest = [
 function Demo() {
   const dispatch = useDispatch();
   const { socket } = useSelector((state) => state.socket);
-  console.log(socket)
+  const { currentConversation } = useSelector(
+    (state) => state.currentConversation
+  );
   useEffect(() => {
     if (socket?.current) {
       socket.current.on("addConversation-receive", (data) => {
@@ -45,9 +47,46 @@ function Demo() {
     return () => socket?.current.off("addConversation-receive");
   }, [socket, dispatch]);
 
-  const { currentConversation } = useSelector(
-    (state) => state.currentConversation
-  );
+  useEffect(() => {
+    if (socket?.current) {
+      socket.current.on("changeGroupName-receive", (data) => {
+        if (
+          data._id === currentConversation?._id
+        ){
+          dispatch({
+            type: GLOBALTYPES.CHANGE_GROUP_NAME,
+            data,
+          });
+        }
+        dispatch({
+          type: GLOBALTYPES.CHANGE_GROUP_NAME_ALL_CONVERSATION,
+          data,
+        });
+      });
+    }
+    return () => socket?.current.off("changeGroupName-receive");
+  }, [socket,currentConversation, dispatch]);
+
+  useEffect(() => {
+    if (socket?.current) {
+      socket.current.on("addMemberToGroup-receive", (data) => {
+        if (
+          data._id === currentConversation?._id
+        ){
+          dispatch({
+            type: GLOBALTYPES.UPDATEMEMBER,
+            data,
+          });
+        }
+        dispatch({
+          type: GLOBALTYPES.UPDATEMEMBER_ALL_CONVERSATION,
+          data,
+        });
+      });
+    }
+    return () => socket?.current.off("addMemberToGroup-receive");
+  }, [socket,currentConversation, dispatch]);
+
   return (
     <Grid container style={{ height: "100%" }}>
       <Grid item md={"auto"} style={{ backgroundColor: "#2ab7ca" }}>

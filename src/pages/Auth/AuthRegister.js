@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 // import Icon from '../assets/Icon'
 // import {GoogleLogin} from 'react-google-login';
-import { Button, TextField } from "@material-ui/core";
+import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@material-ui/core";
 
 import { Link, useNavigate } from "react-router-dom";
 import signinImage from "../../assets/signup.jpg";
 import { useDispatch } from "react-redux";
 import { signup } from "../../redux/actions/auth";
 import { Form, Formik } from "formik";
+import DateFnsUtils from "@date-io/date-fns";
 // import { firebase, auth } from "../../Firebase";
 import { validationRegister } from "../../utils/Validation";
+import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 
 function Register() {
   const navigate = useNavigate();
@@ -58,7 +60,7 @@ function Register() {
               password: "",
               confirmPassword: "",
               gender: true,
-              dayofbirth: "",
+              dob: "",
             }}
             validationSchema={validationRegister}
             onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -76,6 +78,7 @@ function Register() {
               handleChange,
               handleSubmit,
               isSubmitting,
+              setFieldValue,
             }) => (
               <Form onSubmit={handleSubmit} method="POST">
                 <div className="form-group-column">
@@ -108,46 +111,38 @@ function Register() {
                     onChange={handleChange}
                   />
                 </div>
-                <div className="form-group-column">
-                  <label htmlFor="">Ngày sinh</label>
-                  <TextField
-                    variant="outlined"
-                    id="dob"
-                    className="tf"
-                    error={errors.dayofbirth}
-                    helperText={errors.dayofbirth}
-                    touched={touched.dayofbirth}
-                    value={values.dayofbirth}
-                    type="date"
-                    name="dayofbirth"
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardDatePicker
+                  name="dob"
+                  inputVariant="outlined"
+                  format="MM/dd/yyyy"
+                  value={values.dob}
+                  error={errors.dob}
+                  helperText={errors.dob}
+                  touched={touched.dob}
+                  onChange={val => {
+                    setFieldValue("dob", val)
+                  }}
+                  KeyboardButtonProps={{
+                    "aria-label": "change date",
+                  }}
+                />
+              </MuiPickersUtilsProvider> 
+                <FormControl >
+                  <InputLabel>Gender</InputLabel>
+                  <Select
+                    label="gender"
+                    name="gender"
+                    error={errors.gender}
+                    helperText={errors.gender}
+                    touched={touched.gender}
+                    value={values.gender}
                     onChange={handleChange}
-                    placeholderText="Ngày sinh"
-                  />
-                </div>
-                {/* {isSignup && (
-                  <div className="form-group-column">
-                    <label>Giới tính</label>
-                    <TextField
-                      type="radio"
-                      name="gender"
-                      className=""
-                      value={true}
-                      onChange={handleChange}
-                      required
-                    />
-                    <label htmlFor="gender">Nam</label>
-                    <br />
-                    <TextField
-                      type="radio"
-                      name="gender"
-                      className=""
-                      value={false}
-                      onChange={handleChange}
-                      required
-                    />
-                    <label htmlFor="gender">Nữ</label>
-                  </div>
-                )} */}
+                  >
+                    <MenuItem value={true}>Nam</MenuItem>
+                    <MenuItem value={false}>Nu</MenuItem>
+                  </Select>
+                </FormControl>
                 <div className="form-group-column">
                   <label htmlFor="">Mật khẩu</label>
                   <TextField
@@ -191,9 +186,7 @@ function Register() {
           </Formik>
           <div className="auth__form-container_fields-account">
             <p>Đã có tài khoản ?</p>
-            <Link to={"/login"}>
-              Đăng nhập
-            </Link>
+            <Link to={"/login"}>Đăng nhập</Link>
           </div>
         </div>
       </div>

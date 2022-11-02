@@ -38,7 +38,7 @@ function AddFriendToGroupModal() {
       conversationId: currentConversation._id,
       newMember: _listMember,
     };
-    dispatch(addMembersToGroup(data), socket.current);
+    dispatch(addMembersToGroup(data,user, socket.current));
     setListMember([]);
     handleHideModal();
   }, [dispatch, token, listMember, user]);

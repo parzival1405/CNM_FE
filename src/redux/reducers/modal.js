@@ -5,7 +5,7 @@ export default function modalReducers(
     isShowAddFriendModal: false,
     isShowAddGroupModal: false,
     isShowMoreInfoConversation: false,
-    isShowChangeGroupName: false,
+    isShowChangeGroupLabel: false,
     isShowAddFriendToGroupModal: false,
     isShowFormSettingModal: false,
     isShowFormChangePasswordModal: false,
@@ -30,10 +30,10 @@ export default function modalReducers(
         ...state,
         isShowFormSettingModal: true,
       };
-    case GLOBALTYPES.SHOW_CHANGE_GROUP_NAME_MODAL:
+    case GLOBALTYPES.SHOW_CHANGE_GROUP_LABEL_MODAL:
       return {
         ...state,
-        isShowChangeGroupName: true,
+        isShowChangeGroupLabel: true,
       };
     case GLOBALTYPES.SHOW_DELETE_MEMBER_GROUP_MODAL:
       return {
