@@ -8,6 +8,25 @@ import { useDispatch, useSelector } from "react-redux";
 import Nav from "./Nav";
 import Slider from "./Slider";
 import { GLOBALTYPES } from "../constants/actionType";
+import ListFriendsRequest from "./ListFriendsRequest";
+
+// fake data
+const listFriendsRequest = [
+  {
+    id: 1,
+    name: "Văn Lộc",
+    subtitle: "Từ nhóm trò chuyện",
+    message: "Hi",
+    image: "https://images.vexels.com/media/users/3/145908/raw/52eabf633ca6414e60a7677b0b917d92-male-avatar-maker.jpg"
+  }, 
+  {
+    id: 2,
+    name: "Hữu",
+    subtitle: "Từ nhóm trò chuyện Haha",
+    message: "Hello",
+    image: "https://images.assetsdelivery.com/compings_v2/yupiramos/yupiramos2004/yupiramos200436847.jpg"
+  }
+]
 
 function Demo() {
   const dispatch = useDispatch();
@@ -82,6 +101,16 @@ function Demo() {
           // <Slider/>
         }
       </Grid>
+      {/* <Grid item md={8}>
+        <div className="friend-request__container">
+        <div className="friend-request__container--list" style={{
+          padding: "20px 100px"
+        }}>
+          <ListFriendsRequest listFriendsRequest={listFriendsRequest} />
+        </div>
+          
+        </div>
+      </Grid> */}
     </Grid>
   );
 }
