@@ -39,7 +39,7 @@ export default (state = initialState, action) => {
       if (conversationSend) {
         conversationSend = {
           ...conversationSend,
-          count_waiting_msg : undefined,
+          count_waiting_msg: undefined,
         };
       }
       return {
@@ -67,14 +67,24 @@ export default (state = initialState, action) => {
         ),
       };
     }
-    case GLOBALTYPES.UPDATEMEMBER:
-      const conversation =  action?.data
+    case GLOBALTYPES.UPDATEMEMBER_ALL_CONVERSATION:{
+      const conversation = action?.data;
       return {
         ...state,
         conversations: state.conversations.map((conver) =>
           conver._id == conversation._id ? conversation : conver
         ),
       };
+    }
+    case GLOBALTYPES.CHANGE_GROUP_NAME_ALL_CONVERSATION:{
+      const conversation = action?.data;
+      return {
+        ...state,
+        conversations: state.conversations.map((conver) =>
+          conver._id == conversation._id ? conversation : conver
+        ),
+      };
+    }
     case GLOBALTYPES.START_LOADING:
       return {
         ...state,

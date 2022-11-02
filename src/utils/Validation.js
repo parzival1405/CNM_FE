@@ -7,6 +7,7 @@ export const validationRegister = Yup.object().shape({
       "*Số điện thoại không hợp lệ!"
     )
     .required("*Bạn phải điền số điện thoại!"),
+  gender: Yup.bool(),
   password: Yup.string()
     .min(6, "Mật khẩu ít nhất 6 kí tự")
     .required("*Bạn phải điền mật khẩu!"),
@@ -20,7 +21,7 @@ export const validationChangeProfile = Yup.object().shape({
   username: Yup.string().required("*Bạn phải điền tên hiển thị!"),
   avatarURL: Yup.string().required("*Bạn phải điền đường dẫn avatar"),
   dob: Yup.string().required("*Bạn phải chọn ngày sinh!"),
-  gender: Yup.bool()
+  gender: Yup.bool(),
 });
 export const validationLogin = Yup.object().shape({
   phoneNumber: Yup.string()

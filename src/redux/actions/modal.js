@@ -17,10 +17,10 @@ export const showAddGroupModal = () => async (dispatch) => {
   } catch (err) {}
 };
 //SHOW CHANGE GROUP NAME MODAL
-export const showChangeGroupNameModal = () => async (dispatch) => {
+export const showChangeGroupLabelModal = () => async (dispatch) => {
   try {
     dispatch({
-      type: GLOBALTYPES.SHOW_CHANGE_GROUP_NAME_MODAL,
+      type: GLOBALTYPES.SHOW_CHANGE_GROUP_LABEL_MODAL,
     });
   } catch (err) {}
 };

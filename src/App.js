@@ -18,6 +18,7 @@ import { initSocket } from "./redux/actions/socket";
 import { io } from "socket.io-client";
 import { refresh } from "./redux/actions/auth";
 import Forgot from "./pages/Auth/ForgotPass";
+import ChangeGroupLabelModal from "./components/Modal/ChangeGroupLabelModal";
 function App() {
   const dispatch = useDispatch();
   const { user, token } = useSelector((state) => state.auth);
@@ -32,6 +33,7 @@ function App() {
         {/* {user && <SocketClient />} */}
         <OTPModal/>
         {user && <ProfileModal />}
+        {user && <ChangeGroupLabelModal />}
         {user && <AddFriendModal />}
         {user && <AddGroupModal />}
         {user && <AddFriendToGroupModal />}
