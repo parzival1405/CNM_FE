@@ -34,20 +34,6 @@ function Conversations({socket}) {
     <>
       <div className="conversation-sidebar">
         <SearchComponent />
-        <div className="conversation-sidebar__nav">
-          <div className="conversation-sidebar__nav-add">
-            <PersonAddIcon size="small"/>
-            <p>Thêm bạn bằng số điện thoại</p>
-          </div>
-            {navList?.map((item) => (
-              <>
-                <div className="conversation-sidebar__nav-item">
-                  <img src={item.logo} alt="logo" />
-                  <p>{item.name}</p>
-                </div>
-              </>
-            ))}
-        </div>
         <Divider />
         <List style={{ maxHeight: 640, overflow: "auto" }}>
         {conversations?.map((conversation) => (

@@ -11,6 +11,7 @@ export default function modalReducers(
     isShowFormChangePasswordModal: false,
     isShowDeleteMemberGroupModal: false,
     isShowOTP: false,
+    isShowChangeCreator:false,
   },
   action
 ) {
@@ -61,6 +62,11 @@ export default function modalReducers(
         ...state,
         isShowOTP: true,
       };
+      case GLOBALTYPES.SHOW_CHANGECREATOR_MODAL:
+        return {
+          ...state,
+          isShowChangeCreator: true,
+        };
     default:
       return state;
     case GLOBALTYPES.HIDE_MODAL:

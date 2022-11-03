@@ -19,6 +19,7 @@ import { io } from "socket.io-client";
 import { refresh } from "./redux/actions/auth";
 import Forgot from "./pages/Auth/ForgotPass";
 import ChangeGroupLabelModal from "./components/Modal/ChangeGroupLabelModal";
+import ShowChangeCreator from "./components/Modal/ShowChangeCreator";
 function App() {
   const dispatch = useDispatch();
   const { user, token } = useSelector((state) => state.auth);
@@ -37,6 +38,7 @@ function App() {
         {user && <AddFriendModal />}
         {user && <AddGroupModal />}
         {user && <AddFriendToGroupModal />}
+        {user && <ShowChangeCreator />}
         <Routes>
           <Route path="/register" element={<Register />}></Route>
           <Route path="/login" element={user ? <Navigate to="/"/> : <Login />}></Route>

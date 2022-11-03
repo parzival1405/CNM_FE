@@ -25,6 +25,7 @@ function BoxChat() {
   const { currentConversation,isRoom } = useSelector(
     (state) => state.currentConversation
   );
+
   const { socket } = useSelector(
     (state) => state.socket
   );
@@ -165,7 +166,7 @@ function BoxChat() {
         </InfiniteScroll>
       </Paper>
       <FootBoxChat handleSendMsg={handleSendMsg} />
-      <DrawerInfoChat handleDrawerOpen={openDrawer} style={{with:0,height:0}} ></DrawerInfoChat>
+      <DrawerInfoChat style={{with:0,height:0}} ></DrawerInfoChat>
     </Wrapper>
   );
 }

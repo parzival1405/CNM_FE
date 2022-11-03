@@ -39,7 +39,7 @@ function AddGroupModal() {
         return;
       }
 
-      _listMember.push(user._id);
+      _listMember.splice(0,0,user._id);
       const data = {
         label: values.label,
         member: _listMember,
