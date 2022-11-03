@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { logout } from "../../redux/actions/auth";
 import decode from "jwt-decode";
+import { showConversation, showPhoneBook } from "../../redux/actions/sideBar";
 function Nav() {
   const { user, token } = useSelector((state) => state.auth);
   const location = useLocation();
@@ -14,6 +15,14 @@ function Nav() {
   const handleLogout = () => {
     dispatch(logout(navigate));
   };
+
+ const handleShowPhoneBooks = () => {
+  dispatch(showPhoneBook());
+ }
+
+ const handleShowConversations = () => {
+  dispatch(showConversation());
+ }
 
   useEffect(() => {
     if (token) {
@@ -46,10 +55,10 @@ function Nav() {
         <BasicPopover handleLogout={handleLogout}>
           <Avatar src={user.avatarURL} />
         </BasicPopover>
-        <IconButton style={{ margin: "8px 0" }}>
+        <IconButton onClick={handleShowConversations} style={{ margin: "8px 0" }}>
           <Textsms style={{ fontSize: "32px" }} />
         </IconButton>
-        <IconButton>
+        <IconButton onClick={handleShowPhoneBooks} >
           <Contacts style={{ fontSize: "32px" }} />
         </IconButton>
       </Box>

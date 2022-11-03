@@ -10,6 +10,7 @@ import modal from "./modal"
 import userResultFromModalAddFriendReducer from './userResultFromModalAddFriendReducer'
 import socket from "./socket";
 import dataToOTPModal from "./dataToOTPModal"
+import sideBar from "./sideBar"
 
 export default combineReducers({
     auth,
@@ -21,5 +22,6 @@ export default combineReducers({
     modal,
     socket,
     userResultFromModalAddFriend:userResultFromModalAddFriendReducer,
-    dataToOTPModal
+    dataToOTPModal,
+    sideBar
 })

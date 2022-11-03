@@ -9,12 +9,13 @@ import {
 } from "@material-ui/core";
 import { AvatarGroup } from "@material-ui/lab";
 
-import { Search, GroupAdd, PersonAdd, Edit } from "@material-ui/icons";
+import { Search, GroupAdd, PersonAdd,VerticalSplit, Edit } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import {
   showAddFriendToGroupModal,
   showChangeGroupLabelModal,
 } from "../../redux/actions/modal";
+import { showInformation } from "../../redux/actions/sideBar";
 
 const HeaderInfo = ({ currentConversation }) => {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ const HeaderInfo = ({ currentConversation }) => {
   const handleShowChangeGroupLabelModal = () => {
     dispatch(showChangeGroupLabelModal());
   };
+  
   return (
     <>
       <CardHeader
@@ -67,6 +69,9 @@ function HeaderBoxChat() {
   const handleShowAddFriendToGroupModal = () => {
     dispatch(showAddFriendToGroupModal());
   };
+  const handleShowInformation = () => {
+    dispatch(showInformation());
+  }
   return (
     <Box>
       <AppBar
@@ -91,6 +96,9 @@ function HeaderBoxChat() {
             ) : (
               <></>
             )}
+            <IconButton onClick={handleShowInformation}>
+              <VerticalSplit />
+            </IconButton>
           </Box>
         </Toolbar>
       </AppBar>

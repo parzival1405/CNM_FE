@@ -17,12 +17,12 @@ export const setCurrentConversation =
     }
   };
 
-export const addMembersToGroup = (data2,user, socket) => async (dispatch) => {
+export const addMembersToGroup = (data2, user, socket) => async (dispatch) => {
   try {
     const { data } = await api.addMemberGroup(data2);
     dispatch({ type: GLOBALTYPES.UPDATEMEMBER, data });
     dispatch({ type: GLOBALTYPES.UPDATEMEMBER_ALL_CONVERSATION, data });
-    socket.emit("addMemberToGroup", {...data,userChange: user._id});
+    socket.emit("addMemberToGroup", { ...data, userChange: user._id });
   } catch (error) {
     console.log(error);
   }
@@ -54,3 +54,83 @@ export const changeCurrentConversationGroupName =
       //   });
     }
   };
+
+export const deleteMemberGroup =
+  (data2,member, socket) => async (dispatch) => {
+    try {
+      const { data } = await api.deleteMember(data2);
+      dispatch({
+        type: GLOBALTYPES.DELETE_MEMBER_GROUP,
+        data,
+      });
+      dispatch({
+        type: GLOBALTYPES.DELETE_MEMBER_GROUP_ALL_CONVERSATION,
+        data,
+      });
+      socket.emit("deleteMemberGroup", {
+        ...data,
+        msg: `Đã bị xóa ${member.username} khỏi nhóm`,
+      });
+    } catch (err) {
+      //   dispatch({
+      //     type: GLOBALTYPES.ALERT,
+      //     payload: {
+      //       error: err,
+      //     },
+      //   });
+    }
+  };
+
+  export const changeCreator =
+  (data2,user, socket) => async (dispatch) => {
+    try {
+      const { data } = await api.updateCreator(data2);
+      dispatch({
+        type: GLOBALTYPES.UPDATE_CREATOR_GROUP,
+        data,
+      });
+      dispatch({
+        type: GLOBALTYPES.UPDATE_CREATOR_GROUP_ALL_CONVERSATION,
+        data,
+      });
+      socket.emit("changeCreatorGroup", {
+        ...data,
+        oldCreator:user._id
+        // msg: `Đã bị xóa ${member.username} khỏi nhóm`,
+      });
+    } catch (err) {
+      //   dispatch({
+      //     type: GLOBALTYPES.ALERT,
+      //     payload: {
+      //       error: err,
+      //     },
+      //   });
+    }
+  };
+
+  export const outGroup =
+  (data2,user, socket) => async (dispatch) => {
+    try {
+      const { data } = await api.outGroup(data2);
+      dispatch({
+        type: GLOBALTYPES.OUT_GROUP,
+        payload:{data:data,user:user},
+      });
+      dispatch({
+        type: GLOBALTYPES.OUT_ALL_CONVERSATION,
+        payload:{data:data,user:user},
+      });
+      socket.emit("outGroup", {
+        ...data,
+        // msg: `Đã bị xóa ${member.username} khỏi nhóm`,
+      });
+    } catch (err) {
+      //   dispatch({
+      //     type: GLOBALTYPES.ALERT,
+      //     payload: {
+      //       error: err,
+      //     },
+      //   });
+    }
+  };
+

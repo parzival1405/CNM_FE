@@ -1,5 +1,4 @@
-import { GLOBALTYPES
-} from '../../constants/actionType';
+import { GLOBALTYPES } from "../../constants/actionType";
 
 const initialState = { isLoading: true, currentConversation: null };
 
@@ -10,16 +9,42 @@ export default (state = initialState, action) => {
         ...state,
         currentConversation: action?.data,
       };
-      case GLOBALTYPES.UPDATEMEMBER:
+    case GLOBALTYPES.UPDATEMEMBER:
+      return {
+        ...state,
+        currentConversation: action?.data,
+      };
+    case GLOBALTYPES.CHANGE_GROUP_NAME:
+      return {
+        ...state,
+        currentConversation: action?.data,
+      };
+    case GLOBALTYPES.DELETE_MEMBER_GROUP:
+      return {
+        ...state,
+        currentConversation: action?.data,
+      };
+    case GLOBALTYPES.UPDATE_CREATOR_GROUP:
+      return {
+        ...state,
+        currentConversation: action?.data,
+      };
+    case GLOBALTYPES.OUT_GROUP:
+      const conversation = action?.payload.data;
+      const user = action?.payload.user;
+      const arrayId = conversation.member.map(member => member._id)
+      if (arrayId.includes(user._id)) {
         return {
           ...state,
-          currentConversation: action?.data,
+          currentConversation: conversation,
         };
-        case GLOBALTYPES.CHANGE_GROUP_NAME:
+      } else {
         return {
           ...state,
-          currentConversation: action?.data,
+          currentConversation: null,
         };
+      }
+      
     default:
       return state;
   }

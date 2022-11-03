@@ -64,6 +64,14 @@ export const showAddFriendToGroupModal = () => async (dispatch) => {
   } catch (err) {}
 };
 
+export const showChangeCreator = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: GLOBALTYPES.SHOW_CHANGECREATOR_MODAL,
+    });
+  } catch (err) {}
+};
+
 export const ShowOTP = (data) => async (dispatch) => {
   try {
     // dispatch({
