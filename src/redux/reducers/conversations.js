@@ -68,13 +68,20 @@ export default (state = initialState, action) => {
       };
     }
     case GLOBALTYPES.UPDATEMEMBER_ALL_CONVERSATION: {
-      const conversation = action?.data;
-      return {
-        ...state,
-        conversations: state.conversations.map((conver) =>
-          conver._id == conversation._id ? conversation : conver
-        ),
-      };
+      const conversation = action?.payload.data;
+      const user = action?.payload.user;
+      // const arrayId = conversation.member.map((member) => member._id);
+      // if (arrayId.includes(user._id)) {
+      //   return {
+      //     ...state,
+      //     conversations: [conversation,...state.conversations]
+      //   };
+      // } else {
+        return {
+          ...state,
+          conversations: [conversation,...state.conversations]
+        };
+      // }
     }
     case GLOBALTYPES.CHANGE_GROUP_NAME_ALL_CONVERSATION: {
       const conversation = action?.data;
@@ -88,7 +95,7 @@ export default (state = initialState, action) => {
     case GLOBALTYPES.DELETE_MEMBER_GROUP_ALL_CONVERSATION: {
       const conversation = action?.payload.data;
       const user = action?.payload.user;
-      const arrayId = conversation.member.map(member => member._id)
+      const arrayId = conversation.member.map((member) => member._id);
       if (arrayId.includes(user._id)) {
         return {
           ...state,
@@ -117,7 +124,7 @@ export default (state = initialState, action) => {
     case GLOBALTYPES.OUT_ALL_CONVERSATION: {
       const conversation = action?.payload.data;
       const user = action?.payload.user;
-      const arrayId = conversation.member.map(member => member._id)
+      const arrayId = conversation.member.map((member) => member._id);
       if (arrayId.includes(user._id)) {
         return {
           ...state,

@@ -20,8 +20,8 @@ export const setCurrentConversation =
 export const addMembersToGroup = (data2, user, socket) => async (dispatch) => {
   try {
     const { data } = await api.addMemberGroup(data2);
-    dispatch({ type: GLOBALTYPES.UPDATEMEMBER, data });
-    dispatch({ type: GLOBALTYPES.UPDATEMEMBER_ALL_CONVERSATION, data });
+    dispatch({ type: GLOBALTYPES.UPDATEMEMBER, payload: { data: data, user: user } });
+    dispatch({ type: GLOBALTYPES.UPDATEMEMBER_ALL_CONVERSATION, payload: { data: data, user: user } });
     socket.emit(
       "addMemberToGroup",
       JSON.stringify({ conversation: data, userChange: user._id })

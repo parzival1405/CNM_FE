@@ -56,15 +56,16 @@ function Demo() {
   useEffect(() => {
     if (socket?.current) {
       socket.current.on("addMemberToGroup-receive", (data) => {
+        console.log(data)
         if (data._id === currentConversation?._id) {
           dispatch({
             type: GLOBALTYPES.UPDATEMEMBER,
-            data,
+            payload: { data: data, user: user },
           });
         }
         dispatch({
           type: GLOBALTYPES.UPDATEMEMBER_ALL_CONVERSATION,
-          data,
+          payload: { data: data, user: user },
         });
       });
     }

@@ -8,6 +8,14 @@ import { useDispatch, useSelector } from 'react-redux';
 const FriendRequest = ({item}) => {
     const {avatarURL, username, subtitle, message} = item;
     const dispatch = useDispatch();
+
+    const handleDenied = () => {
+        // dispatch
+    }
+
+    const handleAccept = () => {
+        // dispatch
+    }
     return (
         <>
             <div className='friend-request'>
@@ -27,8 +35,8 @@ const FriendRequest = ({item}) => {
                 </div>
                 
                 <div className='friend-request__action'>
-                    <button type='button' className="friend-request__action next">Bỏ qua</button>
-                    <button type='button' className="friend-request__action accept">Chấp Nhận</button>
+                    <button type='button' onClick={handleAccept} className="friend-request__action next">Bỏ qua</button>
+                    <button type='button' onClick={handleDenied} className="friend-request__action accept">Chấp Nhận</button>
                 </div>
             </div>
         </>
