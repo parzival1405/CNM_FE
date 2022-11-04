@@ -9,7 +9,13 @@ import {
 } from "@material-ui/core";
 import { AvatarGroup } from "@material-ui/lab";
 
-import { Search, GroupAdd, PersonAdd,VerticalSplit, Edit } from "@material-ui/icons";
+import {
+  Search,
+  GroupAdd,
+  PersonAdd,
+  VerticalSplit,
+  Edit,
+} from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import {
   showAddFriendToGroupModal,
@@ -26,7 +32,7 @@ const HeaderInfo = ({ currentConversation }) => {
   const handleShowChangeGroupLabelModal = () => {
     dispatch(showChangeGroupLabelModal());
   };
-  
+
   return (
     <>
       <CardHeader
@@ -71,7 +77,7 @@ function HeaderBoxChat() {
   };
   const handleShowInformation = () => {
     dispatch(showInformation());
-  }
+  };
   return (
     <Box>
       <AppBar
@@ -79,7 +85,6 @@ function HeaderBoxChat() {
         style={{
           backgroundColor: "#0978f5",
           boxShadow: "none",
-          borderLeft: "1px solid #bfd4e7",
         }}
       >
         <Toolbar>
@@ -87,17 +92,17 @@ function HeaderBoxChat() {
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton>
-              <Search />
+              <Search style={{ color: "white" }} />
             </IconButton>
             {isRoom ? (
               <IconButton onClick={handleShowAddFriendToGroupModal}>
-                <GroupAdd style={{ fontSize: "1.9rem" }} />
+                <GroupAdd style={{ fontSize: "1.9rem", color: "white" }} />
               </IconButton>
             ) : (
               <></>
             )}
             <IconButton onClick={handleShowInformation}>
-              <VerticalSplit />
+              <VerticalSplit style={{ color: "white" }} />
             </IconButton>
           </Box>
         </Toolbar>

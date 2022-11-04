@@ -120,7 +120,7 @@ function SearchComponent() {
       >
         <Toolbar>
           <SearchStyled style={{ marginLeft: 0 }}>
-            <Search />
+            <Search style={{ marginLeft: "5px" }} />
             <StyledInputBase
               ref={inputRef}
               placeholder="Tìm kiếm"
@@ -133,10 +133,10 @@ function SearchComponent() {
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton onClick={handleShowAddFriendModal}>
-              <PersonAdd />
+              <PersonAdd style={{ color: "white" }} />
             </IconButton>
             <IconButton onClick={handleShowAddGroupModal}>
-              <GroupAdd style={{ fontSize: "1.9rem" }} />
+              <GroupAdd style={{ fontSize: "1.9rem", color: "white" }} />
             </IconButton>
           </Box>
         </Toolbar>

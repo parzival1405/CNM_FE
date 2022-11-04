@@ -3,10 +3,13 @@ import {
   Button,
   Fade,
   FormControl,
-  Input,
+  FormControlLabel,
+  FormLabel,
   InputLabel,
   MenuItem,
   Paper,
+  Radio,
+  RadioGroup,
   Select,
   TextField,
 } from "@material-ui/core";
@@ -16,15 +19,18 @@ import useStyles from "./styles";
 import { useDispatch, useSelector } from "react-redux";
 import { hideModal } from "../../redux/actions/modal";
 import { updateProfile } from "../../redux/actions/auth";
-import { validateionCreateGroup, validationChangeProfile } from "../../utils/Validation";
-import { KeyboardDatePicker,MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { validationChangeProfile } from "../../utils/Validation";
+import {
+  KeyboardDatePicker,
+  MuiPickersUtilsProvider,
+} from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { Form, Formik } from "formik";
 function Profile() {
   const classes = useStyles();
   const { isShowFormSettingModal } = useSelector((state) => state.modal);
-  const { user, token } = useSelector((state) => state.auth);
-  const { socket } = useSelector((state) => state);
+  const { user } = useSelector((state) => state.auth);
+  // const { socket } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [avatar, setAvatar] = useState(() => user.avatarURL);
   const [username, setUsername] = useState(() => user.username);
@@ -37,14 +43,16 @@ function Profile() {
   };
 
   const handleSubmitForm = (values) => {
-    dispatch(updateProfile(values))
-    handleHideModal()
+    dispatch(updateProfile(values));
+    handleHideModal();
   };
 
   const body = (
     <Fade in={isShowFormSettingModal}>
       <Paper className={classes.paperSetting} id="modal-add-group">
-        <h2 className={classes.setting}>Cập nhật thông tin cá nhân</h2>
+        <div style={{ textAlign: "center", margin: "10px 0" }}>
+          <h2>Cập nhật thông tin cá nhân</h2>
+        </div>
         <Avatar className={classes.avatar} src={avatar} />
         <h3 className={classes.username}>{username}</h3>
         <Formik
@@ -70,7 +78,7 @@ function Profile() {
             handleChange,
             handleSubmit,
             isSubmitting,
-            setFieldValue
+            setFieldValue,
           }) => (
             <Form
               action=""
@@ -101,38 +109,81 @@ function Profile() {
                 className={classes.title}
               />
 
-              <FormControl className={classes.setting}>
-                <InputLabel>Gender</InputLabel>
-                <Select
-                  label="gender"
-                  name="gender"
-                  error={errors.gender}
-                  helperText={errors.gender}
-                  touched={touched.gender}
-                  value={values.gender}
-                  onChange={handleChange}
-                >
-                  <MenuItem value={true}>Nam</MenuItem>
-                  <MenuItem value={false}>Nu</MenuItem>
-                </Select>
-              </FormControl>
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <KeyboardDatePicker
-                  name="dob"
-                  inputVariant="outlined"
-                  format="MM/dd/yyyy"
-                  value={values.dob}
-                  error={errors.dob}
-                  helperText={errors.dob}
-                  touched={touched.dob}
-                  onChange={val => {
-                    setFieldValue("dob", val)
-                  }}
-                  KeyboardButtonProps={{
-                    "aria-label": "change date",
-                  }}
-                />
-              </MuiPickersUtilsProvider> 
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  margin: "40px 0 40px 0",
+                  justifyContent: "flex-start",
+                }}
+              >
+                {/* <FormControl>
+                  <InputLabel className={classes.gender}>Gender</InputLabel>
+                  <Select
+                    label="gender"
+                    name="gender"
+                    error={errors.gender}
+                    helperText={errors.gender}
+                    touched={touched.gender}
+                    value={values.gender}
+                    onChange={handleChange}
+                    style={{
+                      width: "150px",
+                      padding: "0 60px 0 0px",
+                      marginRight: "10px",
+                    }}
+                    variant="outlined"
+                  >
+                    <MenuItem value={true}>Nam</MenuItem>
+                    <MenuItem value={false}>Nu</MenuItem>
+                  </Select>
+                </FormControl> */}
+                <FormControl>
+                  <FormLabel id="demo-radio-buttons-group-label">
+                    Gender
+                  </FormLabel>
+                  <RadioGroup
+                    aria-labelledby="demo-radio-buttons-group-label"
+                    defaultValue="male"
+                    name="radio-buttons-group"
+                  >
+                    <div style={{ display: "flex", flexDirection: "row" }}>
+                      <FormControlLabel
+                        value="male"
+                        control={<Radio />}
+                        label="Male"
+                      />
+                      <FormControlLabel
+                        value="female"
+                        control={<Radio />}
+                        label="Female"
+                      />
+                    </div>
+                  </RadioGroup>
+                </FormControl>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    name="dob"
+                    inputVariant="outlined"
+                    format="MM/dd/yyyy"
+                    value={values.dob}
+                    error={errors.dob}
+                    helperText={errors.dob}
+                    touched={touched.dob}
+                    onChange={(val) => {
+                      setFieldValue("dob", val);
+                    }}
+                    KeyboardButtonProps={{
+                      "aria-label": "change date",
+                    }}
+                    style={{
+                      width: "30%",
+                      marginLeft: "20px",
+                      fontSize: "20px",
+                    }}
+                  />
+                </MuiPickersUtilsProvider>
+              </div>
 
               <div className={classes.actions}>
                 <Button variant="contained" onClick={handleHideModal}>
@@ -150,7 +201,6 @@ function Profile() {
             </Form>
           )}
         </Formik>
-
       </Paper>
     </Fade>
   );
