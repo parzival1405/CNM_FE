@@ -16,13 +16,13 @@ function Nav() {
     dispatch(logout(navigate));
   };
 
- const handleShowPhoneBooks = () => {
-  dispatch(showPhoneBook());
- }
+  const handleShowPhoneBooks = () => {
+    dispatch(showPhoneBook());
+  };
 
- const handleShowConversations = () => {
-  dispatch(showConversation());
- }
+  const handleShowConversations = () => {
+    dispatch(showConversation());
+  };
 
   useEffect(() => {
     if (token) {
@@ -55,17 +55,20 @@ function Nav() {
         <BasicPopover handleLogout={handleLogout}>
           <Avatar src={user.avatarURL} />
         </BasicPopover>
-        <IconButton onClick={handleShowConversations} style={{ margin: "8px 0" }}>
-          <Textsms style={{ fontSize: "32px" }} />
+        <IconButton
+          onClick={handleShowConversations}
+          style={{ margin: "8px 0" }}
+        >
+          <Textsms style={{ fontSize: "32px", color: "white" }} />
         </IconButton>
-        <IconButton onClick={handleShowPhoneBooks} >
-          <Contacts style={{ fontSize: "32px" }} />
+        <IconButton onClick={handleShowPhoneBooks}>
+          <Contacts style={{ fontSize: "32px", color: "white" }} />
         </IconButton>
       </Box>
       <Box sx={{ flexGrow: 1 }} />
       <Box sx={{ display: { xs: "none", md: "flex" } }}>
         <IconButton>
-          <Settings style={{ fontSize: "32px" }} />
+          <Settings style={{ fontSize: "32px", color: "white" }} />
         </IconButton>
       </Box>
     </List>
