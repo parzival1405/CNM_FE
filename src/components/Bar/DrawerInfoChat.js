@@ -38,7 +38,7 @@ import {
 } from "@material-ui/core";
 import Friend from "../PhoneBooks/Friend";
 import { showChangeCreator } from "../../redux/actions/modal";
-import { outGroup } from "../../redux/actions/currentConversation";
+import { deleteGroup, outGroup } from "../../redux/actions/currentConversation";
 
 const drawerWidth = "25%";
 
@@ -124,23 +124,26 @@ export default function PersistentDrawerRight() {
   };
 
   const handleOutGroup = () => {
-    if(user._id === currentConversation.createdBy._id){
+    if (user._id === currentConversation.createdBy._id) {
       handleShowChangeCreator();
-    }else{
-      confirmOutGroup()
+    } else {
+      confirmOutGroup();
     }
-  }
-
-  const confirmOutGroup = () => {
-    if (
-      window.confirm(
-        `Bạn chắc chắn muốn rời nhóm ?`
-      )
-    ) {
+  };
+  const handleDeleteGroup = () => {
+    if (window.confirm(`Bạn chắc chắn muốn giải tán nhóm này ?`)) {
       const data = {
-        conversationId:currentConversation._id
-      }
-      dispatch(outGroup(data,user,socket.current));
+        conversationId: currentConversation._id,
+      };
+      dispatch(deleteGroup(data, socket.current));
+    }
+  };
+  const confirmOutGroup = () => {
+    if (window.confirm(`Bạn chắc chắn muốn rời nhóm ?`)) {
+      const data = {
+        conversationId: currentConversation._id,
+      };
+      dispatch(outGroup(data, user, socket.current));
     }
   };
 
@@ -328,6 +331,11 @@ export default function PersistentDrawerRight() {
         {user._id === currentConversation.createdBy._id && (
           <ListItem button onClick={handleShowChangeCreator}>
             <ListItemText primary="Thay đổi trưởng nhóm" />
+          </ListItem>
+        )}
+        {user._id === currentConversation.createdBy._id && (
+          <ListItem button onClick={handleDeleteGroup}>
+            <ListItemText primary="Giải tán nhóm" />
           </ListItem>
         )}
         <ListItem button onClick={handleOutGroup}>

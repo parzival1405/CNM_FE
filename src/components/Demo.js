@@ -56,7 +56,6 @@ function Demo() {
   useEffect(() => {
     if (socket?.current) {
       socket.current.on("addMemberToGroup-receive", (data) => {
-        console.log(data)
         if (data._id === currentConversation?._id) {
           dispatch({
             type: GLOBALTYPES.UPDATEMEMBER,
@@ -124,6 +123,24 @@ function Demo() {
       });
     }
     return () => socket?.current.off("outGroup-receive");
+  }, [socket, currentConversation, dispatch]);
+
+  useEffect(() => {
+    if (socket?.current) {
+      socket.current.on("deleteGroup-receive", (data) => {
+        console.log(data)
+        if (data._id === currentConversation?._id) {
+          dispatch({
+            type: GLOBALTYPES.DELETE_GROUP,
+          });
+        }
+        dispatch({
+          type: GLOBALTYPES.DELETE_GROUP_ALL_CONVERSATION,
+          payload: { data: data},
+        });
+      });
+    }
+    return () => socket?.current.off("deleteGroup-receive");
   }, [socket, currentConversation, dispatch]);
 
   return (

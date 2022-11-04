@@ -69,19 +69,19 @@ export default (state = initialState, action) => {
     }
     case GLOBALTYPES.UPDATEMEMBER_ALL_CONVERSATION: {
       const conversation = action?.payload.data;
-      const user = action?.payload.user;
-      // const arrayId = conversation.member.map((member) => member._id);
-      // if (arrayId.includes(user._id)) {
-      //   return {
-      //     ...state,
-      //     conversations: [conversation,...state.conversations]
-      //   };
-      // } else {
+      if (action?.payload.oldConId) {
         return {
           ...state,
-          conversations: [conversation,...state.conversations]
+          conversations: state.conversations.map((conver) =>
+            conver._id == action?.payload.oldConId ? conversation : conver
+          ),
         };
-      // }
+      } else {
+        return {
+          ...state,
+          conversations: [conversation, ...state.conversations],
+        };
+      }
     }
     case GLOBALTYPES.CHANGE_GROUP_NAME_ALL_CONVERSATION: {
       const conversation = action?.data;
@@ -140,6 +140,15 @@ export default (state = initialState, action) => {
           ),
         };
       }
+    }
+    case GLOBALTYPES.DELETE_GROUP_ALL_CONVERSATION: {
+      const conversation = action?.payload.data;
+      return {
+        ...state,
+        conversations: state.conversations.filter(
+          (conver) => conver._id !== conversation._id
+        ),
+      };
     }
     case GLOBALTYPES.START_LOADING:
       return {

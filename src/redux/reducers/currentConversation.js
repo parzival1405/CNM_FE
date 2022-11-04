@@ -12,7 +12,7 @@ export default (state = initialState, action) => {
     case GLOBALTYPES.UPDATEMEMBER:
       return {
         ...state,
-        currentConversation: action?.data,
+        currentConversation: action?.payload.data,
       };
     case GLOBALTYPES.CHANGE_GROUP_NAME:
       return {
@@ -34,6 +34,12 @@ export default (state = initialState, action) => {
           currentConversation: null,
         };
       }
+    }
+    case GLOBALTYPES.DELETE_GROUP: {
+      return {
+        ...state,
+        currentConversation: null,
+      };
     }
     case GLOBALTYPES.UPDATE_CREATOR_GROUP:
       return {

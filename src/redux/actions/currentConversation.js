@@ -21,7 +21,7 @@ export const addMembersToGroup = (data2, user, socket) => async (dispatch) => {
   try {
     const { data } = await api.addMemberGroup(data2);
     dispatch({ type: GLOBALTYPES.UPDATEMEMBER, payload: { data: data, user: user } });
-    dispatch({ type: GLOBALTYPES.UPDATEMEMBER_ALL_CONVERSATION, payload: { data: data, user: user } });
+    dispatch({ type: GLOBALTYPES.UPDATEMEMBER_ALL_CONVERSATION, payload: { data: data, user: user,oldConId:data2.conversationId } });
     socket.emit(
       "addMemberToGroup",
       JSON.stringify({ conversation: data, userChange: user._id })
@@ -136,6 +136,32 @@ export const outGroup = (data2, user, socket) => async (dispatch) => {
       JSON.stringify({
         conversation: data,
         // msg: `Đã bị xóa ${member.username} khỏi nhóm`,
+      })
+    );
+  } catch (err) {
+    //   dispatch({
+    //     type: GLOBALTYPES.ALERT,
+    //     payload: {
+    //       error: err,
+    //     },
+    //   });
+  }
+};
+
+export const deleteGroup = (data2, socket) => async (dispatch) => {
+  try {
+    const { data } = await api.deleteGroup(data2);
+    dispatch({
+      type: GLOBALTYPES.DELETE_GROUP,
+    });
+    dispatch({
+      type: GLOBALTYPES.DELETE_GROUP_ALL_CONVERSATION,
+      payload: { data: data},
+    });
+    socket.emit(
+      "deleteGroup",
+      JSON.stringify({
+        conversation: data,
       })
     );
   } catch (err) {

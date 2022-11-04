@@ -58,3 +58,4 @@ export const demoPostFile = (formData) =>
   export const deleteMember = (data) => API.post("api/conversation/deleteMember",data);
   export const updateCreator = (data) => API.post("api/conversation/updateCreator",data);
   export const outGroup = (data) => API.post("api/conversation/outGroup",data);
+  export const deleteGroup = (data) => API.post("api/conversation/deleteGroup",data);
