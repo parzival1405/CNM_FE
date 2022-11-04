@@ -11,25 +11,6 @@ import { GLOBALTYPES } from "../constants/actionType";
 import ListFriendsRequest from "./ListFriendsRequest";
 import PhoneBooks from "./PhoneBooks";
 
-// fake data
-const listFriendsRequest = [
-  {
-    id: 1,
-    name: "Văn Lộc",
-    subtitle: "Từ nhóm trò chuyện",
-    message: "Hi",
-    image:
-      "https://images.vexels.com/media/users/3/145908/raw/52eabf633ca6414e60a7677b0b917d92-male-avatar-maker.jpg",
-  },
-  {
-    id: 2,
-    name: "Hữu",
-    subtitle: "Từ nhóm trò chuyện Haha",
-    message: "Hello",
-    image:
-      "https://images.assetsdelivery.com/compings_v2/yupiramos/yupiramos2004/yupiramos200436847.jpg",
-  },
-];
 
 function Demo() {
   const dispatch = useDispatch();
@@ -93,16 +74,15 @@ function Demo() {
   useEffect(() => {
     if (socket?.current) {
       socket.current.on("deleteMemberGroup-receive", (data) => {
-        console.log(data);
         if (data._id === currentConversation?._id) {
           dispatch({
             type: GLOBALTYPES.DELETE_MEMBER_GROUP,
-            data,
+            payload: { data: data, user: user },
           });
         }
         dispatch({
           type: GLOBALTYPES.DELETE_MEMBER_GROUP_ALL_CONVERSATION,
-          data,
+          payload: { data: data, user: user },
         });
       });
     }
@@ -171,7 +151,7 @@ function Demo() {
                 padding: "20px 100px",
               }}
             >
-              <ListFriendsRequest listFriendsRequest={listFriendsRequest} />
+              <ListFriendsRequest />
             </div>
           </div>
         </Grid>

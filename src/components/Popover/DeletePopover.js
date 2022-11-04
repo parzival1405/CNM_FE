@@ -18,6 +18,9 @@ function DeletePopover({ children, member,creator=null,isMember= false }) {
   const { currentConversation } = useSelector(
     (state) => state.currentConversation
   );
+  const { user } = useSelector(
+    (state) => state.auth
+  );
   const { socket } = useSelector(
     (state) => state.socket
   );
@@ -29,7 +32,7 @@ function DeletePopover({ children, member,creator=null,isMember= false }) {
         conversationId : currentConversation._id,
         deleteMemberId: listMember
     }
-    dispatch(deleteMemberGroup(data,member,socket.current));
+    dispatch(deleteMemberGroup(data,user,member,socket.current));
   }
 
   const handleDeleteUser = () => {

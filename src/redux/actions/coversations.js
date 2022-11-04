@@ -22,7 +22,7 @@ export const createConversation = (data2,socket) => async (dispatch) => {
       type: GLOBALTYPES.POST_CONVERSATION,
       data,
     });
-    socket.emit("addConversation", JSON.stringify({...data}));
+    socket.emit("addConversation", JSON.stringify({conversation:data}));
     dispatch({ type: GLOBALTYPES.END_LOADING });
   } catch (error) {
     console.log(error);

@@ -62,21 +62,22 @@ export const changeCurrentConversationGroupName =
   };
 
 export const deleteMemberGroup =
-  (data2, member, socket) => async (dispatch) => {
+  (data2,user, member, socket) => async (dispatch) => {
     try {
       const { data } = await api.deleteMember(data2);
       dispatch({
         type: GLOBALTYPES.DELETE_MEMBER_GROUP,
-        data,
+        payload: { data: data, user: user },
       });
       dispatch({
         type: GLOBALTYPES.DELETE_MEMBER_GROUP_ALL_CONVERSATION,
-        data,
+        payload: { data: data, user: user },
       });
       socket.emit(
         "deleteMemberGroup",
         JSON.stringify({
           conversation: data,
+          deleteUser: member._id,
           msg: `Đã bị xóa ${member.username} khỏi nhóm`,
         })
       );

@@ -86,13 +86,24 @@ export default (state = initialState, action) => {
       };
     }
     case GLOBALTYPES.DELETE_MEMBER_GROUP_ALL_CONVERSATION: {
-      const conversation = action?.data;
-      return {
-        ...state,
-        conversations: state.conversations.map((conver) =>
-          conver._id == conversation._id ? conversation : conver
-        ),
-      };
+      const conversation = action?.payload.data;
+      const user = action?.payload.user;
+      const arrayId = conversation.member.map(member => member._id)
+      if (arrayId.includes(user._id)) {
+        return {
+          ...state,
+          conversations: state.conversations.map((conver) =>
+            conver._id == conversation._id ? conversation : conver
+          ),
+        };
+      } else {
+        return {
+          ...state,
+          conversations: state.conversations.filter(
+            (conver) => conver._id !== conversation._id
+          ),
+        };
+      }
     }
     case GLOBALTYPES.UPDATE_CREATOR_GROUP_ALL_CONVERSATION: {
       const conversation = action?.data;
