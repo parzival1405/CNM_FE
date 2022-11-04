@@ -84,8 +84,8 @@ function AddFriendModal({ socket }) {
               />
               {userResult._id && user._id !== userResult._id && (
                 <>
-                  {userResult.friends.includes(user._id) ||
-                  user.friends.includes(userResult._id) ? (
+                  {userResult.friends.map(fr => fr._id).includes(user._id) ||
+                  user.friends.map(fr => fr._id).includes(userResult._id) ? (
                     <Button variant="outlined" color="primary" disabled>
                       Bạn bè
                     </Button>
