@@ -79,7 +79,11 @@ function FootBoxChat({ handleSendMsg }) {
     <Box>
       <AppBar
         position="static"
-        style={{ boxShadow: "none", border: "1px solid #f0ecf4" }}
+        style={{
+          boxShadow: "none",
+          border: "1px solid #f0ecf4",
+          borderLeft: "0",
+        }}
       >
         <StyledFormControl onSubmit={(event) => demoSubmit(event)}>
           <Box sx={{ display: { xs: "none", md: "flex" } }}>

@@ -16,7 +16,10 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { hideModal } from "../../redux/actions/modal";
 import BaseModal from "./BaseModal";
-import { getUserByPhoneNumber,removeUserState } from "../../redux/actions/userResultFromModalAddFriendAction";
+import {
+  getUserByPhoneNumber,
+  removeUserState,
+} from "../../redux/actions/userResultFromModalAddFriendAction";
 import useDebounce from "../../hooks/useDebounce";
 import { requestAddFriend } from "../../redux/actions/friends";
 function AddFriendModal({ socket }) {
@@ -25,7 +28,7 @@ function AddFriendModal({ socket }) {
   const { user, token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [phoneNumber, setPhoneNumber] = useState("");
-  const debounceValue = useDebounce(phoneNumber,500)
+  const debounceValue = useDebounce(phoneNumber, 500);
   const userResult = useSelector(
     (state) => state.userResultFromModalAddFriend.data
   );
@@ -56,7 +59,11 @@ function AddFriendModal({ socket }) {
   const body = (
     <Fade in={isShowAddFriendModal}>
       <Paper className={classes.paper} id="modal-add-friend">
-        <h3>Thêm bạn</h3>
+        <div
+          style={{ borderBottom: "1px solid #bfd4e7", marginBottom: "10px" }}
+        >
+          <h3>Thêm bạn</h3>
+        </div>
         <form action="" className={classes.form} noValidate autoComplete="off">
           <TextField
             label="Số điện thoại"

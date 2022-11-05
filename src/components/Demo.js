@@ -145,7 +145,7 @@ function Demo() {
 
   return (
     <Grid container style={{ height: "100%" }}>
-      <Grid item md={"auto"} style={{ backgroundColor: "#2ab7ca" }}>
+      <Grid item md={"auto"} style={{ backgroundColor: "#0978f5" }}>
         <Nav />
       </Grid>
       <Grid item md={3}>
