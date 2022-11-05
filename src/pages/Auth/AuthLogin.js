@@ -5,9 +5,9 @@ import SigninImage from "../../assets/signup.jpg";
 import { useDispatch } from "react-redux";
 import { signin } from "../../redux/actions/auth";
 import { Form, Formik } from "formik";
-import { firebase, auth } from "../../Firebase"
+import { firebase, auth } from "../../Firebase";
 import { validationLogin } from "../../utils/Validation";
-import * as api from '../../api'
+import * as api from "../../api";
 import { ShowOTP } from "../../redux/actions/modal";
 import { blue } from "@material-ui/core/colors";
 function Login() {
@@ -47,11 +47,13 @@ function Login() {
       password: values.password,
     };
 
-    const {data:{user}} = await api.checkOTP(data)
+    const {
+      data: { user },
+    } = await api.checkOTP(data);
 
     if (user.isVerifyOtp) {
       handleSendSms(values);
-      dispatch(ShowOTP(data))
+      dispatch(ShowOTP(data));
     } else {
       alert("sai j day");
     }
@@ -64,7 +66,7 @@ function Login() {
     <div className="auth__form-container" style={{ height: "100vh" }}>
       <div className="auth__form-container_fields">
         <div className="auth__form-container_fields-content">
-          <p>ĐĂNG NHẬP</p>
+          <p style={{ backgroundColor: "white" }}>ĐĂNG NHẬP</p>
           <Formik
             initialValues={{
               phoneNumber: "",
@@ -101,6 +103,17 @@ function Login() {
                     name="phoneNumber"
                     placeholder="Nhập số điện thoại"
                     onChange={handleChange}
+                    FormHelperTextProps={{
+                      style: {
+                        color: "#85245f",
+                        backgroundColor: "#ffd4dc",
+                        padding: "5px",
+                        borderRadius: "4px",
+                        border: "1px solid #ffd4dc",
+                        marginTop: "2px",
+                        marginLeft: "0",
+                      },
+                    }}
                   />
                 </div>
                 <div className="form-group-column">
@@ -115,6 +128,17 @@ function Login() {
                     name="password"
                     placeholder="Nhập mật khẩu"
                     onChange={handleChange}
+                    FormHelperTextProps={{
+                      style: {
+                        color: "#85245f",
+                        backgroundColor: "#ffd4dc",
+                        padding: "5px",
+                        borderRadius: "4px",
+                        border: "1px solid #ffd4dc",
+                        marginTop: "2px",
+                        marginLeft: "0",
+                      },
+                    }}
                   />
                 </div>
                 {/* Sử lý form quên mật khẩu */}
@@ -147,7 +171,13 @@ function Login() {
             className="auth__form-container_fields-account"
             style={{ marginTop: "10px" }}
           >
-            <p style={{ marginRight: "8px", color: "#707070" }}>
+            <p
+              style={{
+                marginRight: "8px",
+                color: "#707070",
+                backgroundColor: "white",
+              }}
+            >
               Chưa có tài khoản?{" "}
             </p>
             <Link to={"/register"} style={{ fontWeight: "bold" }}>

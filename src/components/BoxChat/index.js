@@ -8,7 +8,11 @@ import useStyles from "./ChatBodyStyle";
 import clsx from "clsx";
 import { GLOBALTYPES } from "../../constants/actionType";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllMessage,sendMessage, sendMessageTest } from "../../redux/actions/messages";
+import {
+  getAllMessage,
+  sendMessage,
+  sendMessageTest,
+} from "../../redux/actions/messages";
 import { demoPostFile, getDataS3API } from "../../api";
 import DrawerInfoChat from "../Bar/DrawerInfoChat";
 const Wrapper = styled("div")(({ theme }) => ({
@@ -22,13 +26,11 @@ function BoxChat() {
 
   const { isLoading, messages } = useSelector((state) => state.messages);
   const { user, token } = useSelector((state) => state.auth);
-  const { currentConversation,isRoom } = useSelector(
+  const { currentConversation, isRoom } = useSelector(
     (state) => state.currentConversation
   );
 
-  const { socket } = useSelector(
-    (state) => state.socket
-  );
+  const { socket } = useSelector((state) => state.socket);
   const dispatch = useDispatch();
   const scrollRef = useRef();
 
@@ -40,90 +42,90 @@ function BoxChat() {
         })
       );
     }
-
   }, [currentConversation]);
 
-  const handleSendMsg = async (message,media) => {
-    if(media.length > 0){
+  const handleSendMsg = async (message, media) => {
+    if (media.length > 0) {
       await media.map(async (item) => {
         let mediaArray = [];
-        const formData = new FormData()
+        const formData = new FormData();
         formData.append("media", item);
-        const {data:{data}} = await demoPostFile(formData);
+        const {
+          data: { data },
+        } = await demoPostFile(formData);
         console.log(data);
         mediaArray.push({
           url: data,
           type: item.type,
-        })
+        });
         dispatch(
-          sendMessage({
-            sender: user._id,
-            conversation:currentConversation,
-            text:message,
-            type:item.type,
-            media:mediaArray
-          },socket.current)
+          sendMessage(
+            {
+              sender: user._id,
+              conversation: currentConversation,
+              text: message,
+              type: item.type,
+              media: mediaArray,
+            },
+            socket.current
+          )
         );
-      })
-    }else{
+      });
+    } else {
       dispatch(
-        sendMessage({
-          sender: user._id,
-          conversation:currentConversation,
-          text:message,
-          type:"text",
-          media: media
-        },socket.current)
+        sendMessage(
+          {
+            sender: user._id,
+            conversation: currentConversation,
+            text: message,
+            type: "text",
+            media: media,
+          },
+          socket.current
+        )
       );
     }
   };
 
   useEffect(() => {
     if (socket.current) {
-      socket.current.on(
-        "msg-receive",
-        (data) => {
-          if (
-            currentConversation === undefined ||
-            data.conversation._id !== currentConversation?._id
-          ) {
-            dispatch({
-              type: GLOBALTYPES.UPDATE_COUNT_WAITING_MESSAGE,
-              payload: data.conversation,
-            });
-            
-          } else {
-            console.log(data.conversation._id,currentConversation?._id)
-            dispatch({ type: GLOBALTYPES.ADDMESSAGE, data })
-          }
+      socket.current.on("msg-receive", (data) => {
+        if (
+          currentConversation === undefined ||
+          data.conversation._id !== currentConversation?._id
+        ) {
           dispatch({
-            type: GLOBALTYPES.UPDATE_LAST_MSG_CONVERSATION,
-            payload: {
-              data:data,
-              conversation: data.conversation,
-            },
+            type: GLOBALTYPES.UPDATE_COUNT_WAITING_MESSAGE,
+            payload: data.conversation,
           });
+        } else {
+          console.log(data.conversation._id, currentConversation?._id);
+          dispatch({ type: GLOBALTYPES.ADDMESSAGE, data });
         }
-      );
+        dispatch({
+          type: GLOBALTYPES.UPDATE_LAST_MSG_CONVERSATION,
+          payload: {
+            data: data,
+            conversation: data.conversation,
+          },
+        });
+      });
     }
     return () => socket.current.off("msg-receive");
   }, [currentConversation,socket]);
 
   useEffect(() => {
     if (socket.current) {
-      socket.current.on(
-        "delete-receive",
-        (data) => {
-          if (
-            currentConversation === undefined ||
-            data.conversation._id !== currentConversation?._id
-          ) {
-            console.log("here")
-          } else {
-            dispatch({ type: GLOBALTYPES.DELETEMESSAGE, data })
-          }
+      socket.current.on("delete-receive", (data) => {
+        if (
+          currentConversation === undefined ||
+          data.conversation._id !== currentConversation?._id
+        ) {
+          console.log("here");
+        } else {
+          dispatch({ type: GLOBALTYPES.DELETEMESSAGE, data });
         }
-      );
+      });
     }
     return () => socket.current.off("delete-receive");
   }, [currentConversation,socket]);
@@ -134,14 +136,14 @@ function BoxChat() {
 
   const [open, setOpen] = React.useState(false);
 
-  const openDrawer =() => {
+  const openDrawer = () => {
     setOpen(true);
-  }
+  };
   return (
-    <Wrapper>
+    <Wrapper style={{ borderLeft: "1px solid #bfd4e7" }}>
       <HeaderBoxChat />
       <Paper
-        style={{ flexGrow: 1 }}
+        style={{ flexGrow: 1, boxShadow: "none" }}
         className={clsx(
           classes.chatBody,
           // messages?.length  ===0
@@ -162,11 +164,13 @@ function BoxChat() {
           scrollableTarget="scrollableDiv"
         >
           {!isLoading &&
-            messages.map((message,index) => <Message key={index} message={message} />)}
+            messages.map((message, index) => (
+              <Message key={index} message={message} />
+            ))}
         </InfiniteScroll>
       </Paper>
       <FootBoxChat handleSendMsg={handleSendMsg} />
-      <DrawerInfoChat style={{with:0,height:0}} ></DrawerInfoChat>
+      <DrawerInfoChat style={{ with: 0, height: 0 }}></DrawerInfoChat>
     </Wrapper>
   );
 }
