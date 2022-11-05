@@ -90,6 +90,7 @@ function BoxChat() {
   useEffect(() => {
     if (socket.current) {
       socket.current.on("msg-receive", (data) => {
+        console.log(data)
         if (
           currentConversation === undefined ||
           data.conversation._id !== currentConversation?._id

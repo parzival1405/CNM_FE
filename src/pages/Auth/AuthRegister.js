@@ -32,6 +32,7 @@ function Register() {
 
   const handleSubmit = async (values) => {
     dispatch(signup(values, navigate));
+    console.log("sdasd")
     //   let recaptcha = new firebase.auth.RecaptchaVerifier('recaptcha', {
     //       'size': 'invisible'
     //   });

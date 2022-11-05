@@ -57,7 +57,7 @@ export default (state = initialState, action) => {
       if (conversationSend) {
         conversationSend = {
           ...conversationSend,
-          lastMessage: msg,
+          lastMessage: {...msg,conversation:conversationSend._id},
         };
       }
       return {
