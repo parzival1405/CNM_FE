@@ -1,7 +1,17 @@
 import React, { useState } from "react";
 // import Icon from '../assets/Icon'
 // import {GoogleLogin} from 'react-google-login';
-import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@material-ui/core";
+import {
+  Button,
+  FormControl,
+  FormControlLabel,
+  InputLabel,
+  MenuItem,
+  Radio,
+  RadioGroup,
+  Select,
+  TextField,
+} from "@material-ui/core";
 
 import { Link, useNavigate } from "react-router-dom";
 import signinImage from "../../assets/signup.jpg";
@@ -11,7 +21,10 @@ import { Form, Formik } from "formik";
 import DateFnsUtils from "@date-io/date-fns";
 // import { firebase, auth } from "../../Firebase";
 import { validationRegister } from "../../utils/Validation";
-import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import {
+  KeyboardDatePicker,
+  MuiPickersUtilsProvider,
+} from "@material-ui/pickers";
 
 function Register() {
   const navigate = useNavigate();
@@ -48,11 +61,15 @@ function Register() {
   //   dob.click();
   // }
   // // let toggleClasscheck = btnstate ? "active" : null;
+
   return (
     <div className="auth__form-container" style={{ height: "100vh" }}>
-      <div className="auth__form-container_fields">
+      <div
+        className="auth__form-container_fields"
+        style={{ overflow: "scroll" }}
+      >
         <div className="auth__form-container_fields-content">
-          <p>ĐĂNG KÝ</p>
+          <p style={{ backgroundColor: "white" }}>ĐĂNG KÝ</p>
           <Formik
             initialValues={{
               username: "",
@@ -94,6 +111,17 @@ function Register() {
                     name="phoneNumber"
                     placeholder="Nhập số điện thoại"
                     onChange={handleChange}
+                    FormHelperTextProps={{
+                      style: {
+                        color: "#85245f",
+                        backgroundColor: "#ffd4dc",
+                        padding: "5px",
+                        borderRadius: "4px",
+                        border: "1px solid #ffd4dc",
+                        marginTop: "2px",
+                        marginLeft: "0",
+                      },
+                    }}
                   />
                 </div>
                 <div className="form-group-column">
@@ -109,26 +137,52 @@ function Register() {
                     name="username"
                     placeholder="Nhập tên hiển thị"
                     onChange={handleChange}
+                    FormHelperTextProps={{
+                      style: {
+                        color: "#85245f",
+                        backgroundColor: "#ffd4dc",
+                        padding: "5px",
+                        borderRadius: "4px",
+                        border: "1px solid #ffd4dc",
+                        marginTop: "2px",
+                        marginLeft: "0",
+                      },
+                    }}
                   />
                 </div>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <KeyboardDatePicker
-                  name="dob"
-                  inputVariant="outlined"
-                  format="MM/dd/yyyy"
-                  value={values.dob}
-                  error={errors.dob}
-                  helperText={errors.dob}
-                  touched={touched.dob}
-                  onChange={val => {
-                    setFieldValue("dob", val)
-                  }}
-                  KeyboardButtonProps={{
-                    "aria-label": "change date",
-                  }}
-                />
-              </MuiPickersUtilsProvider> 
-                <FormControl >
+                <div className="form-group-column">
+                  <label htmlFor="">Ngày sinh</label>
+                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <KeyboardDatePicker
+                      className="tf"
+                      name="dob"
+                      inputVariant="outlined"
+                      format="MM/dd/yyyy"
+                      value={values.dob}
+                      error={errors.dob}
+                      helperText={errors.dob}
+                      FormHelperTextProps={{
+                        style: {
+                          color: "#85245f",
+                          backgroundColor: "#ffd4dc",
+                          padding: "5px",
+                          borderRadius: "4px",
+                          border: "1px solid #ffd4dc",
+                          marginTop: "2px",
+                          marginLeft: "0",
+                        },
+                      }}
+                      touched={touched.dob}
+                      onChange={(val) => {
+                        setFieldValue("dob", val);
+                      }}
+                      KeyboardButtonProps={{
+                        "aria-label": "change date",
+                      }}
+                    />
+                  </MuiPickersUtilsProvider>
+                </div>
+                {/* <FormControl>
                   <InputLabel>Gender</InputLabel>
                   <Select
                     label="gender"
@@ -142,7 +196,28 @@ function Register() {
                     <MenuItem value={true}>Nam</MenuItem>
                     <MenuItem value={false}>Nu</MenuItem>
                   </Select>
-                </FormControl>
+                </FormControl> */}
+                <div className="form-group-column">
+                  <label>Giới tính</label>
+                  <RadioGroup
+                    aria-labelledby="demo-radio-buttons-group-label"
+                    defaultValue="male"
+                    name="radio-buttons-group"
+                  >
+                    <div style={{ display: "flex", flexDirection: "row" }}>
+                      <FormControlLabel
+                        value="male"
+                        control={<Radio />}
+                        label="Nam"
+                      />
+                      <FormControlLabel
+                        value="female"
+                        control={<Radio />}
+                        label="Nữ"
+                      />
+                    </div>
+                  </RadioGroup>
+                </div>
                 <div className="form-group-column">
                   <label htmlFor="">Mật khẩu</label>
                   <TextField
@@ -155,6 +230,17 @@ function Register() {
                     name="password"
                     placeholder="Nhập mật khẩu"
                     onChange={handleChange}
+                    FormHelperTextProps={{
+                      style: {
+                        color: "#85245f",
+                        backgroundColor: "#ffd4dc",
+                        padding: "5px",
+                        borderRadius: "4px",
+                        border: "1px solid #ffd4dc",
+                        marginTop: "2px",
+                        marginLeft: "0",
+                      },
+                    }}
                   />
                 </div>
                 <div className="form-group-column">
@@ -169,6 +255,17 @@ function Register() {
                     name="confirmPassword"
                     placeholder="Xác nhận mật khẩu"
                     onChange={handleChange}
+                    FormHelperTextProps={{
+                      style: {
+                        color: "#85245f",
+                        backgroundColor: "#ffd4dc",
+                        padding: "5px",
+                        borderRadius: "4px",
+                        border: "1px solid #ffd4dc",
+                        marginTop: "2px",
+                        marginLeft: "0",
+                      },
+                    }}
                   />
                 </div>
                 <div id="recaptcha"></div>
@@ -185,7 +282,9 @@ function Register() {
             )}
           </Formik>
           <div className="auth__form-container_fields-account">
-            <p>Đã có tài khoản ?</p>
+            <p style={{ paddingRight: "5px", backgroundColor: "white" }}>
+              Đã có tài khoản?
+            </p>
             <Link to={"/login"}>Đăng nhập</Link>
           </div>
         </div>
