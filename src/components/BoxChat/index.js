@@ -107,7 +107,7 @@ function BoxChat() {
       );
     }
     return () => socket.current.off("msg-receive");
-  }, [currentConversation]);
+  }, [currentConversation,socket]);
 
   useEffect(() => {
     if (socket.current) {
@@ -126,7 +126,7 @@ function BoxChat() {
       );
     }
     return () => socket.current.off("delete-receive");
-  }, [currentConversation]);
+  }, [currentConversation,socket]);
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
