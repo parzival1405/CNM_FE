@@ -1,7 +1,11 @@
 
-
+.list-friends-request{
+    border-width: 1;
+  
+}
 .conversation-sidebar__nav {
     padding: 10px 0px;
+
 }
 
 .conversation-sidebar__nav-add {

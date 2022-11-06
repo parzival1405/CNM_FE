@@ -1,0 +1,71 @@
+.list-friends-request__container-title {
+    margin: 15px 0px !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    display: flex;
+    flex-direction: row;
+}
+
+.friend-request {
+    padding: 25px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    border: 1px solid rgba(214, 212, 212, 0.615);
+    border-radius: 3px;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 200px;
+    height: 200px;
+}
+
+.friend-request__main {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    justify-content: center;
+    
+}
+
+.friend-request__main-content .MuiTypography-root{
+    margin: 0px;
+}
+
+.friend-request__main img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 1px solid rgba(214, 212, 212, 0.615);
+}
+
+.friend-request__action {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.friend-request__action button {
+    padding: 8px 12px;
+    border-radius: 6px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.next {
+    border: 1px solid #4535aa;
+    color: #4535aa
+}
+
+.accept {
+    border: 1px solid #4535aa ;
+    background-color: #4535aa !important;
+    color: #fff;
+}
+
+.typography{
+ justify-content: center;
+ align-items: center;
+ margin-left: 10px;
+}

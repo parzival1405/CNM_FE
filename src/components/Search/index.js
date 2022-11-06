@@ -119,7 +119,7 @@ function SearchComponent() {
         }}
       >
         <Toolbar>
-          <SearchStyled style={{ marginLeft: 0 }}>
+          <SearchStyled style={{ marginLeft: 0,width:'60%' }}>
             <Search />
             <StyledInputBase
               ref={inputRef}

@@ -26,6 +26,7 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import StarBorder from "@material-ui/icons/StarBorder";
 import { useDispatch, useSelector } from "react-redux";
+
 import {
   hideSide,
   showInformation,
@@ -320,11 +321,6 @@ export default function PersistentDrawerRight() {
           </Typography>
         </AccordionDetails>
       </Accordion> */}
-
-        <ListItem button>
-          <ListItemText primary="Inbox" />
-          {isShowInformation ? <ExpandLess /> : <ExpandMore />}
-        </ListItem>
         {user._id === currentConversation.createdBy._id && (
           <ListItem button onClick={handleShowChangeCreator}>
             <ListItemText primary="Thay đổi trưởng nhóm" />
@@ -333,16 +329,6 @@ export default function PersistentDrawerRight() {
         <ListItem button onClick={handleOutGroup}>
           <ListItemText primary="Rời nhóm" />
         </ListItem>
-        <Collapse in={isShowInformation} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            <ListItem button className={classes.nested}>
-              <ListItemIcon>
-                <StarBorder />
-              </ListItemIcon>
-              <ListItemText primary="Starred" />
-            </ListItem>
-          </List>
-        </Collapse>
       </Drawer>
       <Drawer
         sx={{

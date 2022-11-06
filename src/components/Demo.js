@@ -9,7 +9,9 @@ import Nav from "./Nav";
 import Slider from "./Slider";
 import { GLOBALTYPES } from "../constants/actionType";
 import ListFriendsRequest from "./ListFriendsRequest";
+import ListGroup from "./ListGroup";
 import PhoneBooks from "./PhoneBooks";
+import { Group } from "@material-ui/icons";
 
 // fake data
 const listFriendsRequest = [
@@ -29,6 +31,73 @@ const listFriendsRequest = [
     image:
       "https://images.assetsdelivery.com/compings_v2/yupiramos/yupiramos2004/yupiramos200436847.jpg",
   },
+];
+
+const listGroup = [
+  {
+    id: 1,
+    name: "Alo Alo",
+    members: 3,
+    image:
+      "https://images.vexels.com/media/users/3/145908/raw/52eabf633ca6414e60a7677b0b917d92-male-avatar-maker.jpg",
+  },
+  {
+    id: 2,
+    name: "Nhóm 4",
+    members: 6,
+    image:
+      "https://images.assetsdelivery.com/compings_v2/yupiramos/yupiramos2004/yupiramos200436847.jpg",
+  },
+  {
+    id: 2,
+    name: "Nhóm 5",
+    members: 6,
+    image:
+      "https://images.assetsdelivery.com/compings_v2/yupiramos/yupiramos2004/yupiramos200436847.jpg",
+  },
+  {
+    id: 2,
+    name: "Nhóm 6",
+    members: 6,
+    image:
+      "https://images.assetsdelivery.com/compings_v2/yupiramos/yupiramos2004/yupiramos200436847.jpg",
+  },
+  {
+    id: 2,
+    name: "Nhóm 7",
+    members: 6,
+    image:
+      "https://images.assetsdelivery.com/compings_v2/yupiramos/yupiramos2004/yupiramos200436847.jpg",
+  },
+  {
+    id: 2,
+    name: "Nhóm 8",
+    members: 6,
+    image:
+      "https://images.assetsdelivery.com/compings_v2/yupiramos/yupiramos2004/yupiramos200436847.jpg",
+  },
+  {
+    id: 2,
+    name: "Nhóm 9",
+    members: 6,
+    image:
+      "https://images.assetsdelivery.com/compings_v2/yupiramos/yupiramos2004/yupiramos200436847.jpg",
+  },
+  {
+    id: 2,
+    name: "Nhóm 10",
+    members: 6,
+    image:
+      "https://images.assetsdelivery.com/compings_v2/yupiramos/yupiramos2004/yupiramos200436847.jpg",
+  },
+  {
+    id: 2,
+    name: "Nhóm 11",
+    members: 6,
+    image:
+      "https://images.assetsdelivery.com/compings_v2/yupiramos/yupiramos2004/yupiramos200436847.jpg",
+  },
+
 ];
 
 function Demo() {
@@ -144,13 +213,14 @@ function Demo() {
     }
     return () => socket?.current.off("outGroup-receive");
   }, [socket, currentConversation, dispatch]);
-
+  console.log(isShowConversation)
   return (
+    
     <Grid container style={{ height: "100%" }}>
       <Grid item md={"auto"} style={{ backgroundColor: "#2ab7ca" }}>
         <Nav />
       </Grid>
-      <Grid item md={3}>
+      <Grid item md={3} style={{ borderRightStyle:'solid',borderColor: 'rgb(187, 187, 187)',borderWidth:'0.1px'}}>
         {isShowConversation && <Conversations />}
         {isShowPhoneBook && <PhoneBooks />}
       </Grid>
@@ -162,20 +232,20 @@ function Demo() {
           }
         </Grid>
       )}
-      {isShowPhoneBook && (
-        <Grid item md={8}>
-          <div className="friend-request__container">
+      {/* {isShowPhoneBook && ( */}
+        <Grid item md={8} style={{borderWidth:1, borderColor:"#000"}}>
+          <div className="friend-request__container" >
             <div
               className="friend-request__container--list"
               style={{
                 padding: "20px 100px",
               }}
             >
-              <ListFriendsRequest listFriendsRequest={listFriendsRequest} />
+              <ListGroup listFriendsRequest={listGroup} />
             </div>
           </div>
         </Grid>
-      )}
+      {/* )} */}
     </Grid>
   );
 }

@@ -26,8 +26,8 @@ const FriendRequest = ({item}) => {
                 </div>
                 
                 <div className='friend-request__action'>
-                    <button type='button' className="friend-request__action next">Bo Qua</button>
-                    <button type='button' className="friend-request__action accept">Chap Nhan</button>
+                    <button type='button' className="friend-request__action next">Bỏ qua</button>
+                    <button type='button' className="friend-request__action accept">Chấp nhận</button>
                 </div>
             </div>
         </>

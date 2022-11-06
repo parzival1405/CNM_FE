@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = axios.create({ baseURL: "http://localhost:5000" });
+const API = axios.create({ baseURL: "http://localhost:8000" });
 // const url = 'https://mern-course-1405.herokuapp.com/posts';
 
 API.interceptors.request.use((req) => {
@@ -19,6 +19,8 @@ export const signUp = (formData) => API.post("api/auth/signup", formData);
 export const updateProfile = (data) => API.post("api/user/updateProfile",data);
 
 export const getAllFriends = () => API.post("api/user/getAllFriends");
+export const getAllFriendsQueue = () => API.post("api/user/getAllFriendsQueue");
+
 
 export const sendMessage = (data) => API.post("api/message/sendMessage", data);
 export const getAllMessage = (conversation) =>
