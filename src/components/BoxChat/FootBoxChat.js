@@ -83,10 +83,29 @@ function FootBoxChat({ handleSendMsg }) {
           boxShadow: "none",
           border: "1px solid #f0ecf4",
           borderLeft: "0",
+          overflow: "clip",
         }}
       >
-        <StyledFormControl onSubmit={(event) => demoSubmit(event)}>
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+        <StyledFormControl
+          onSubmit={(event) => demoSubmit(event)}
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Box
+            sx={{
+              display: { xs: "none", md: "flex" },
+              width: "auto",
+            }}
+            style={{
+              display: "flex",
+              flexDirection: "column-reverse",
+              position: "relative",
+            }}
+          >
             <IconButton
               onClick={() => handleEmojiPickerhideShow(!showEmojiPicker)}
             >
@@ -94,19 +113,28 @@ function FootBoxChat({ handleSendMsg }) {
             </IconButton>
             {showEmojiPicker && (
               // <EmojiPicker>
-              <Picker onEmojiClick={handleEmojiClick} />
+              <Picker
+                onEmojiClick={handleEmojiClick}
+                className={"emojpicker"}
+              />
               // </EmojiPicker>
             )}
           </Box>
           <InputBase
-            style={{ flexGrow: 2, margin: "16px 0" }}
+            style={{ margin: "16px 0", width: "85%" }}
             placeholder="Nhập tin nhắn"
             value={msg}
             onChange={(e) => setMsg(e.target.value)}
+            className={"nhaptn"}
           />
 
-          <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+          <Box
+            sx={{
+              display: { xs: "none", md: "flex" },
+              flex: "0 1 auto",
+              width: "5%",
+            }}
+          >
             <input
               type="file"
               name="file"
@@ -124,7 +152,16 @@ function FootBoxChat({ handleSendMsg }) {
               </Tooltip>
             </label>
           </Box>
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+          <Box
+            sx={{
+              display: {
+                xs: "none",
+                md: "flex",
+                flex: "0 1 auto",
+                width: "5%",
+              },
+            }}
+          >
             <IconButton onClick={(event) => sendChat(event)}>
               <SendOutlined style={{ color: "#0978f5" }} />
             </IconButton>

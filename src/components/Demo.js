@@ -11,7 +11,6 @@ import { GLOBALTYPES } from "../constants/actionType";
 import ListFriendsRequest from "./ListFriendsRequest";
 import PhoneBooks from "./PhoneBooks";
 
-
 function Demo() {
   const dispatch = useDispatch();
   const { socket } = useSelector((state) => state.socket);
@@ -128,7 +127,7 @@ function Demo() {
   useEffect(() => {
     if (socket?.current) {
       socket.current.on("deleteGroup-receive", (data) => {
-        console.log(data)
+        console.log(data);
         if (data._id === currentConversation?._id) {
           dispatch({
             type: GLOBALTYPES.DELETE_GROUP,
@@ -136,7 +135,7 @@ function Demo() {
         }
         dispatch({
           type: GLOBALTYPES.DELETE_GROUP_ALL_CONVERSATION,
-          payload: { data: data},
+          payload: { data: data },
         });
       });
     }
@@ -144,24 +143,30 @@ function Demo() {
   }, [socket, currentConversation, dispatch]);
 
   return (
-    <Grid container style={{ height: "100%" }}>
-      <Grid item md={"auto"} style={{ backgroundColor: "#0978f5" }}>
+    <Grid container style={{ height: "100%", display: "flex" }}>
+      <Grid
+        item
+        md={"auto"}
+        style={{ backgroundColor: "#0978f5", flex: "0 1 auto" }}
+      >
         <Nav />
       </Grid>
-      <Grid item md={3}>
-        {isShowConversation && <Conversations />}
-        {isShowPhoneBook && <PhoneBooks />}
+      <Grid item md={3} className={"con"}>
+        {isShowConversation && (
+          <Conversations style={{ flex: "0 1 auto", minWidth: "1000px" }} />
+        )}
+        {isShowPhoneBook && <PhoneBooks style={{ flex: "0 1 auto" }} />}
       </Grid>
       {isShowConversation && (
         <Grid item style={{ flexGrow: 1, height: "inherit" }}>
           {
-            currentConversation ? <BoxChat style={{ height: "100%" }} /> : ""
+            currentConversation ? <BoxChat style={{ flex: "1 1 auto" }} /> : ""
             // <Slider/>
           }
         </Grid>
       )}
       {isShowPhoneBook && (
-        <Grid item md={8}>
+        <Grid item md={8} style={{ flex: "1 1 auto" }}>
           <div className="friend-request__container">
             <div
               className="friend-request__container--list"
@@ -169,7 +174,7 @@ function Demo() {
                 padding: "20px 100px",
               }}
             >
-              <ListFriendsRequest />
+              <ListFriendsRequest style={{ flex: "1 1 auto" }} />
             </div>
           </div>
         </Grid>

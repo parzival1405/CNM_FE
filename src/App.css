@@ -8,6 +8,7 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
+
 }
 
 #root {
@@ -141,6 +142,7 @@ body {
 }
 
 @media screen and (max-width: 800px) {
+  
   .auth__form-container {
     flex-direction: column-reverse;
   }
@@ -173,7 +175,17 @@ body {
     right: 3%;
   }
 }
-
+@media screen and (max-width: 800px){ 
+  html{
+    width: 800px;
+  }
+  .con{
+    width: 0;
+  }
+  .nhaptn{
+    
+  }
+}
 .app__wrapper {
   display: flex;
   flex: 1;
@@ -465,7 +477,7 @@ body {
   background: none;
   border: none;
   color: #fff;
-  font-family: Helvetica Neue, sans-serif;
+  font-family: Helvetica Neue, sans-serif,Poppins;
   font-size: 16px;
   outline: none;
 }
@@ -1849,6 +1861,7 @@ padding-left: 4px;
 
 border: 2px solid #707070;
 border-radius: 4px;
+
 }
 .tf:focus{
 border: 2px solid #0077ff;
@@ -1857,11 +1870,19 @@ label{
 margin-bottom: 4px;
 }
 .auth__form-container_fields-content p, label, input{
-font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+font-family:"Poppins", "Roboto", "Helvetica", "Arial", sans-serif;
 }
 a{
   text-decoration: none;
 }
 ::-webkit-scrollbar {
   width: 0px;
+}
+
+.emojpicker{
+  position: absolute;
+  left: 0px;
+  bottom: 0;
+  z-index: 999;
+  overflow: clip;
 }

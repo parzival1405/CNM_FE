@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { List, Avatar, Box, IconButton } from "@material-ui/core";
 import BasicPopover from "../Popover";
+import LogoutPopover from "../Popover";
 import { Textsms, Contacts, Settings } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -66,11 +67,12 @@ function Nav() {
         </IconButton>
       </Box>
       <Box sx={{ flexGrow: 1 }} />
-      <Box sx={{ display: { xs: "none", md: "flex" } }}>
+      {/* <Box sx={{ display: { xs: "none", md: "flex" } }}>
         <IconButton>
           <Settings style={{ fontSize: "32px", color: "white" }} />
         </IconButton>
-      </Box>
+        
+      </Box> */}
     </List>
   );
 }

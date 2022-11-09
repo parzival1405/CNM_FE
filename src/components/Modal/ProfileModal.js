@@ -117,10 +117,10 @@ function Profile() {
                   justifyContent: "flex-start",
                 }}
               >
-                {/* <FormControl>
-                  <InputLabel className={classes.gender}>Gender</InputLabel>
+                <FormControl>
+                  <InputLabel className={classes.gender}>Giới tính</InputLabel>
                   <Select
-                    label="gender"
+                    // label="gender"
                     name="gender"
                     error={errors.gender}
                     helperText={errors.gender}
@@ -137,8 +137,8 @@ function Profile() {
                     <MenuItem value={true}>Nam</MenuItem>
                     <MenuItem value={false}>Nu</MenuItem>
                   </Select>
-                </FormControl> */}
-                <FormControl>
+                </FormControl>
+                {/* <FormControl>
                   <FormLabel id="demo-radio-buttons-group-label">
                     Gender
                   </FormLabel>
@@ -160,7 +160,7 @@ function Profile() {
                       />
                     </div>
                   </RadioGroup>
-                </FormControl>
+                </FormControl> */}
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <KeyboardDatePicker
                     name="dob"
@@ -190,7 +190,8 @@ function Profile() {
                   Hủy
                 </Button>
                 <Button
-                  color="primary"
+                  // color="#0978f5"
+                  style={{ backgroundColor: "#0978f5", color: "white" }}
                   variant="contained"
                   type="submit"
                   isSubmitting={isSubmitting}

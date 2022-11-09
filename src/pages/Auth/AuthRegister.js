@@ -5,6 +5,7 @@ import {
   Button,
   FormControl,
   FormControlLabel,
+  InputAdornment,
   InputLabel,
   MenuItem,
   Radio,
@@ -25,6 +26,7 @@ import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
+import { ErrorOutline } from "@material-ui/icons";
 
 function Register() {
   const navigate = useNavigate();
@@ -114,14 +116,21 @@ function Register() {
                     onChange={handleChange}
                     FormHelperTextProps={{
                       style: {
-                        color: "#85245f",
-                        backgroundColor: "#ffd4dc",
-                        padding: "5px",
-                        borderRadius: "4px",
-                        border: "1px solid #ffd4dc",
-                        marginTop: "2px",
+                        marginTop: "4px",
                         marginLeft: "0",
                       },
+                    }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <ErrorOutline
+                            style={{
+                              color: "red",
+                              display: !errors.phoneNumber ? "none" : "block",
+                            }}
+                          />
+                        </InputAdornment>
+                      ),
                     }}
                   />
                 </div>
@@ -140,14 +149,21 @@ function Register() {
                     onChange={handleChange}
                     FormHelperTextProps={{
                       style: {
-                        color: "#85245f",
-                        backgroundColor: "#ffd4dc",
-                        padding: "5px",
-                        borderRadius: "4px",
-                        border: "1px solid #ffd4dc",
-                        marginTop: "2px",
+                        marginTop: "4px",
                         marginLeft: "0",
                       },
+                    }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <ErrorOutline
+                            style={{
+                              color: "red",
+                              display: !errors.username ? "none" : "block",
+                            }}
+                          />
+                        </InputAdornment>
+                      ),
                     }}
                   />
                 </div>
@@ -162,17 +178,6 @@ function Register() {
                       value={values.dob}
                       error={errors.dob}
                       helperText={errors.dob}
-                      FormHelperTextProps={{
-                        style: {
-                          color: "#85245f",
-                          backgroundColor: "#ffd4dc",
-                          padding: "5px",
-                          borderRadius: "4px",
-                          border: "1px solid #ffd4dc",
-                          marginTop: "2px",
-                          marginLeft: "0",
-                        },
-                      }}
                       touched={touched.dob}
                       onChange={(val) => {
                         setFieldValue("dob", val);
@@ -180,10 +185,28 @@ function Register() {
                       KeyboardButtonProps={{
                         "aria-label": "change date",
                       }}
+                      FormHelperTextProps={{
+                        style: {
+                          marginTop: "4px",
+                          marginLeft: "0",
+                        },
+                      }}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <ErrorOutline
+                              style={{
+                                color: "red",
+                                display: !errors.dob ? "none" : "block",
+                              }}
+                            />
+                          </InputAdornment>
+                        ),
+                      }}
                     />
                   </MuiPickersUtilsProvider>
                 </div>
-                {/* <FormControl>
+                <FormControl>
                   <InputLabel>Gender</InputLabel>
                   <Select
                     label="gender"
@@ -197,28 +220,28 @@ function Register() {
                     <MenuItem value={true}>Nam</MenuItem>
                     <MenuItem value={false}>Nu</MenuItem>
                   </Select>
-                </FormControl> */}
-                <div className="form-group-column">
+                </FormControl>
+                {/* <div className="form-group-column">
                   <label>Giới tính</label>
                   <RadioGroup
                     aria-labelledby="demo-radio-buttons-group-label"
-                    defaultValue="male"
+                    defaultValue="true"
                     name="radio-buttons-group"
                   >
                     <div style={{ display: "flex", flexDirection: "row" }}>
                       <FormControlLabel
-                        value="male"
+                        value="true"
                         control={<Radio />}
                         label="Nam"
                       />
                       <FormControlLabel
-                        value="female"
+                        value="false"
                         control={<Radio />}
                         label="Nữ"
                       />
                     </div>
                   </RadioGroup>
-                </div>
+                </div> */}
                 <div className="form-group-column">
                   <label htmlFor="">Mật khẩu</label>
                   <TextField
@@ -233,14 +256,21 @@ function Register() {
                     onChange={handleChange}
                     FormHelperTextProps={{
                       style: {
-                        color: "#85245f",
-                        backgroundColor: "#ffd4dc",
-                        padding: "5px",
-                        borderRadius: "4px",
-                        border: "1px solid #ffd4dc",
-                        marginTop: "2px",
+                        marginTop: "4px",
                         marginLeft: "0",
                       },
+                    }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <ErrorOutline
+                            style={{
+                              color: "red",
+                              display: !errors.password ? "none" : "block",
+                            }}
+                          />
+                        </InputAdornment>
+                      ),
                     }}
                   />
                 </div>
@@ -258,14 +288,23 @@ function Register() {
                     onChange={handleChange}
                     FormHelperTextProps={{
                       style: {
-                        color: "#85245f",
-                        backgroundColor: "#ffd4dc",
-                        padding: "5px",
-                        borderRadius: "4px",
-                        border: "1px solid #ffd4dc",
-                        marginTop: "2px",
+                        marginTop: "4px",
                         marginLeft: "0",
                       },
+                    }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <ErrorOutline
+                            style={{
+                              color: "red",
+                              display: !errors.confirmPassword
+                                ? "none"
+                                : "block",
+                            }}
+                          />
+                        </InputAdornment>
+                      ),
                     }}
                   />
                 </div>

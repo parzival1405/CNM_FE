@@ -31,24 +31,23 @@ function AddGroupModal() {
   const [listMember, setListMember] = useState([]);
   const [listMemberErr, setListMemberErr] = useState("");
 
-  const handleSubmitForm =
-    (values) => {
-      const _listMember = listMember.map((member) => member._id);
-      if (_listMember.length < 2) {
-        setListMemberErr("Chọn ít nhất 2 thành viên");
-        return;
-      }
-
-      _listMember.splice(0,0,user._id);
-      const data = {
-        label: values.label,
-        member: _listMember,
-        createdBy: user._id,
-      };
-      dispatch(createConversation(data,socket.current));
-      setListMember([]);
-      handleHideModal();
+  const handleSubmitForm = (values) => {
+    const _listMember = listMember.map((member) => member._id);
+    if (_listMember.length < 2) {
+      setListMemberErr("Chọn ít nhất 2 thành viên");
+      return;
     }
+
+    _listMember.splice(0, 0, user._id);
+    const data = {
+      label: values.label,
+      member: _listMember,
+      createdBy: user._id,
+    };
+    dispatch(createConversation(data, socket.current));
+    setListMember([]);
+    handleHideModal();
+  };
   //   [dispatch, token, listMember, user._id]
   // );
 
@@ -66,7 +65,11 @@ function AddGroupModal() {
   };
   const body = (
     <Fade in={isShowAddGroupModal}>
-      <Paper className={classes.paper} id="modal-add-group">
+      <Paper
+        className={classes.paper}
+        id="modal-add-group"
+        style={{ borderRadius: "10px" }}
+      >
         <h3>Tạo nhóm</h3>
         <Formik
           initialValues={{
@@ -155,7 +158,7 @@ function AddGroupModal() {
                       key={index}
                     >
                       <ListItemAvatar>
-                        <Avatar alt="avatar" src={item.avatarURL}/>
+                        <Avatar alt="avatar" src={item.avatarURL} />
                       </ListItemAvatar>
                       <ListItemText primary={item.username} />
                     </ListItem>
