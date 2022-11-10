@@ -35,7 +35,6 @@ function ShowChangeCreator() {
   const member = currentConversation?.member.filter(
     (member) => member._id !== user._id
   );
-  console.log(member);
   const { socket } = useSelector((state) => state.socket);
 
   const dispatch = useDispatch();
@@ -68,7 +67,7 @@ function ShowChangeCreator() {
         {member && (
           <List>
             {member.map((item) => (
-              <ListItem>
+              <ListItem key={item._id}>
                 <ListItemAvatar>
                   <Avatar src={item?.avatarURL} alt="avatar" />
                 </ListItemAvatar>

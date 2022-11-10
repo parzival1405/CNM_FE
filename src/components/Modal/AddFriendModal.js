@@ -22,7 +22,7 @@ import {
 } from "../../redux/actions/userResultFromModalAddFriendAction";
 import useDebounce from "../../hooks/useDebounce";
 import { requestAddFriend } from "../../redux/actions/friends";
-function AddFriendModal({ socket }) {
+function AddFriendModal() {
   const classes = useStyles();
   const { isShowAddFriendModal } = useSelector((state) => state.modal);
   const { user, token } = useSelector((state) => state.auth);
@@ -31,6 +31,9 @@ function AddFriendModal({ socket }) {
   const debounceValue = useDebounce(phoneNumber, 500);
   const userResult = useSelector(
     (state) => state.userResultFromModalAddFriend.data
+  );
+  const {socket} = useSelector(
+    (state) => state.socket
   );
   const { loading, error } = useSelector(
     (state) => state.userResultFromModalAddFriend
@@ -47,8 +50,9 @@ function AddFriendModal({ socket }) {
 
   const handleRequestAddFriend = React.useCallback(() => {
     // xu ly here
-    dispatch(requestAddFriend(userResult));
-    dispatch(hideModal("isShowAddFriendModal"));
+    console.log("here")
+    dispatch(requestAddFriend(userResult,user,socket.current));
+    handleHideModal("")
   }, [user, token, dispatch, userResult, socket]);
 
   const handleHideModal = () => {
@@ -98,7 +102,7 @@ function AddFriendModal({ socket }) {
                     </Button>
                   ) : (
                     <>
-                      {userResult.friendsQueue?.includes(user._id) ? (
+                      {userResult.friendsQueue?.map(fr => fr._id).includes(user._id) ? (
                         <Button variant="outlined" color="primary" disabled>
                           Đã gửi yêu cầu
                         </Button>

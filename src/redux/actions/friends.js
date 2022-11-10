@@ -14,12 +14,22 @@ export const getAllYourFriends = (navigate) => async (dispatch) => {
     }
 }
 
-export const requestAddFriend = (userResult) => async (dispatch) => {
+export const requestAddFriend = (userResult,user,socket) => async (dispatch) => {
     try{
         const data = {
             userId: userResult._id,
           };
         await api.requestAddFriend(data);
+        const dataSocket = {
+            _id:user._id,
+            username:user.username,
+            avatarURL:user.avatarURL,
+            phoneNumber:user.phoneNumber,
+        }
+        socket.emit("requestAddFriend", JSON.stringify({
+            dataSocket,
+            to: userResult._id,
+          }));
     } catch (error) {
         console.log(error);
     }

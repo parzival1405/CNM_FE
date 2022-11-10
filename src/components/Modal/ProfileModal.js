@@ -13,7 +13,7 @@ import {
   Select,
   TextField,
 } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BaseModal from "./BaseModal";
 import useStyles from "./styles";
 import { useDispatch, useSelector } from "react-redux";
@@ -35,8 +35,14 @@ function Profile() {
   const [avatar, setAvatar] = useState(() => user.avatarURL);
   const [username, setUsername] = useState(() => user.username);
   const [gender, setGender] = useState(() => user.gender);
-  const [dob, setDob] = useState("");
-  const [image, setImage] = useState({});
+  const [dob, setDob] = useState(user.dob);
+
+  useEffect(() =>{
+    setAvatar(user.avatarURL);
+    setUsername(user.username)
+    setGender(user.gender)
+    setDob(user.dob)
+  },[user])
 
   const handleHideModal = () => {
     dispatch(hideModal("isShowFormSettingModal"));
@@ -57,10 +63,10 @@ function Profile() {
         <h3 className={classes.username}>{username}</h3>
         <Formik
           initialValues={{
-            username: "",
-            avatarURL: "",
-            gender: "",
-            dob: "",
+            username: username,
+            avatarURL: avatar,
+            gender: gender,
+            dob: dob,
           }}
           validationSchema={validationChangeProfile}
           onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -117,27 +123,6 @@ function Profile() {
                   justifyContent: "flex-start",
                 }}
               >
-                {/* <FormControl>
-                  <InputLabel className={classes.gender}>Gender</InputLabel>
-                  <Select
-                    label="gender"
-                    name="gender"
-                    error={errors.gender}
-                    helperText={errors.gender}
-                    touched={touched.gender}
-                    value={values.gender}
-                    onChange={handleChange}
-                    style={{
-                      width: "150px",
-                      padding: "0 60px 0 0px",
-                      marginRight: "10px",
-                    }}
-                    variant="outlined"
-                  >
-                    <MenuItem value={true}>Nam</MenuItem>
-                    <MenuItem value={false}>Nu</MenuItem>
-                  </Select>
-                </FormControl> */}
                 <FormControl>
                   <FormLabel id="demo-radio-buttons-group-label">
                     Gender
@@ -149,14 +134,22 @@ function Profile() {
                   >
                     <div style={{ display: "flex", flexDirection: "row" }}>
                       <FormControlLabel
-                        value="male"
-                        control={<Radio />}
+                        value="true"
+                        control={<Radio checked={values.gender === true}/>}
                         label="Male"
+                        name="gender"
+                        onChange={(val) => {
+                          setFieldValue("gender", true);
+                        }}
                       />
                       <FormControlLabel
-                        value="female"
-                        control={<Radio />}
+                        value="false"
+                        control={<Radio checked={values.gender === false}/>}
                         label="Female"
+                        name="gender"
+                        onChange={(val) => {
+                          setFieldValue("gender", false);
+                        }}
                       />
                     </div>
                   </RadioGroup>
