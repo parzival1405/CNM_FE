@@ -1,6 +1,10 @@
 import { GLOBALTYPES } from "../../constants/actionType";
 
-const initialState = { isLoading: true, conversations: [] };
+const initialState = {
+  isLoading: true,
+  conversations: [],
+  numberOfNotification: 0,
+};
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -25,8 +29,16 @@ export default (state = initialState, action) => {
         ...conversationSend,
         count_waiting_msg,
       };
+      console.log({
+        ...state,
+        numberOfNotification: state.numberOfNotification + 1,
+        conversations: state.conversations.map((conver) =>
+          conver._id == conversationSend._id ? conversationSend : conver
+        ),
+      });
       return {
         ...state,
+        numberOfNotification: state.numberOfNotification + 1,
         conversations: state.conversations.map((conver) =>
           conver._id == conversationSend._id ? conversationSend : conver
         ),
@@ -36,6 +48,7 @@ export default (state = initialState, action) => {
       let conversationSend = state.conversations.find(
         (convers) => convers._id === action?.payload._id
       );
+      const RemoveNotification = conversationSend?.count_waiting_msg ? conversationSend?.count_waiting_msg : 0
       if (conversationSend) {
         conversationSend = {
           ...conversationSend,
@@ -44,6 +57,7 @@ export default (state = initialState, action) => {
       }
       return {
         ...state,
+        numberOfNotification:state.numberOfNotification - RemoveNotification,
         conversations: state.conversations.map((conver) =>
           conver._id == conversationSend._id ? conversationSend : conver
         ),
@@ -57,7 +71,7 @@ export default (state = initialState, action) => {
       if (conversationSend) {
         conversationSend = {
           ...conversationSend,
-          lastMessage: {...msg,conversation:conversationSend._id},
+          lastMessage: { ...msg, conversation: conversationSend._id },
         };
       }
       return {

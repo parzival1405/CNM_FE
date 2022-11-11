@@ -86,7 +86,6 @@ function Test() {
     //   });
   };
 
-  console.log(data + "sfasf"); 
   const body = (
     <Fade in={isShowOTP}>
       <Paper className={classes.paper} id="modal-add-friend">

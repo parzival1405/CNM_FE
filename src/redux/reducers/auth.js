@@ -3,6 +3,7 @@ import { GLOBALTYPES } from "../../constants/actionType";
 const initState = {
   user: null,
   token: null,
+  notification:0
 };
 
 export default (state = initState, action) => {

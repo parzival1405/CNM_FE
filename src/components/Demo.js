@@ -10,6 +10,10 @@ import Slider from "./Slider";
 import { GLOBALTYPES } from "../constants/actionType";
 import ListFriendsRequest from "./ListFriendsRequest";
 import PhoneBooks from "./PhoneBooks";
+<<<<<<< HEAD
+=======
+import DrawerInfoChat from "./Bar/DrawerInfoChat";
+>>>>>>> origin
 
 function Demo() {
   const dispatch = useDispatch();
@@ -141,7 +145,67 @@ function Demo() {
     }
     return () => socket?.current.off("deleteGroup-receive");
   }, [socket, currentConversation, dispatch]);
+  useEffect(() => {
+    if (socket?.current) {
+      socket.current.on("msg-receive", (data) => {
+        if (
+          currentConversation === undefined ||
+          currentConversation === null ||
+          isShowPhoneBook ||
+          data.conversation._id !== currentConversation?._id
+        ) {
+          console.log("here");
+          dispatch({
+            type: GLOBALTYPES.UPDATE_COUNT_WAITING_MESSAGE,
+            payload: data.conversation,
+          });
+        } else {
+          console.log(data.conversation._id, currentConversation?._id);
+          dispatch({ type: GLOBALTYPES.ADDMESSAGE, data });
+        }
+        dispatch({
+          type: GLOBALTYPES.UPDATE_LAST_MSG_CONVERSATION,
+          payload: {
+            data: data,
+            conversation: data.conversation,
+          },
+        });
+      });
+    }
+    return () => socket?.current.off("msg-receive");
+  }, [currentConversation, isShowPhoneBook, socket]);
 
+  useEffect(() => {
+    if (socket?.current) {
+      socket.current.on("delete-receive", (data) => {
+        if (
+          currentConversation === undefined ||
+          currentConversation === null ||
+          isShowPhoneBook ||
+          data.conversation._id !== currentConversation?._id
+        ) {
+          console.log("here");
+        } else {
+          dispatch({ type: GLOBALTYPES.DELETEMESSAGE, data });
+        }
+      });
+    }
+    return () => socket?.current.off("delete-receive");
+  }, [currentConversation, isShowPhoneBook, socket]);
+  
+  useEffect(() => {
+    if (socket?.current) {
+      socket.current.on("requestAddFriendToClient", (data) => {
+        console.log(data)
+        user.friendsQueue.push(data);
+        dispatch({
+          type: GLOBALTYPES.UPDATEPROFILE,
+          user,
+        });
+      });
+    }
+    return () => socket?.current.off("requestAddFriendToClient");
+  }, [dispatch, socket]);
   return (
     <Grid container style={{ height: "100%", display: "flex" }}>
       <Grid
@@ -160,7 +224,18 @@ function Demo() {
       {isShowConversation && (
         <Grid item style={{ flexGrow: 1, height: "inherit" }}>
           {
+<<<<<<< HEAD
             currentConversation ? <BoxChat style={{ flex: "1 1 auto" }} /> : ""
+=======
+            currentConversation ? (
+              <>
+                <BoxChat style={{ height: "100%" }} />
+                <DrawerInfoChat style={{ with: 0, height: 0 }}></DrawerInfoChat>
+              </>
+            ) : (
+              ""
+            )
+>>>>>>> origin
             // <Slider/>
           }
         </Grid>
