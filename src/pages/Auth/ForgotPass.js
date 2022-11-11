@@ -3,7 +3,7 @@ import { Button, TextField } from "@material-ui/core";
 
 import signinImage from "../../assets/signup.jpg";
 import { useDispatch } from "react-redux";
-
+import { firebase, auth } from "../../Firebase";
 import { Form, Formik } from "formik";
 import { validationForgotPass } from "../../utils/Validation";
 import { ShowOTP } from "../../redux/actions/modal";
@@ -15,6 +15,46 @@ function Forgot() {
     dispatch(ShowOTP());
   };
 
+  const configureCaptcha = () => {
+    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+      "recaptcha",
+      {
+        size: "invisible",
+        callback: (response) => {
+          handleSendSms();
+        },
+        defaultCountry: "IN",
+      }
+    );
+  };
+
+  const handleSendSms = (values) => {
+    configureCaptcha();
+    const phoneNumber = "+84" + values.phoneNumber.slice(1);
+    const appVerifier = window.recaptchaVerifier;
+    firebase
+      .auth()
+      .signInWithPhoneNumber(phoneNumber, appVerifier)
+      .then((confirmationResult) => {
+        window.confirmationResult = confirmationResult;
+      })
+      .catch((error) => {
+        console.log("SMS not sent", error);
+      });
+  };
+
+  const handleSubmitForm = async (values) => {
+    const data = {
+      phoneNumber: values.phoneNumber,
+      newPassword: values.newPassword,
+    };
+    console.log(data);
+    window.dataUser = data
+    window.isForgotPass = true
+    handleSendSms(values);
+    dispatch(ShowOTP());
+  };
+
   return (
     <div className="auth__form-container" style={{ height: "100vh" }}>
       <div className="auth__form-container_fields">
@@ -23,10 +63,11 @@ function Forgot() {
           <Formik
             initialValues={{
               phoneNumber: "",
-              newpassword: "",
+              newPassword: "",
             }}
             validationSchema={validationForgotPass}
             onSubmit={(values, { setSubmitting, resetForm }) => {
+              handleSubmitForm(values)
               setSubmitting(true);
               resetForm();
               setSubmitting(false);
@@ -59,17 +100,17 @@ function Forgot() {
                     onChange={handleChange}
                   />
                 </div>
-                <div className="form-group-column" style={{ display: "none" }}>
+                <div className="form-group-column">
                   <label htmlFor="">Nhập lại mật khẩu mới</label>
                   <TextField
                     variant="outlined"
                     className="tf"
-                    error={errors.newpassword}
-                    helperText={errors.newpassword}
-                    touched={touched.newpassword}
-                    value={values.newpassword}
+                    error={errors.newPassword}
+                    helperText={errors.newPassword}
+                    touched={touched.newPassword}
+                    value={values.newPassword}
                     type="password"
-                    name="newpassword"
+                    name="newPassword"
                     placeholder="Nhập mật khẩu mới"
                     onChange={handleChange}
                   />
@@ -81,7 +122,7 @@ function Forgot() {
                     disabled={
                       values.phoneNumber && !errors.phoneNumber ? false : true
                     }
-                    onClick={handleShowOTP}
+                    type="submit"
                   >
                     Tiếp tục
                   </Button>
