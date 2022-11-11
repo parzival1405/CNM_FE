@@ -10,10 +10,7 @@ import Slider from "./Slider";
 import { GLOBALTYPES } from "../constants/actionType";
 import ListFriendsRequest from "./ListFriendsRequest";
 import PhoneBooks from "./PhoneBooks";
-<<<<<<< HEAD
-=======
 import DrawerInfoChat from "./Bar/DrawerInfoChat";
->>>>>>> origin
 
 function Demo() {
   const dispatch = useDispatch();
@@ -192,11 +189,11 @@ function Demo() {
     }
     return () => socket?.current.off("delete-receive");
   }, [currentConversation, isShowPhoneBook, socket]);
-  
+
   useEffect(() => {
     if (socket?.current) {
       socket.current.on("requestAddFriendToClient", (data) => {
-        console.log(data)
+        console.log(data);
         user.friendsQueue.push(data);
         dispatch({
           type: GLOBALTYPES.UPDATEPROFILE,
@@ -224,9 +221,6 @@ function Demo() {
       {isShowConversation && (
         <Grid item style={{ flexGrow: 1, height: "inherit" }}>
           {
-<<<<<<< HEAD
-            currentConversation ? <BoxChat style={{ flex: "1 1 auto" }} /> : ""
-=======
             currentConversation ? (
               <>
                 <BoxChat style={{ height: "100%" }} />
@@ -235,7 +229,6 @@ function Demo() {
             ) : (
               ""
             )
->>>>>>> origin
             // <Slider/>
           }
         </Grid>

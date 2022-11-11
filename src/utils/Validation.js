@@ -10,7 +10,11 @@ export const validationRegister = Yup.object().shape({
     .required("  Bạn phải điền số điện thoại!"),
   gender: Yup.bool(),
   password: Yup.string()
-    .min(6, "Mật khẩu ít nhất 6 kí tự")
+    .min(8, "Mật khẩu ít nhất 8 kí tự")
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?])[A-Za-z\d@$!%*?]{8,}$/,
+      "Mật khẩu phải gồm 1 ký tự hoa, 1 ký tự thường, 1 số và một ký tự đặc biệt (@$!%*?)! "
+    )
     .required("  Bạn phải điền mật khẩu!"),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password"), null], "  Mật khẩu không trùng khớp!")
@@ -55,11 +59,19 @@ export const validateionChangeGroupName = Yup.object().shape({
 });
 export const validateionChangePassword = Yup.object().shape({
   password: Yup.string()
-    .min(6, "Mật khẩu ít nhất 6 kí tự")
+    .min(8, "Mật khẩu ít nhất 8 kí tự")
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?])[A-Za-z\d@$!%*?]{8,}$/,
+      "Mật khẩu phải gồm 1 ký tự hoa, 1 ký tự thường, 1 số và một ký tự đặc biệt (@$!%*?)! "
+    )
     .required("Không được để trống"),
 
   newPassword: Yup.string()
-    .min(6, "Mật khẩu ít nhất 6 kí tự")
+    .min(8, "Mật khẩu ít nhất 8 kí tự")
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?])[A-Za-z\d@$!%*?]{8,}$/,
+      "Mật khẩu phải gồm 1 ký tự hoa, 1 ký tự thường, 1 số và một ký tự đặc biệt (@$!%*?)! "
+    )
     .required("Không được để trống"),
 
   reNewPassword: Yup.string()
@@ -87,7 +99,11 @@ export const validationForgotPassword = Yup.object().shape({
     )
     .required("Không được để trống"),
   password: Yup.string()
-    .min(6, "Mật khẩu ít nhất 6 kí tự")
+    .min(8, "Mật khẩu ít nhất 8 kí tự")
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?])[A-Za-z\d@$!%*?]{8,}$/,
+      "Mật khẩu phải gồm 1 ký tự hoa, 1 ký tự thường, 1 số và một ký tự đặc biệt (@$!%*?)! "
+    )
     .required("Không được để trống"),
   cf_password: Yup.string()
     .required("Không được để trống")

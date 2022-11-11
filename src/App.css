@@ -175,7 +175,7 @@ body {
     right: 3%;
   }
 }
-@media screen and (max-width: 800px){ 
+/* @media screen and (max-width: 800px){ 
   html{
     width: 800px;
   }
@@ -185,7 +185,7 @@ body {
   .nhaptn{
     
   }
-}
+} */
 .app__wrapper {
   display: flex;
   flex: 1;
@@ -221,18 +221,10 @@ body {
   cursor: pointer;
 }
 
-@media screen and (max-width: 960px) {
-  .str-chat-channel-list.team.light {
-    position: unset;
-    left: unset;
-    top: unset;
-    z-index: unset;
-    min-height: unset;
-    overflow-y: unset;
-    box-shadow: unset;
-    transition: unset;
-  }
-}
+
+
+
+
 
 .channel-empty__container {
   display: flex;
@@ -1732,8 +1724,23 @@ div.rta__autocomplete.str-chat__emojisearch {
   width: 100%;
   padding: 10px;
 }
-
 @media screen and (max-width: 960px) {
+  .str-chat-channel-list.team.light { 
+    position: unset;
+    left: unset;
+    top: unset;
+    z-index: unset;
+    min-height: unset;
+    overflow-y: unset;
+    box-shadow: unset;
+    transition: unset;
+  }
+  .con{
+    width: 0;
+  }
+}
+@media screen and (max-width: 960px) {
+
   .channel-list__container {
     display: none;
   }
@@ -1798,6 +1805,7 @@ div.rta__autocomplete.str-chat__emojisearch {
     top: 100%;
     left: 5%;
   }
+
 }
 
 @media screen and (max-width: 650px) {
@@ -1879,10 +1887,3 @@ a{
   width: 0px;
 }
 
-.emojpicker{
-  position: absolute;
-  left: 0px;
-  bottom: 0;
-  z-index: 999;
-  overflow: clip;
-}

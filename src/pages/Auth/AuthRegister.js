@@ -34,7 +34,7 @@ function Register() {
 
   const handleSubmit = async (values) => {
     dispatch(signup(values, navigate));
-    console.log("sdasd")
+    console.log("sdasd");
     //   let recaptcha = new firebase.auth.RecaptchaVerifier('recaptcha', {
     //       'size': 'invisible'
     //   });
@@ -206,7 +206,7 @@ function Register() {
                     />
                   </MuiPickersUtilsProvider>
                 </div>
-                <FormControl>
+                {/* <FormControl>
                   <InputLabel>Gender</InputLabel>
                   <Select
                     label="gender"
@@ -220,8 +220,8 @@ function Register() {
                     <MenuItem value={true}>Nam</MenuItem>
                     <MenuItem value={false}>Nu</MenuItem>
                   </Select>
-                </FormControl>
-                {/* <div className="form-group-column">
+                </FormControl> */}
+                <div className="form-group-column">
                   <label>Giới tính</label>
                   <RadioGroup
                     aria-labelledby="demo-radio-buttons-group-label"
@@ -241,7 +241,7 @@ function Register() {
                       />
                     </div>
                   </RadioGroup>
-                </div> */}
+                </div>
                 <div className="form-group-column">
                   <label htmlFor="">Mật khẩu</label>
                   <TextField

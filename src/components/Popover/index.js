@@ -91,7 +91,7 @@ function BasicPopover({ children, handleLogout }) {
           </List>
           <Divider variant="middle" />
           <List>
-            <ListItem button onClick={handleLogout}>
+            <ListItem button>
               <ListItemText primary="Zola PC v-1.1.1.1" />
             </ListItem>
           </List>

@@ -125,11 +125,11 @@ function Profile() {
               >
                 <FormControl>
                   <FormLabel id="demo-radio-buttons-group-label">
-                    Gender
+                    Giới tính
                   </FormLabel>
                   <RadioGroup
                     aria-labelledby="demo-radio-buttons-group-label"
-                    defaultValue="male"
+                    defaultValue="true"
                     name="radio-buttons-group"
                   >
                     <div style={{ display: "flex", flexDirection: "row" }}>
@@ -154,28 +154,39 @@ function Profile() {
                     </div>
                   </RadioGroup>
                 </FormControl>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <KeyboardDatePicker
-                    name="dob"
-                    inputVariant="outlined"
-                    format="MM/dd/yyyy"
-                    value={values.dob}
-                    error={errors.dob}
-                    helperText={errors.dob}
-                    touched={touched.dob}
-                    onChange={(val) => {
-                      setFieldValue("dob", val);
-                    }}
-                    KeyboardButtonProps={{
-                      "aria-label": "change date",
-                    }}
+
+                <FormControl>
+                  <FormLabel
+                    id="demo-radio-buttons-group-label"
                     style={{
-                      width: "30%",
-                      marginLeft: "20px",
-                      fontSize: "20px",
+                      marginLeft: "50px",
                     }}
-                  />
-                </MuiPickersUtilsProvider>
+                  >
+                    Ngày sinh
+                  </FormLabel>
+                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <KeyboardDatePicker
+                      name="dob"
+                      inputVariant="outlined"
+                      format="MM/dd/yyyy"
+                      value={values.dob}
+                      error={errors.dob}
+                      helperText={errors.dob}
+                      touched={touched.dob}
+                      onChange={(val) => {
+                        setFieldValue("dob", val);
+                      }}
+                      KeyboardButtonProps={{
+                        "aria-label": "change date",
+                      }}
+                      style={{
+                        width: "50%",
+                        marginLeft: "50px",
+                        fontSize: "20px",
+                      }}
+                    />
+                  </MuiPickersUtilsProvider>
+                </FormControl>
               </div>
 
               <div className={classes.actions}>

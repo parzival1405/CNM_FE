@@ -3,7 +3,6 @@ import {
   IconButton,
   Box,
   AppBar,
-  TextField,
   styled,
   FormControl,
   Tooltip,
@@ -83,7 +82,6 @@ function FootBoxChat({ handleSendMsg }) {
           boxShadow: "none",
           border: "1px solid #f0ecf4",
           borderLeft: "0",
-          overflow: "clip",
         }}
       >
         <StyledFormControl
@@ -93,12 +91,15 @@ function FootBoxChat({ handleSendMsg }) {
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "center",
+            position: "relative",
           }}
         >
           <Box
             sx={{
               display: { xs: "none", md: "flex" },
               width: "auto",
+              position: "relative",
+              flex: "0 1 auto",
             }}
             style={{
               display: "flex",
@@ -111,61 +112,64 @@ function FootBoxChat({ handleSendMsg }) {
             >
               <EmojiEmotions style={{ color: "#0978f5" }} />
             </IconButton>
-            {showEmojiPicker && (
-              // <EmojiPicker>
-              <Picker
-                onEmojiClick={handleEmojiClick}
-                className={"emojpicker"}
-              />
-              // </EmojiPicker>
-            )}
           </Box>
-          <InputBase
-            style={{ margin: "16px 0", width: "85%" }}
-            placeholder="Nhập tin nhắn"
-            value={msg}
-            onChange={(e) => setMsg(e.target.value)}
+          <div
+            style={{
+              position: "absolute",
+              bottom: "14rem",
+              left: "0",
+              height: "10rem",
+              zIndex: 100,
+            }}
+          >
+            {showEmojiPicker && <Picker onEmojiClick={handleEmojiClick} />}
+          </div>
+          <div
             className={"nhaptn"}
-          />
-
-          <Box
-            sx={{
-              display: { xs: "none", md: "flex" },
-              flex: "0 1 auto",
-              width: "5%",
-            }}
+            style={{ margin: "16px 0", flex: "1 1 auto" }}
           >
-            <input
-              type="file"
-              name="file"
-              id="file"
-              multiple
-              accept="image/*,video/*,.pdf,.doc"
-              onChange={handleChangeMedia}
-              className={classes.mediaInput}
+            <InputBase
+              placeholder="Nhập tin nhắn"
+              value={msg}
+              onChange={(e) => setMsg(e.target.value)}
             />
-            <label htmlFor="file" style={{ display: "flex" }}>
-              <Tooltip title="Thêm ảnh">
-                <IconButton component="span">
-                  <Image style={{ color: "#0978f5" }} />
-                </IconButton>
-              </Tooltip>
-            </label>
-          </Box>
-          <Box
-            sx={{
-              display: {
-                xs: "none",
-                md: "flex",
-                flex: "0 1 auto",
-                width: "5%",
-              },
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "between",
+              flex: "0 1 auto",
             }}
           >
-            <IconButton onClick={(event) => sendChat(event)}>
-              <SendOutlined style={{ color: "#0978f5" }} />
-            </IconButton>
-          </Box>
+            <Box>
+              <input
+                type="file"
+                name="file"
+                id="file"
+                multiple
+                accept="image/*,video/*,.pdf,.doc"
+                onChange={handleChangeMedia}
+                className={classes.mediaInput}
+                hidden
+              />
+              <label htmlFor="file" style={{ display: "flex" }}>
+                <Tooltip title="Thêm ảnh">
+                  <IconButton component="span">
+                    <Image style={{ color: "#0978f5" }} />
+                  </IconButton>
+                </Tooltip>
+              </label>
+            </Box>
+            <Box>
+              <IconButton onClick={(event) => sendChat(event)}>
+                <SendOutlined
+                  style={{ color: "#0978f5", paddingBottom: "5px" }}
+                />
+              </IconButton>
+            </Box>
+          </div>
         </StyledFormControl>
         {media?.map((item, index) => (
           <div key={index} className={classes.mediaItem}>
