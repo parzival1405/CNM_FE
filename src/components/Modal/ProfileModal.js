@@ -136,7 +136,7 @@ function Profile() {
                       <FormControlLabel
                         value="true"
                         control={<Radio checked={values.gender === true} />}
-                        label="Male"
+                        label="Nam"
                         name="gender"
                         onChange={(val) => {
                           setFieldValue("gender", true);
@@ -145,7 +145,7 @@ function Profile() {
                       <FormControlLabel
                         value="false"
                         control={<Radio checked={values.gender === false} />}
-                        label="Female"
+                        label="Nữ"
                         name="gender"
                         onChange={(val) => {
                           setFieldValue("gender", false);
@@ -180,7 +180,7 @@ function Profile() {
                         "aria-label": "change date",
                       }}
                       style={{
-                        width: "50%",
+                        width: "60%",
                         marginLeft: "50px",
                         fontSize: "20px",
                       }}

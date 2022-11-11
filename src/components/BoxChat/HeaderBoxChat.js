@@ -89,9 +89,15 @@ function HeaderBoxChat() {
         }}
       >
         <Toolbar>
-          <HeaderInfo currentConversation={currentConversation} />
-          <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+          <HeaderInfo
+            currentConversation={currentConversation}
+            style={{ display: "flex", flex: "0 1 auto" }}
+          />
+          <Box
+            sx={{ flexGrow: 1 }}
+            style={{ display: "flex", flex: "1 1 auto" }}
+          />
+          <Box style={{ display: "flex", flex: "0 1 auto" }}>
             <IconButton>
               <Search style={{ color: "white" }} />
             </IconButton>
