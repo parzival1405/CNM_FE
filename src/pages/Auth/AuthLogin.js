@@ -53,11 +53,14 @@ function Login() {
       data: { user },
     } = await api.checkOTP(data);
 
+    window.dataUser = data
+    window.isSignup = false;
+    window.isForgotPass = false;
     if (user.isVerifyOtp) {
       handleSendSms(values);
-      dispatch(ShowOTP(data));
+      dispatch(ShowOTP());
     } else {
-      alert("sai j day");
+      dispatch(signin(values, navigate));
     }
   };
   const handleSubmit = async (values) => {
@@ -76,7 +79,7 @@ function Login() {
             }}
             validationSchema={validationLogin}
             onSubmit={(values, { setSubmitting, resetForm }) => {
-              handleSubmit(values);
+              handleSubmitForm(values);
               setSubmitting(true);
               resetForm();
               setSubmitting(false);
