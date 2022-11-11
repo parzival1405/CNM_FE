@@ -75,8 +75,10 @@ export default makeStyles((theme) => ({
     },
     "& .emoji-picker-react": {
       position: "absolute",
-      right: "0",
-      top: "-820%",
+      bottom: "100%",
+      marginBottom: "100px",
+      left: "200px",
+      zIndex: 100,
     },
   },
 }));

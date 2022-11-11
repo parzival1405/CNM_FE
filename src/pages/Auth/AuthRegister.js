@@ -5,6 +5,7 @@ import {
   Button,
   FormControl,
   FormControlLabel,
+  InputAdornment,
   InputLabel,
   MenuItem,
   Radio,
@@ -25,12 +26,17 @@ import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
+
+import { ErrorOutline } from "@material-ui/icons";
+
 import { ShowOTP } from "../../redux/actions/modal";
 import { checkPhonenumber } from "../../api";
+
 
 function Register() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
 
   const configureCaptcha = () => {
     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
@@ -133,14 +139,21 @@ function Register() {
                     onChange={handleChange}
                     FormHelperTextProps={{
                       style: {
-                        color: "#85245f",
-                        backgroundColor: "#ffd4dc",
-                        padding: "5px",
-                        borderRadius: "4px",
-                        border: "1px solid #ffd4dc",
-                        marginTop: "2px",
+                        marginTop: "4px",
                         marginLeft: "0",
                       },
+                    }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <ErrorOutline
+                            style={{
+                              color: "red",
+                              display: !errors.phoneNumber ? "none" : "block",
+                            }}
+                          />
+                        </InputAdornment>
+                      ),
                     }}
                   />
                 </div>
@@ -159,14 +172,21 @@ function Register() {
                     onChange={handleChange}
                     FormHelperTextProps={{
                       style: {
-                        color: "#85245f",
-                        backgroundColor: "#ffd4dc",
-                        padding: "5px",
-                        borderRadius: "4px",
-                        border: "1px solid #ffd4dc",
-                        marginTop: "2px",
+                        marginTop: "4px",
                         marginLeft: "0",
                       },
+                    }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <ErrorOutline
+                            style={{
+                              color: "red",
+                              display: !errors.username ? "none" : "block",
+                            }}
+                          />
+                        </InputAdornment>
+                      ),
                     }}
                   />
                 </div>
@@ -181,23 +201,30 @@ function Register() {
                       value={values.dob}
                       error={errors.dob}
                       helperText={errors.dob}
-                      FormHelperTextProps={{
-                        style: {
-                          color: "#85245f",
-                          backgroundColor: "#ffd4dc",
-                          padding: "5px",
-                          borderRadius: "4px",
-                          border: "1px solid #ffd4dc",
-                          marginTop: "2px",
-                          marginLeft: "0",
-                        },
-                      }}
                       touched={touched.dob}
                       onChange={(val) => {
                         setFieldValue("dob", val);
                       }}
                       KeyboardButtonProps={{
                         "aria-label": "change date",
+                      }}
+                      FormHelperTextProps={{
+                        style: {
+                          marginTop: "4px",
+                          marginLeft: "0",
+                        },
+                      }}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <ErrorOutline
+                              style={{
+                                color: "red",
+                                display: !errors.dob ? "none" : "block",
+                              }}
+                            />
+                          </InputAdornment>
+                        ),
                       }}
                     />
                   </MuiPickersUtilsProvider>
@@ -221,17 +248,17 @@ function Register() {
                   <label>Giới tính</label>
                   <RadioGroup
                     aria-labelledby="demo-radio-buttons-group-label"
-                    defaultValue="male"
+                    defaultValue="true"
                     name="radio-buttons-group"
                   >
                     <div style={{ display: "flex", flexDirection: "row" }}>
                       <FormControlLabel
-                        value="male"
+                        value="true"
                         control={<Radio />}
                         label="Nam"
                       />
                       <FormControlLabel
-                        value="female"
+                        value="false"
                         control={<Radio />}
                         label="Nữ"
                       />
@@ -252,14 +279,21 @@ function Register() {
                     onChange={handleChange}
                     FormHelperTextProps={{
                       style: {
-                        color: "#85245f",
-                        backgroundColor: "#ffd4dc",
-                        padding: "5px",
-                        borderRadius: "4px",
-                        border: "1px solid #ffd4dc",
-                        marginTop: "2px",
+                        marginTop: "4px",
                         marginLeft: "0",
                       },
+                    }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <ErrorOutline
+                            style={{
+                              color: "red",
+                              display: !errors.password ? "none" : "block",
+                            }}
+                          />
+                        </InputAdornment>
+                      ),
                     }}
                   />
                 </div>
@@ -277,14 +311,23 @@ function Register() {
                     onChange={handleChange}
                     FormHelperTextProps={{
                       style: {
-                        color: "#85245f",
-                        backgroundColor: "#ffd4dc",
-                        padding: "5px",
-                        borderRadius: "4px",
-                        border: "1px solid #ffd4dc",
-                        marginTop: "2px",
+                        marginTop: "4px",
                         marginLeft: "0",
                       },
+                    }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <ErrorOutline
+                            style={{
+                              color: "red",
+                              display: !errors.confirmPassword
+                                ? "none"
+                                : "block",
+                            }}
+                          />
+                        </InputAdornment>
+                      ),
                     }}
                   />
                 </div>

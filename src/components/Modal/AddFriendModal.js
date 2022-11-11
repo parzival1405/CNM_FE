@@ -2,6 +2,7 @@ import useStyles from "./styles";
 import {
   Avatar,
   Button,
+  Divider,
   Fade,
   InputAdornment,
   ListItem,
@@ -62,26 +63,32 @@ function AddFriendModal() {
 
   const body = (
     <Fade in={isShowAddFriendModal}>
-      <Paper className={classes.paper} id="modal-add-friend">
-        <div
-          style={{ borderBottom: "1px solid #bfd4e7", marginBottom: "10px" }}
-        >
+      <Paper
+        className={classes.paper}
+        id="modal-add-friend"
+        style={{ padding: 0, borderRadius: "10px" }}
+      >
+        <div style={{ textAlign: "center" }}>
           <h3>Thêm bạn</h3>
         </div>
+        <Divider variant="fullWidth" style={{ marginBottom: "10px" }} />
         <form action="" className={classes.form} noValidate autoComplete="off">
           <TextField
-            label="Số điện thoại"
+            placeholder="Số điện thoại"
             className={classes.title}
             value={phoneNumber}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Phone />
-                </InputAdornment>
-              ),
-            }}
+            // InputProps={{
+            //   startAdornment: (
+            //     <InputAdornment position="start">
+            //       <Phone />
+            //     </InputAdornment>
+            //   ),
+            // }}
             onChange={(e) => setPhoneNumber(e.target.value)}
+            style={{ margin: "8px", padding: "0", justifyContent: "center" }}
+            InputProps={{ disableUnderline: true }}
           />
+          <Divider variant="fullWidth" />
           {/* {loading && <SmallLoading />}
           {error && <ErrorMessage error={error} />} */}
           {userResult && (
@@ -95,8 +102,8 @@ function AddFriendModal() {
               />
               {userResult._id && user._id !== userResult._id && (
                 <>
-                  {userResult.friends.map(fr => fr._id).includes(user._id) ||
-                  user.friends.map(fr => fr._id).includes(userResult._id) ? (
+                  {userResult.friends.map((fr) => fr._id).includes(user._id) ||
+                  user.friends.map((fr) => fr._id).includes(userResult._id) ? (
                     <Button variant="outlined" color="primary" disabled>
                       Bạn bè
                     </Button>
@@ -121,9 +128,13 @@ function AddFriendModal() {
               )}
             </ListItem>
           )}
-          <Typography>Gợi ý kết bạn</Typography>
+          <Typography style={{ padding: "8px" }}>Gợi ý kết bạn</Typography>
           <div className={classes.actions}>
-            <Button variant="contained" onClick={handleHideModal}>
+            <Button
+              variant="contained"
+              onClick={handleHideModal}
+              style={{ marginBottom: "8px" }}
+            >
               Hủy
             </Button>
             <Button
@@ -131,6 +142,7 @@ function AddFriendModal() {
               variant="contained"
               type="submit"
               disabled={phoneNumber.length === 0}
+              style={{ margin: "0 8px 8px 8px" }}
             >
               Tìm kiếm
             </Button>
