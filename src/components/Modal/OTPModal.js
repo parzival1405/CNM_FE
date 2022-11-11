@@ -10,32 +10,22 @@ import { number } from "yup";
 import { Form, Formik } from "formik";
 
 import { firebase, auth } from "../../Firebase";
-import { signin } from "../../redux/actions/auth";
+import { forgotPassword, signin, signup } from "../../redux/actions/auth";
 import { Link, useNavigate } from "react-router-dom";
 import { validateionOTP } from "../../utils/Validation";
 
 function Test() {
   const navigate = useNavigate();
-  const [OTP1, setOTP1] = useState("");
-  const [OTP2, setOTP2] = useState("");
-  const [OTP3, setOTP3] = useState("");
-  const [OTP4, setOTP4] = useState("");
-  const [OTP5, setOTP5] = useState("");
-  const [OTP6, setOTP6] = useState("");
   const { isShowOTP } = useSelector((state) => state.modal);
   const { data } = useSelector((state) => state.dataToOTPModal);
-  
+
   const classes = useStyles();
   const dispatch = useDispatch();
   const handleHideModal = () => {
     dispatch(hideModal("isShowOTP"));
   };
-  const [show, setshow] = useState(false);
-  function xacthucClickHandle() {
-    handleHideModal();
-  }
 
- const configureCaptcha = () => {
+  const configureCaptcha = () => {
     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
       "sign-in-button",
       {
@@ -65,25 +55,24 @@ function Test() {
   };
 
   const handleSubmitForm = (values) => {
-    // const dt = {
-    //   phoneNumber: data.phoneNumber,
-    //   password: data.password,
-    // };
-    // console.log(dt)
-    // window.confirmationResult
-    //   .confirm(values.otp)
-    //   .then((result) => {
-        const dt = {
-          phoneNumber: "0975247624",
-          password: "123456",
-        };
-    //     console.log(dt)
+    const data = window.dataUser;
+    window.confirmationResult
+      .confirm(values.otp)
+      .then((result) => {
         handleHideModal();
-        dispatch(signin(dt, navigate));
-    //   })
-    //   .catch((error) => {
-    //     alert("Mã xác nhận không chính xác");
-    //   });
+        if(window.isForgotPass){
+          dispatch(forgotPassword(data, navigate));
+        }
+
+        if (window.isSignup) {
+          dispatch(signup(data, navigate));
+        } else {
+          dispatch(signin(data, navigate));
+        }
+      })
+      .catch((error) => {
+        alert("Mã xác nhận không chính xác");
+      });
   };
 
   const body = (
@@ -138,67 +127,75 @@ function Test() {
           <p>Vui lòng nhập mã OTP gửi tới số điện thoại của bạn</p>
         </div>
         <Formik
-        initialValues={{
-          otp: "",
-        }}
-        validationSchema={validateionOTP}
-        onSubmit={(values, { setSubmitting, resetForm }) => {
-          handleSubmitForm(values);
-          setSubmitting(true);
-          resetForm();
-          setSubmitting(false);
-        }}
-      >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleSubmit,
-          isSubmitting,
-        }) => (
-          <Form
-            className={classes.form}
-            autoComplete="off"
-            onSubmit={handleSubmit}
-          >
+          initialValues={{
+            otp: "",
+          }}
+          validationSchema={validateionOTP}
+          onSubmit={(values, { setSubmitting, resetForm }) => {
+            handleSubmitForm(values);
+            setSubmitting(true);
+            resetForm();
+            setSubmitting(false);
+          }}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleSubmit,
+            isSubmitting,
+          }) => (
+            <Form
+              className={classes.form}
+              autoComplete="off"
+              onSubmit={handleSubmit}
+            >
+              <TextField
+                label="Nhập mã xác nhận"
+                error={errors.otp}
+                helperText={errors.otp}
+                touched={touched.otp}
+                type="text"
+                fullWidth
+                variant="filled"
+                // InputProps={{
+                //   startAdornment: (
+                //     <InputAdornment position="start">
+                //       <Lock />
+                //     </InputAdornment>
+                //   ),
+                // }}
+                name="otp"
+                onChange={handleChange}
+              />
+              <div id="sign-in-button"> </div>
+              <div style={{ display: "flex", width: "100%" }}>
+                <Button
+                  variant="secondary"
+                  onClick={() => handleSendSms(values)}
+                >
+                  Gửi lại mã
+                </Button>
 
-            <TextField
-              label="Nhập mã xác nhận"
-              error={errors.otp}
-              helperText={errors.otp}
-              touched={touched.otp}
-              type="text"
-              fullWidth
-              variant="filled"
-              // InputProps={{
-              //   startAdornment: (
-              //     <InputAdornment position="start">
-              //       <Lock />
-              //     </InputAdornment>
-              //   ),
-              // }}
-              name="otp"
-              onChange={handleChange}
-            />
-            <div id="sign-in-button"> </div>
-            <div style={{ display: "flex", width: "100%" }}>
-              <Button variant="secondary" onClick={() => handleSendSms(values)}>
-                Gửi lại mã
-              </Button>
-
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                disabled={isSubmitting}
-              >
-                Xác nhận
-              </Button>
-            </div>
-          </Form>
-        )}
-      </Formik>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  disabled={isSubmitting}
+                >
+                  Xác nhận
+                </Button>
+                <Button
+                  variant="secondary"
+                  onClick={() => handleHideModal()}
+                >
+                  Hủy
+                </Button>
+              </div>
+            </Form>
+          )}
+        </Formik>
       </Paper>
     </Fade>
   );
