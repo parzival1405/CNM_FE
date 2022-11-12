@@ -18,7 +18,7 @@ import BasicPopover from "../../Popover";
 import { MoreHoriz } from "@material-ui/icons";
 import DeletePopover from "../../Popover/DeletePopover";
 
-function Friend({ friend, creator = null }) {
+function Friend({ friend, creator = null, isDelete = false }) {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   return (
@@ -29,16 +29,23 @@ function Friend({ friend, creator = null }) {
       <ListItemText
         style={{ paddingLeft: "5px" }}
         primary={friend?.username}
-        secondary={creator._id === friend._id ? "Trưởng nhóm" : ""}
+        secondary={creator?._id === friend?._id ? "Trưởng nhóm" : ""}
       />
-      {user._id === creator._id ? (
+      {isDelete && (
+        <DeletePopover member={friend} isDelete={isDelete}>
+          <IconButton>
+            <MoreHoriz />
+          </IconButton>
+        </DeletePopover>
+      )}
+      {user._id === creator?._id ? (
         <DeletePopover member={friend} creator={creator}>
           <IconButton>
             <MoreHoriz />
           </IconButton>
         </DeletePopover>
       ) : (
-        user._id === friend._id && (
+        user._id === friend?._id && (
           <DeletePopover isMember={true} member={friend}>
             <IconButton>
               <MoreHoriz />

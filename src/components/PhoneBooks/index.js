@@ -16,7 +16,7 @@ const navList = [
     name: "Danh sách kết bạn",
   },
   {
-    id: 1,
+    id: 2,
     logo: "https://images.assetsdelivery.com/compings_v2/yupiramos/yupiramos2004/yupiramos200436847.jpg",
     name: "Danh sách nhóm",
   },
@@ -37,19 +37,17 @@ function PhoneBooks({ socket }) {
             <p>Thêm bạn bằng số điện thoại</p>
           </div>
           {navList?.map((item) => (
-            <>
-              <div className="conversation-sidebar__nav-item">
+              <div key={item.id} className="conversation-sidebar__nav-item">
                 <img src={item.logo} alt="logo" />
                 <p>{item.name}</p>
               </div>
-            </>
           ))}
         </div>
         <Divider />
         <List style={{ maxHeight: 640, overflow: "auto" }}>
-          {user?.friends?.map((friend) => (
-            <Friend key={friend._id} friend={friend} />
-          ))}
+          {user?.friends?.map((friend) => 
+            <Friend key={friend._id} friend={friend} isDelete={true} />
+          )}
         </List>
       </div>
     </>

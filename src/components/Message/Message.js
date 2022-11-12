@@ -196,6 +196,7 @@ function Messages({ message }) {
                 color="textPrimary"
                 component="p"
                 variant="body"
+                style={{ fontStyle: "italic" }}
               >
                 Tin nhắn đã thu hồi
               </Typography>

@@ -15,8 +15,7 @@ API.interceptors.request.use((req) => {
 export const signIn = (formData) => API.post("api/auth/signin", formData);
 export const signUp = (formData) => API.post("api/auth/signup", formData);
 
-
-export const updateProfile = (data) => API.post("api/user/updateProfile",data);
+export const updateProfile = (data) => API.post("api/user/updateProfile", data);
 
 export const getAllFriends = () => API.post("api/user/getAllFriends");
 export const getAllFriendsQueue = () => API.post("api/user/getAllFriendsQueue");
@@ -50,13 +49,24 @@ export const demoPostFile = (formData) =>
     },
   });
 
-  export const checkOTP = (data) => API.post("api/auth/checkOTP",data);
+export const checkOTP = (data) => API.post("api/auth/checkOTP", data);
 
-  export const deleteMessage = (data) => API.post("api/message/deleteMessage",data);
+export const deleteMessage = (data) =>
+  API.post("api/message/deleteMessage", data);
 
-  export const updateLastMessage = (data) => API.post("api/conversation/updateLastMessage",data);
-  export const addMemberGroup = (data) => API.post("api/conversation/addMemberGroup",data);
-  export const changeLabel = (data) => API.post("api/conversation/changeLabel",data);
-  export const deleteMember = (data) => API.post("api/conversation/deleteMember",data);
-  export const updateCreator = (data) => API.post("api/conversation/updateCreator",data);
-  export const outGroup = (data) => API.post("api/conversation/outGroup",data);
+export const updateLastMessage = (data) =>
+  API.post("api/conversation/updateLastMessage", data);
+export const addMemberGroup = (data) =>
+  API.post("api/conversation/addMemberGroup", data);
+export const changeLabel = (data) =>
+  API.post("api/conversation/changeLabel", data);
+export const deleteMember = (data) =>
+  API.post("api/conversation/deleteMember", data);
+export const updateCreator = (data) =>
+  API.post("api/conversation/updateCreator", data);
+export const outGroup = (data) => API.post("api/conversation/outGroup", data);
+export const deleteGroup = (data) =>
+  API.post("api/conversation/deleteGroup", data);
+export const acceptFriend = (data) => API.post("api/user/acceptFriend", data);
+export const deniedFriend = (data) => API.post("api/user/deniedFriend", data);
+export const deleteFriend = (data) => API.post("api/user/deleteFriend", data);

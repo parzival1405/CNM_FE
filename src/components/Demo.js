@@ -13,26 +13,6 @@ import ListGroup from "./ListGroup";
 import PhoneBooks from "./PhoneBooks";
 import { Group } from "@material-ui/icons";
 
-// fake data
-const listFriendsRequest = [
-  {
-    id: 1,
-    name: "Văn Lộc",
-    subtitle: "Từ nhóm trò chuyện",
-    message: "Hi",
-    image:
-      "https://images.vexels.com/media/users/3/145908/raw/52eabf633ca6414e60a7677b0b917d92-male-avatar-maker.jpg",
-  },
-  {
-    id: 2,
-    name: "Hữu",
-    subtitle: "Từ nhóm trò chuyện Haha",
-    message: "Hello",
-    image:
-      "https://images.assetsdelivery.com/compings_v2/yupiramos/yupiramos2004/yupiramos200436847.jpg",
-  },
-];
-
 const listGroup = [
   {
     id: 1,
@@ -97,7 +77,6 @@ const listGroup = [
     image:
       "https://images.assetsdelivery.com/compings_v2/yupiramos/yupiramos2004/yupiramos200436847.jpg",
   },
-
 ];
 
 function Demo() {
@@ -147,12 +126,12 @@ function Demo() {
         if (data._id === currentConversation?._id) {
           dispatch({
             type: GLOBALTYPES.UPDATEMEMBER,
-            data,
+            payload: { data: data, user: user },
           });
         }
         dispatch({
           type: GLOBALTYPES.UPDATEMEMBER_ALL_CONVERSATION,
-          data,
+          payload: { data: data, user: user },
         });
       });
     }
@@ -162,16 +141,15 @@ function Demo() {
   useEffect(() => {
     if (socket?.current) {
       socket.current.on("deleteMemberGroup-receive", (data) => {
-        console.log(data);
         if (data._id === currentConversation?._id) {
           dispatch({
             type: GLOBALTYPES.DELETE_MEMBER_GROUP,
-            data,
+            payload: { data: data, user: user },
           });
         }
         dispatch({
           type: GLOBALTYPES.DELETE_MEMBER_GROUP_ALL_CONVERSATION,
-          data,
+          payload: { data: data, user: user },
         });
       });
     }
@@ -213,14 +191,13 @@ function Demo() {
     }
     return () => socket?.current.off("outGroup-receive");
   }, [socket, currentConversation, dispatch]);
-  console.log(isShowConversation)
+  console.log(isShowConversation);
   return (
-    
-    <Grid container style={{ height: "100%" }}>
-      <Grid item md={"auto"} style={{ backgroundColor: "#2ab7ca" }}>
+    <Grid container style={{ height: "100%", flexWrap: "nowrap" }}>
+      <Grid item md={"auto"} style={{ backgroundColor: "#0978f5" }}>
         <Nav />
       </Grid>
-      <Grid item md={3} style={{ borderRightStyle:'solid',borderColor: 'rgb(187, 187, 187)',borderWidth:'0.1px'}}>
+      <Grid item md={3}>
         {isShowConversation && <Conversations />}
         {isShowPhoneBook && <PhoneBooks />}
       </Grid>
@@ -232,20 +209,22 @@ function Demo() {
           }
         </Grid>
       )}
-      {/* {isShowPhoneBook && ( */}
-        <Grid item md={8} style={{borderWidth:1, borderColor:"#000"}}>
-          <div className="friend-request__container" >
-            <div
-              className="friend-request__container--list"
-              style={{
-                padding: "20px 100px",
-              }}
-            >
+      {isShowPhoneBook && (
+        <Grid style={{ flexGrow: 1, height: "inherit" }}>
+          <div className="friend-request__container">
+            <div className="friend-request__container--list">
               <ListGroup listFriendsRequest={listGroup} />
             </div>
           </div>
         </Grid>
-      {/* )} */}
+        // <Grid style={{ flexGrow: 1, height: "inherit" }}>
+        //   <div className="friend-request__container">
+        //     <div className="friend-request__container--list">
+        //       <ListFriendsRequest />
+        //     </div>
+        //   </div>
+        // </Grid>
+      )}
     </Grid>
   );
 }

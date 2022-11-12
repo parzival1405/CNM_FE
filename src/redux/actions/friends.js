@@ -37,3 +37,39 @@ export const requestAddFriend = (userResult) => async (dispatch) => {
         console.log(error);
     }
 }
+
+export const acceptAddFriend = (data2) => async (dispatch) => {
+    try{
+        const {data} = await api.acceptFriend(data2);
+        dispatch({
+            type: GLOBALTYPES.UPDATEPROFILE,
+            data,
+          });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const deniedAddFriend = (data2) => async (dispatch) => {
+    try{
+        const {data} = await api.deniedFriend(data2);
+        dispatch({
+            type: GLOBALTYPES.UPDATEPROFILE,
+            data,
+          });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const deleteFriend = (data2) => async (dispatch) => {
+    try{
+        const {data} = await api.deleteFriend(data2);
+        dispatch({
+            type: GLOBALTYPES.UPDATEPROFILE,
+            data,
+          });
+    } catch (error) {
+        console.log(error);
+    }
+}
