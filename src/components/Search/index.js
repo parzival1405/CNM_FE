@@ -116,11 +116,12 @@ function SearchComponent() {
           backgroundColor: "#0978f5",
           boxShadow: "none",
           borderLeft: "1px solid #bfd4e7",
+          height: "60px",
         }}
       >
         <Toolbar>
-          <SearchStyled style={{ marginLeft: 0,width:'60%' }}>
-            <Search />
+          <SearchStyled style={{ marginLeft: 0 }}>
+            <Search style={{ marginLeft: "5%" }} />
             <StyledInputBase
               ref={inputRef}
               placeholder="Tìm kiếm"

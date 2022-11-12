@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, TextField } from "@material-ui/core";
+import { Button, InputAdornment, TextField } from "@material-ui/core";
 import { Link, useNavigate } from "react-router-dom";
 import SigninImage from "../../assets/signup.jpg";
 import { useDispatch } from "react-redux";
@@ -10,6 +10,8 @@ import { validationLogin } from "../../utils/Validation";
 import * as api from "../../api";
 import { ShowOTP } from "../../redux/actions/modal";
 import { blue } from "@material-ui/core/colors";
+import { ErrorOutline } from "@material-ui/icons";
+
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -51,11 +53,14 @@ function Login() {
       data: { user },
     } = await api.checkOTP(data);
 
+    window.dataUser = data
+    window.isSignup = false;
+    window.isForgotPass = false;
     if (user.isVerifyOtp) {
       handleSendSms(values);
-      dispatch(ShowOTP(data));
+      dispatch(ShowOTP());
     } else {
-      alert("sai j day");
+      dispatch(signin(values, navigate));
     }
   };
   const handleSubmit = async (values) => {
@@ -74,7 +79,7 @@ function Login() {
             }}
             validationSchema={validationLogin}
             onSubmit={(values, { setSubmitting, resetForm }) => {
-              handleSubmit(values);
+              handleSubmitForm(values);
               setSubmitting(true);
               resetForm();
               setSubmitting(false);
@@ -105,14 +110,21 @@ function Login() {
                     onChange={handleChange}
                     FormHelperTextProps={{
                       style: {
-                        color: "#85245f",
-                        backgroundColor: "#ffd4dc",
-                        padding: "5px",
-                        borderRadius: "4px",
-                        border: "1px solid #ffd4dc",
-                        marginTop: "2px",
+                        marginTop: "4px",
                         marginLeft: "0",
                       },
+                    }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <ErrorOutline
+                            style={{
+                              color: "red",
+                              display: !errors.phoneNumber ? "none" : "block",
+                            }}
+                          />
+                        </InputAdornment>
+                      ),
                     }}
                   />
                 </div>
@@ -130,14 +142,21 @@ function Login() {
                     onChange={handleChange}
                     FormHelperTextProps={{
                       style: {
-                        color: "#85245f",
-                        backgroundColor: "#ffd4dc",
-                        padding: "5px",
-                        borderRadius: "4px",
-                        border: "1px solid #ffd4dc",
-                        marginTop: "2px",
+                        marginTop: "4px",
                         marginLeft: "0",
                       },
+                    }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <ErrorOutline
+                            style={{
+                              color: "red",
+                              display: !errors.password ? "none" : "block",
+                            }}
+                          />
+                        </InputAdornment>
+                      ),
                     }}
                   />
                 </div>

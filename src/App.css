@@ -8,6 +8,7 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
+
 }
 
 #root {
@@ -141,6 +142,7 @@ body {
 }
 
 @media screen and (max-width: 800px) {
+  
   .auth__form-container {
     flex-direction: column-reverse;
   }
@@ -173,7 +175,17 @@ body {
     right: 3%;
   }
 }
-
+/* @media screen and (max-width: 800px){ 
+  html{
+    width: 800px;
+  }
+  .con{
+    width: 0;
+  }
+  .nhaptn{
+    
+  }
+} */
 .app__wrapper {
   display: flex;
   flex: 1;
@@ -209,18 +221,10 @@ body {
   cursor: pointer;
 }
 
-@media screen and (max-width: 960px) {
-  .str-chat-channel-list.team.light {
-    position: unset;
-    left: unset;
-    top: unset;
-    z-index: unset;
-    min-height: unset;
-    overflow-y: unset;
-    box-shadow: unset;
-    transition: unset;
-  }
-}
+
+
+
+
 
 .channel-empty__container {
   display: flex;
@@ -465,7 +469,7 @@ body {
   background: none;
   border: none;
   color: #fff;
-  font-family: Helvetica Neue, sans-serif;
+  font-family: Helvetica Neue, sans-serif,Poppins;
   font-size: 16px;
   outline: none;
 }
@@ -1720,8 +1724,23 @@ div.rta__autocomplete.str-chat__emojisearch {
   width: 100%;
   padding: 10px;
 }
-
 @media screen and (max-width: 960px) {
+  .str-chat-channel-list.team.light { 
+    position: unset;
+    left: unset;
+    top: unset;
+    z-index: unset;
+    min-height: unset;
+    overflow-y: unset;
+    box-shadow: unset;
+    transition: unset;
+  }
+  .con{
+    width: 0;
+  }
+}
+@media screen and (max-width: 960px) {
+
   .channel-list__container {
     display: none;
   }
@@ -1786,6 +1805,7 @@ div.rta__autocomplete.str-chat__emojisearch {
     top: 100%;
     left: 5%;
   }
+
 }
 
 @media screen and (max-width: 650px) {
@@ -1849,6 +1869,7 @@ padding-left: 4px;
 
 border: 2px solid #707070;
 border-radius: 4px;
+
 }
 .tf:focus{
 border: 2px solid #0077ff;
@@ -1857,7 +1878,7 @@ label{
 margin-bottom: 4px;
 }
 .auth__form-container_fields-content p, label, input{
-font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+font-family:"Poppins", "Roboto", "Helvetica", "Arial", sans-serif;
 }
 a{
   text-decoration: none;
@@ -1865,3 +1886,4 @@ a{
 ::-webkit-scrollbar {
   width: 0px;
 }
+

@@ -13,7 +13,7 @@ import {
   Select,
   TextField,
 } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BaseModal from "./BaseModal";
 import useStyles from "./styles";
 import { useDispatch, useSelector } from "react-redux";
@@ -35,8 +35,14 @@ function Profile() {
   const [avatar, setAvatar] = useState(() => user.avatarURL);
   const [username, setUsername] = useState(() => user.username);
   const [gender, setGender] = useState(() => user.gender);
-  const [dob, setDob] = useState("");
-  const [image, setImage] = useState({});
+  const [dob, setDob] = useState(user.dob);
+
+  useEffect(() => {
+    setAvatar(user.avatarURL);
+    setUsername(user.username);
+    setGender(user.gender);
+    setDob(user.dob);
+  }, [user]);
 
   const handleHideModal = () => {
     dispatch(hideModal("isShowFormSettingModal"));
@@ -57,10 +63,10 @@ function Profile() {
         <h3 className={classes.username}>{username}</h3>
         <Formik
           initialValues={{
-            username: "",
-            avatarURL: "",
-            gender: "",
-            dob: "",
+            username: username,
+            avatarURL: avatar,
+            gender: gender,
+            dob: dob,
           }}
           validationSchema={validationChangeProfile}
           onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -117,72 +123,70 @@ function Profile() {
                   justifyContent: "flex-start",
                 }}
               >
-                {/* <FormControl>
-                  <InputLabel className={classes.gender}>Gender</InputLabel>
-                  <Select
-                    label="gender"
-                    name="gender"
-                    error={errors.gender}
-                    helperText={errors.gender}
-                    touched={touched.gender}
-                    value={values.gender}
-                    onChange={handleChange}
-                    style={{
-                      width: "150px",
-                      padding: "0 60px 0 0px",
-                      marginRight: "10px",
-                    }}
-                    variant="outlined"
-                  >
-                    <MenuItem value={true}>Nam</MenuItem>
-                    <MenuItem value={false}>Nu</MenuItem>
-                  </Select>
-                </FormControl> */}
                 <FormControl>
                   <FormLabel id="demo-radio-buttons-group-label">
-                    Gender
+                    Giới tính
                   </FormLabel>
                   <RadioGroup
                     aria-labelledby="demo-radio-buttons-group-label"
-                    defaultValue="male"
+                    defaultValue="true"
                     name="radio-buttons-group"
                   >
                     <div style={{ display: "flex", flexDirection: "row" }}>
                       <FormControlLabel
-                        value="male"
-                        control={<Radio />}
+                        value="true"
+                        control={<Radio checked={values.gender === true} />}
                         label="Male"
+                        name="gender"
+                        onChange={(val) => {
+                          setFieldValue("gender", true);
+                        }}
                       />
                       <FormControlLabel
-                        value="female"
-                        control={<Radio />}
+                        value="false"
+                        control={<Radio checked={values.gender === false} />}
                         label="Female"
+                        name="gender"
+                        onChange={(val) => {
+                          setFieldValue("gender", false);
+                        }}
                       />
                     </div>
                   </RadioGroup>
                 </FormControl>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <KeyboardDatePicker
-                    name="dob"
-                    inputVariant="outlined"
-                    format="MM/dd/yyyy"
-                    value={values.dob}
-                    error={errors.dob}
-                    helperText={errors.dob}
-                    touched={touched.dob}
-                    onChange={(val) => {
-                      setFieldValue("dob", val);
-                    }}
-                    KeyboardButtonProps={{
-                      "aria-label": "change date",
-                    }}
+
+                <FormControl>
+                  <FormLabel
+                    id="demo-radio-buttons-group-label"
                     style={{
-                      width: "30%",
-                      marginLeft: "20px",
-                      fontSize: "20px",
+                      marginLeft: "50px",
                     }}
-                  />
-                </MuiPickersUtilsProvider>
+                  >
+                    Ngày sinh
+                  </FormLabel>
+                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <KeyboardDatePicker
+                      name="dob"
+                      inputVariant="outlined"
+                      format="MM/dd/yyyy"
+                      value={values.dob}
+                      error={errors.dob}
+                      helperText={errors.dob}
+                      touched={touched.dob}
+                      onChange={(val) => {
+                        setFieldValue("dob", val);
+                      }}
+                      KeyboardButtonProps={{
+                        "aria-label": "change date",
+                      }}
+                      style={{
+                        width: "50%",
+                        marginLeft: "50px",
+                        fontSize: "20px",
+                      }}
+                    />
+                  </MuiPickersUtilsProvider>
+                </FormControl>
               </div>
 
               <div className={classes.actions}>
@@ -190,7 +194,8 @@ function Profile() {
                   Hủy
                 </Button>
                 <Button
-                  color="primary"
+                  // color="#0978f5"
+                  style={{ backgroundColor: "#0978f5", color: "white" }}
                   variant="contained"
                   type="submit"
                   isSubmitting={isSubmitting}

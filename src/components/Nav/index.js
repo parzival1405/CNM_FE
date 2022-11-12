@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
-import { List, Avatar, Box, IconButton } from "@material-ui/core";
+import { List, Avatar, Box, IconButton, Badge } from "@material-ui/core";
 import BasicPopover from "../Popover";
+import LogoutPopover from "../Popover";
 import { Textsms, Contacts, Settings } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -9,6 +10,9 @@ import decode from "jwt-decode";
 import { showConversation, showPhoneBook } from "../../redux/actions/sideBar";
 function Nav() {
   const { user, token } = useSelector((state) => state.auth);
+  const { numberOfNotification } = useSelector((state) => state.conversations);
+  const { notification } = useSelector((state) => state.auth);
+
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -37,7 +41,7 @@ function Nav() {
   return (
     <List
       style={{
-        height: "100%",
+        height: "97.6%",
         overflow: "auto",
         display: "flex",
         justifyContent: "space-around",
@@ -55,14 +59,20 @@ function Nav() {
         <BasicPopover handleLogout={handleLogout}>
           <Avatar src={user.avatarURL} />
         </BasicPopover>
+
         <IconButton
           onClick={handleShowConversations}
           style={{ margin: "8px 0" }}
         >
-          <Textsms style={{ fontSize: "32px", color: "white" }} />
+          <Badge badgeContent={numberOfNotification} color="error">
+            <Textsms style={{ fontSize: "32px", color: "white" }} />
+          </Badge>
         </IconButton>
+
         <IconButton onClick={handleShowPhoneBooks}>
-          <Contacts style={{ fontSize: "32px", color: "white" }} />
+          <Badge badgeContent={notification} color="error">
+            <Contacts style={{ fontSize: "32px", color: "white" }} />
+          </Badge>
         </IconButton>
       </Box>
       <Box sx={{ flexGrow: 1 }} />
@@ -70,6 +80,7 @@ function Nav() {
         <IconButton>
           <Settings style={{ fontSize: "32px", color: "white" }} />
         </IconButton>
+        
       </Box>
     </List>
   );

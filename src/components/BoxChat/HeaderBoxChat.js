@@ -85,6 +85,7 @@ function HeaderBoxChat() {
         style={{
           backgroundColor: "#0978f5",
           boxShadow: "none",
+          height: "60px",
         }}
       >
         <Toolbar>

@@ -44,6 +44,11 @@ export const refresh = () => async (dispatch) => {
   }
 };
 
+export const forgotPassword = (data,navigate) => async (dispatch) => {
+  await api.forgotPassword(data);
+  navigate("/login");
+};
+
 export const updateProfile = (data) => async (dispatch) => {
  
     try {

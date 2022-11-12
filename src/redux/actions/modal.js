@@ -72,12 +72,8 @@ export const showChangeCreator = () => async (dispatch) => {
   } catch (err) {}
 };
 
-export const ShowOTP = (data) => async (dispatch) => {
+export const ShowOTP = () => async (dispatch) => {
   try {
-    // dispatch({
-    //   type: GLOBALTYPES.DATA_OTP_MODAL,
-    //   data,
-    // });
     dispatch({
       type: GLOBALTYPES.SHOW_OTP_MODAL,
     });

@@ -7,6 +7,7 @@ import {
   ListItem,
   ListItemText,
   Popover,
+  Typography,
 } from "@material-ui/core";
 // import { Textsms, Contacts, Settings } from "@material-ui/icons";
 // import Profile from "../Modal/Profile";
@@ -67,19 +68,31 @@ function BasicPopover({ children, handleLogout }) {
         >
           <List>
             <ListItem>
-              <ListItemText primary={user.username} />
+              <ListItemText
+                primary={
+                  <Typography type="body2" style={{ fontWeight: "700" }}>
+                    {user.username}
+                  </Typography>
+                }
+              />
             </ListItem>
           </List>
           <Divider variant="middle" />
           <List>
             <ListItem button onClick={handleShowFormSettingModal}>
-              <ListItemText primary="Hồ sơ" />
+              <ListItemText primary="Hồ sơ của bạn" />
             </ListItem>
           </List>
           <Divider variant="middle" />
           <List>
             <ListItem button onClick={handleLogout}>
               <ListItemText primary="Đăng xuất" />
+            </ListItem>
+          </List>
+          <Divider variant="middle" />
+          <List>
+            <ListItem button>
+              <ListItemText primary="Zola PC v-1.1.1.1" />
             </ListItem>
           </List>
         </Box>

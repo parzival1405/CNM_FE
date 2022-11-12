@@ -5,6 +5,7 @@ import {
   Button,
   FormControl,
   FormControlLabel,
+  InputAdornment,
   InputLabel,
   MenuItem,
   Radio,
@@ -19,49 +20,73 @@ import { useDispatch } from "react-redux";
 import { signup } from "../../redux/actions/auth";
 import { Form, Formik } from "formik";
 import DateFnsUtils from "@date-io/date-fns";
-// import { firebase, auth } from "../../Firebase";
+import { firebase, auth } from "../../Firebase";
 import { validationRegister } from "../../utils/Validation";
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 
+import { ErrorOutline } from "@material-ui/icons";
+
+import { ShowOTP } from "../../redux/actions/modal";
+import { checkPhonenumber } from "../../api";
+
+
 function Register() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleSubmit = async (values) => {
-    dispatch(signup(values, navigate));
-    console.log("sdasd")
-    //   let recaptcha = new firebase.auth.RecaptchaVerifier('recaptcha', {
-    //       'size': 'invisible'
-    //   });
-    //   const phoneNumberVN = "+84" + form.phoneNumber.slice(1,form.phoneNumber.length);
 
-    //   auth.signInWithPhoneNumber(phoneNumberVN, recaptcha).then((result) => {
-    //       let code = prompt('Nhập mã OTP')
-    //       if(code != null){
-    //           result.confirm(code).then((result)=> {
-    //               console.log(result.user)
-    //               dispatch(signin(form, navigate));
-    //           }).catch(err => {
-    //               alert('Sai mã OTP')
-    //           })
-    //       }
-    //   }).catch(err => {
-    //       console.log(err)
-    //   })
+  const configureCaptcha = () => {
+    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+      "recaptcha",
+      {
+        size: "invisible",
+        callback: (response) => {
+          handleSendSms();
+        },
+        defaultCountry: "IN",
+      }
+    );
   };
-  // let dob = document.getElementById("dob");
-  // const [show, toggleShow] = useState(false);
-  // // const [btnstate, setBtnstate] = useState(false);
-  // function dobhandleClick() {
-  //   // setBtnstate((btnstate) => !btnstate);
-  //   // toggleShow(!show);
-  //   dob.focus();
-  //   dob.click();
-  // }
-  // // let toggleClasscheck = btnstate ? "active" : null;
+
+  const handleSendSms = (values) => {
+    configureCaptcha();
+    const phoneNumber = "+84" + values.phoneNumber.slice(1);
+    const appVerifier = window.recaptchaVerifier;
+    firebase
+      .auth()
+      .signInWithPhoneNumber(phoneNumber, appVerifier)
+      .then((confirmationResult) => {
+        window.confirmationResult = confirmationResult;
+      })
+      .catch((error) => {
+        console.log("SMS not sent", error);
+      });
+  };
+
+  const handleSubmitForm = async (values) => {
+    const data = {
+      username:values.username,
+      phoneNumber:values.phoneNumber,
+      password:values.password,
+      confirmPassword:values.confirmPassword,
+      gender:values.gender,
+      dob:values.dob,
+    };
+    window.dataUser = data;
+    window.isSignup = true;
+    window.isForgotPass = false
+    const data2 = await checkPhonenumber({phoneNumber:values.phoneNumber})
+    if(!data2.data.isExist){
+      handleSendSms(values);
+      dispatch(ShowOTP());
+    }else{
+      alert("Số điện thoại này đã được đăng kí");
+    }
+    
+  };
 
   return (
     <div className="auth__form-container" style={{ height: "100vh" }}>
@@ -82,7 +107,7 @@ function Register() {
             }}
             validationSchema={validationRegister}
             onSubmit={(values, { setSubmitting, resetForm }) => {
-              handleSubmit(values);
+              handleSubmitForm(values);
               setSubmitting(true);
               resetForm();
               setSubmitting(false);
@@ -114,14 +139,21 @@ function Register() {
                     onChange={handleChange}
                     FormHelperTextProps={{
                       style: {
-                        color: "#85245f",
-                        backgroundColor: "#ffd4dc",
-                        padding: "5px",
-                        borderRadius: "4px",
-                        border: "1px solid #ffd4dc",
-                        marginTop: "2px",
+                        marginTop: "4px",
                         marginLeft: "0",
                       },
+                    }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <ErrorOutline
+                            style={{
+                              color: "red",
+                              display: !errors.phoneNumber ? "none" : "block",
+                            }}
+                          />
+                        </InputAdornment>
+                      ),
                     }}
                   />
                 </div>
@@ -140,14 +172,21 @@ function Register() {
                     onChange={handleChange}
                     FormHelperTextProps={{
                       style: {
-                        color: "#85245f",
-                        backgroundColor: "#ffd4dc",
-                        padding: "5px",
-                        borderRadius: "4px",
-                        border: "1px solid #ffd4dc",
-                        marginTop: "2px",
+                        marginTop: "4px",
                         marginLeft: "0",
                       },
+                    }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <ErrorOutline
+                            style={{
+                              color: "red",
+                              display: !errors.username ? "none" : "block",
+                            }}
+                          />
+                        </InputAdornment>
+                      ),
                     }}
                   />
                 </div>
@@ -162,23 +201,30 @@ function Register() {
                       value={values.dob}
                       error={errors.dob}
                       helperText={errors.dob}
-                      FormHelperTextProps={{
-                        style: {
-                          color: "#85245f",
-                          backgroundColor: "#ffd4dc",
-                          padding: "5px",
-                          borderRadius: "4px",
-                          border: "1px solid #ffd4dc",
-                          marginTop: "2px",
-                          marginLeft: "0",
-                        },
-                      }}
                       touched={touched.dob}
                       onChange={(val) => {
                         setFieldValue("dob", val);
                       }}
                       KeyboardButtonProps={{
                         "aria-label": "change date",
+                      }}
+                      FormHelperTextProps={{
+                        style: {
+                          marginTop: "4px",
+                          marginLeft: "0",
+                        },
+                      }}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <ErrorOutline
+                              style={{
+                                color: "red",
+                                display: !errors.dob ? "none" : "block",
+                              }}
+                            />
+                          </InputAdornment>
+                        ),
                       }}
                     />
                   </MuiPickersUtilsProvider>
@@ -202,17 +248,17 @@ function Register() {
                   <label>Giới tính</label>
                   <RadioGroup
                     aria-labelledby="demo-radio-buttons-group-label"
-                    defaultValue="male"
+                    defaultValue="true"
                     name="radio-buttons-group"
                   >
                     <div style={{ display: "flex", flexDirection: "row" }}>
                       <FormControlLabel
-                        value="male"
+                        value="true"
                         control={<Radio />}
                         label="Nam"
                       />
                       <FormControlLabel
-                        value="female"
+                        value="false"
                         control={<Radio />}
                         label="Nữ"
                       />
@@ -233,14 +279,21 @@ function Register() {
                     onChange={handleChange}
                     FormHelperTextProps={{
                       style: {
-                        color: "#85245f",
-                        backgroundColor: "#ffd4dc",
-                        padding: "5px",
-                        borderRadius: "4px",
-                        border: "1px solid #ffd4dc",
-                        marginTop: "2px",
+                        marginTop: "4px",
                         marginLeft: "0",
                       },
+                    }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <ErrorOutline
+                            style={{
+                              color: "red",
+                              display: !errors.password ? "none" : "block",
+                            }}
+                          />
+                        </InputAdornment>
+                      ),
                     }}
                   />
                 </div>
@@ -258,14 +311,23 @@ function Register() {
                     onChange={handleChange}
                     FormHelperTextProps={{
                       style: {
-                        color: "#85245f",
-                        backgroundColor: "#ffd4dc",
-                        padding: "5px",
-                        borderRadius: "4px",
-                        border: "1px solid #ffd4dc",
-                        marginTop: "2px",
+                        marginTop: "4px",
                         marginLeft: "0",
                       },
+                    }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <ErrorOutline
+                            style={{
+                              color: "red",
+                              display: !errors.confirmPassword
+                                ? "none"
+                                : "block",
+                            }}
+                          />
+                        </InputAdornment>
+                      ),
                     }}
                   />
                 </div>
