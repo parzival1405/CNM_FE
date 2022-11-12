@@ -10,7 +10,8 @@ import decode from "jwt-decode";
 import { showConversation, showPhoneBook } from "../../redux/actions/sideBar";
 function Nav() {
   const { user, token } = useSelector((state) => state.auth);
-  const {numberOfNotification} = useSelector((state) => state.conversations);
+  const { numberOfNotification } = useSelector((state) => state.conversations);
+  const { notification } = useSelector((state) => state.auth);
 
   const location = useLocation();
   const dispatch = useDispatch();
@@ -63,26 +64,24 @@ function Nav() {
           onClick={handleShowConversations}
           style={{ margin: "8px 0" }}
         >
-          <Badge 
-          badgeContent={numberOfNotification} 
-          color="error">
+          <Badge badgeContent={numberOfNotification} color="error">
             <Textsms style={{ fontSize: "32px", color: "white" }} />
           </Badge>
         </IconButton>
 
         <IconButton onClick={handleShowPhoneBooks}>
-          <Badge badgeContent={4} color="error">
+          <Badge badgeContent={notification} color="error">
             <Contacts style={{ fontSize: "32px", color: "white" }} />
           </Badge>
         </IconButton>
       </Box>
       <Box sx={{ flexGrow: 1 }} />
-      {/* <Box sx={{ display: { xs: "none", md: "flex" } }}>
+      <Box sx={{ display: { xs: "none", md: "flex" } }}>
         <IconButton>
           <Settings style={{ fontSize: "32px", color: "white" }} />
         </IconButton>
         
-      </Box> */}
+      </Box>
     </List>
   );
 }

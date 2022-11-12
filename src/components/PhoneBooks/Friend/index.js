@@ -32,7 +32,7 @@ function Friend({ friend, creator = null, isDelete = false }) {
         secondary={creator?._id === friend?._id ? "Trưởng nhóm" : ""}
       />
       {isDelete && (
-        <DeletePopover member={friend} isDelete={isDelete}>
+        <DeletePopover member={friend} isDeleteAndConv={isDelete}>
           <IconButton>
             <MoreHoriz />
           </IconButton>

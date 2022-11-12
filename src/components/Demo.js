@@ -181,10 +181,17 @@ function Demo() {
           isShowPhoneBook ||
           data.conversation._id !== currentConversation?._id
         ) {
-          console.log("here");
+          // dispatch({ type: GLOBALTYPES.DELETEMESSAGE, data });
         } else {
           dispatch({ type: GLOBALTYPES.DELETEMESSAGE, data });
         }
+        dispatch({
+          type: GLOBALTYPES.UPDATE_LAST_MSG_CONVERSATION_DELETE,
+          payload: {
+            data: data,
+            conversation: data.conversation,
+          },
+        });
       });
     }
     return () => socket?.current.off("delete-receive");
@@ -192,17 +199,25 @@ function Demo() {
 
   useEffect(() => {
     if (socket?.current) {
+      console.log(1);
       socket.current.on("requestAddFriendToClient", (data) => {
-        console.log(data);
         user.friendsQueue.push(data);
+        if (!isShowPhoneBook) {
+          dispatch({
+            type: GLOBALTYPES.UPDATENOTIFICATION,
+          });
+        }
         dispatch({
           type: GLOBALTYPES.UPDATEPROFILE,
           user,
         });
       });
     }
-    return () => socket?.current.off("requestAddFriendToClient");
-  }, [dispatch, socket]);
+    return () => {
+      console.log(2)
+      socket?.current.off("requestAddFriendToClient");
+    };
+  }, [dispatch, isShowPhoneBook, socket]);
   return (
     <Grid container style={{ height: "100%", display: "flex" }}>
       <Grid

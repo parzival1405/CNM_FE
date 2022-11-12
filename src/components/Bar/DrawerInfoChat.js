@@ -243,7 +243,7 @@ export default function PersistentDrawerRight() {
           </ListItem>
         </List>
         <Divider />
-        {currentConversation.member.length >= 3 && (
+        {currentConversation.isGroup && (
           <Accordion style={{ marginTop: 20 }}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
@@ -261,18 +261,20 @@ export default function PersistentDrawerRight() {
             </AccordionDetails>
           </Accordion>
         )}
-        <Accordion style={{ marginTop: 20 }}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel2a-content"
-            id="panel2a-header"
-          >
-            <Typography>Bảng tin nhóm</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography>Null</Typography>
-          </AccordionDetails>
-        </Accordion>
+        {currentConversation.isGroup && (
+          <Accordion style={{ marginTop: 20 }}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel2a-content"
+              id="panel2a-header"
+            >
+              <Typography>Bảng tin nhóm</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>Null</Typography>
+            </AccordionDetails>
+          </Accordion>
+        )}
         <Accordion style={{ marginTop: 20 }}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -328,19 +330,24 @@ export default function PersistentDrawerRight() {
           <ListItemText primary="Inbox" />
           {isShowInformation ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
-        {user._id === currentConversation.createdBy._id && (
-          <ListItem button onClick={handleShowChangeCreator}>
-            <ListItemText primary="Thay đổi trưởng nhóm" />
-          </ListItem>
-        )}
-        {user._id === currentConversation.createdBy._id && (
-          <ListItem button onClick={handleDeleteGroup}>
-            <ListItemText primary="Giải tán nhóm" />
-          </ListItem>
-        )}
-        <ListItem button onClick={handleOutGroup}>
-          <ListItemText primary="Rời nhóm" />
-        </ListItem>
+        {user._id === currentConversation.createdBy._id &&
+          currentConversation.isGroup && (
+            <ListItem button onClick={handleShowChangeCreator}>
+              <ListItemText primary="Thay đổi trưởng nhóm" />
+            </ListItem>
+          )}
+        {user._id === currentConversation.createdBy._id &&
+          currentConversation.isGroup && (
+            <ListItem button onClick={handleDeleteGroup}>
+              <ListItemText primary="Giải tán nhóm" />
+            </ListItem>
+          )}
+        {user._id === currentConversation.createdBy._id &&
+          currentConversation.isGroup && (
+            <ListItem button onClick={handleOutGroup}>
+              <ListItemText primary="Rời nhóm" />
+            </ListItem>
+          )}
         <Collapse in={isShowInformation} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             <ListItem button className={classes.nested}>

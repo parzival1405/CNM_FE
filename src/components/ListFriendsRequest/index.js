@@ -4,9 +4,11 @@ import { Grid, Typography } from "@material-ui/core";
 import "./styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import { acceptAddFriend, deniedAddFriend } from "../../redux/actions/friends";
+import { createConversation } from "../../redux/actions/coversations";
 
 const FriendRequest = ({ item }) => {
   const { socket } = useSelector((state) => state.socket);
+  const { user } = useSelector((state) => state.auth);
   const { avatarURL, username, subtitle, message } = item;
   const dispatch = useDispatch();
 
@@ -21,7 +23,17 @@ const FriendRequest = ({ item }) => {
     const data = {
       acceptFriendId: item._id,
     };
+    
     dispatch(acceptAddFriend(data, socket.current));
+
+
+    const data2 = {
+      label: "",
+      member: [user._id,item._id],
+      createdBy: user._id,
+      isGroup:false
+    };
+    dispatch(createConversation(data2, socket.current));
   };
   return (
     <>

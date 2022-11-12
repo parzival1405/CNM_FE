@@ -19,7 +19,7 @@ function DeletePopover({
   member,
   creator = null,
   isMember = false,
-  isDelete,
+  isDeleteAndConv,
 }) {
   const [listMember, setListMember] = useState([]);
   const { currentConversation } = useSelector(
@@ -39,17 +39,17 @@ function DeletePopover({
   };
 
   const handleDeleteUser = () => {
-    if (isDelete) {
+    if (isDeleteAndConv) {
       if (
         window.confirm(
           `Bạn chắc chắn muốn hủy kết bạn với ${member.username} ?`
         )
       ) {
         const data = {
-          deleteFriendId:member._id
-        }
-        dispatch(deleteFriend(data,socket.current));
-      } 
+          deleteFriendId: member._id,
+        };
+        dispatch(deleteFriend(data, socket.current));
+      }
     } else {
       if (
         window.confirm(
@@ -61,10 +61,14 @@ function DeletePopover({
     }
   };
 
+  const handleNewConversation = () => {
+    console.log("hể")
+  };
+
   const body = (
     <List>
       <ListItem button onClick={handleDeleteUser}>
-        {isDelete ? (
+        {isDeleteAndConv ? (
           <ListItemText primary={"Hủy bạn bè"} />
         ) : (
           <ListItemText
@@ -77,6 +81,9 @@ function DeletePopover({
             }
           />
         )}
+      </ListItem>
+      <ListItem button onClick={handleNewConversation}>
+        {isDeleteAndConv && <ListItemText primary={"Nhắn tin"} />}
       </ListItem>
     </List>
   );

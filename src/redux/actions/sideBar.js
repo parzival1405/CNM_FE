@@ -20,6 +20,9 @@ export const showInformation = () => async (dispatch) => {
 export const showPhoneBook = () => async (dispatch) => {
   try {
     dispatch({
+      type: GLOBALTYPES.REMOVENOTIFICATION,
+    });
+    dispatch({
       type: GLOBALTYPES.SHOW_PHONEBOOK,
     });
   } catch (err) {}

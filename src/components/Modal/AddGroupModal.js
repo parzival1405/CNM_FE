@@ -43,6 +43,7 @@ function AddGroupModal() {
       label: values.label,
       member: _listMember,
       createdBy: user._id,
+      isGroup:true
     };
     dispatch(createConversation(data, socket.current));
     setListMember([]);
