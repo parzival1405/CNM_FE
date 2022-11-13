@@ -69,8 +69,14 @@ export const acceptFriend = (data) => API.post("api/user/acceptFriend", data);
 export const deniedFriend = (data) => API.post("api/user/deniedFriend", data);
 export const deleteFriend = (data) => API.post("api/user/deleteFriend", data);
 
+<<<<<<< HEAD
 export const checkPhonenumber = (data) =>
   API.post("api/auth/checkPhonenumber", data);
 
 export const forgotPassword = (data) =>
   API.post("api/auth/forgotPassword", data);
+=======
+export const checkPhonenumber = (data) => API.post("api/auth/checkPhonenumber", data);
+
+export const forgotPassword = (data) => API.post("api/auth/forgotPassword", data);
+>>>>>>> 2a44a7912b23889e62213f133a746a23db390664

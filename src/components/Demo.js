@@ -197,14 +197,23 @@ function Demo() {
       <Grid item md={"auto"} style={{ backgroundColor: "#0978f5" }}>
         <Nav />
       </Grid>
-      <Grid item md={3}>
-        {isShowConversation && <Conversations />}
-        {isShowPhoneBook && <PhoneBooks />}
+      <Grid item md={3} className={"con"}>
+        {isShowConversation && (
+          <Conversations style={{ flex: "0 1 auto", minWidth: "1000px" }} />
+        )}
+        {isShowPhoneBook && <PhoneBooks style={{ flex: "0 1 auto" }} />}
       </Grid>
       {isShowConversation && (
         <Grid item style={{ flexGrow: 1, height: "inherit" }}>
           {
-            currentConversation ? <BoxChat style={{ height: "100%" }} /> : ""
+            currentConversation ? (
+              <>
+                <BoxChat style={{ height: "100%" }} />
+                <DrawerInfoChat style={{ with: 0, height: 0 }}></DrawerInfoChat>
+              </>
+            ) : (
+              ""
+            )
             // <Slider/>
           }
         </Grid>

@@ -173,7 +173,6 @@ function BoxChat() {
         </InfiniteScroll>
       </Paper>
       <FootBoxChat handleSendMsg={handleSendMsg} />
-      <DrawerInfoChat style={{ with: 0, height: 0 }}></DrawerInfoChat>
     </Wrapper>
   );
 }
