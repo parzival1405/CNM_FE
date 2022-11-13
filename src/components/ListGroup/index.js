@@ -37,7 +37,10 @@ const Groups = ({ item }) => {
 
   return (
     <>
-      <div className="friend-request">
+      <div
+        className="friend-request"
+        style={{ height: 200, width: 200, justifyContent: "center" }}
+      >
         <div className="friend-request__main">
           <div className="friend-request__main-content">
             <AvatarGroup max={4}>
@@ -93,6 +96,7 @@ const ListGroup = ({ listFriendsRequest }) => {
               backgroundColor: "#0978f5",
               boxShadow: "none",
               borderLeft: "1px solid #bfd4e7",
+              height: "60px",
             }}
           >
             <Toolbar>

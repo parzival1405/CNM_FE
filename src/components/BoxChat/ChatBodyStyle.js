@@ -1,6 +1,14 @@
 import { makeStyles } from "@material-ui/core/styles";
 
 export default makeStyles((theme) => ({
+  wrapperDrawerOpen: {
+    borderLeft: "1px solid #bfd4e7",
+    width: "63%",
+  },
+  wrapperDrawerClose: {
+    borderLeft: "1px solid #bfd4e7",
+    width: "100%",
+  },
   chatBody: {
     flex: "1",
     overflowY: "auto",

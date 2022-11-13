@@ -90,7 +90,7 @@ function BoxChat() {
   useEffect(() => {
     if (socket.current) {
       socket.current.on("msg-receive", (data) => {
-        console.log(data)
+        console.log(data);
         if (
           currentConversation === undefined ||
           data.conversation._id !== currentConversation?._id
@@ -113,7 +113,7 @@ function BoxChat() {
       });
     }
     return () => socket.current.off("msg-receive");
-  }, [currentConversation,socket]);
+  }, [currentConversation, socket]);
 
   useEffect(() => {
     if (socket.current) {
@@ -129,7 +129,7 @@ function BoxChat() {
       });
     }
     return () => socket.current.off("delete-receive");
-  }, [currentConversation,socket]);
+  }, [currentConversation, socket]);
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -141,7 +141,9 @@ function BoxChat() {
     setOpen(true);
   };
   return (
-    <Wrapper style={{ borderLeft: "1px solid #bfd4e7" }}>
+    // Drawer Open and Close
+    // <Wrapper className={clsx(classes.wrapperDrawerClose)}>
+    <Wrapper className={clsx(classes.wrapperDrawerOpen)}>
       <HeaderBoxChat />
       <Paper
         style={{ flexGrow: 1, boxShadow: "none" }}
