@@ -214,10 +214,30 @@ function Demo() {
       });
     }
     return () => {
-      console.log(2)
+      console.log(2);
       socket?.current.off("requestAddFriendToClient");
     };
   }, [dispatch, isShowPhoneBook, socket]);
+
+  useEffect(() => {
+    if (socket?.current) {
+      socket?.current.on("onTypingTextToClient", (data) => {
+        console.log(data)
+        dispatch({ type: GLOBALTYPES.TYPING_TEXT, payload: data });
+      });
+    }
+    return () =>  socket?.current.off("onTypingTextToClient");
+  }, [socket, dispatch]);
+
+  useEffect(() => {
+    if (socket?.current) {
+      socket?.current.on("offTypingTextToClient", (data) => {
+        dispatch({ type: GLOBALTYPES.OFF_TYPING_TEXT, payload: data });
+      });
+    }
+    return () =>  socket?.current.off("offTypingTextToClient");
+  }, [socket, dispatch]);
+
   return (
     <Grid container style={{ height: "100%", display: "flex" }}>
       <Grid

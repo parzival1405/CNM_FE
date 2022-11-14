@@ -6,6 +6,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import Message from "../Message/Message";
 import useStyles from "./ChatBodyStyle";
 import clsx from "clsx";
+import Typing from "../../utils/Typing";
 import { GLOBALTYPES } from "../../constants/actionType";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -33,7 +34,14 @@ function BoxChat() {
   const { socket } = useSelector((state) => state.socket);
   const dispatch = useDispatch();
   const scrollRef = useRef();
-
+  const typing = useSelector((state) => state.typingReducer);
+  var members = [];
+  const listUserTyping = typing.filter(
+    (item) => item.conversationId === currentConversation._id
+  );
+  if (listUserTyping.length > 0) {
+    members = listUserTyping.map((item) => item.sender);
+  }
   useEffect(() => {
     if (currentConversation) {
       dispatch(
@@ -126,6 +134,19 @@ function BoxChat() {
             ))}
         </InfiniteScroll>
       </Paper>
+      {listUserTyping.length > 0 && (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            backgroundColor: "#fff",
+            color: "#000",
+          }}
+        >
+          <Typing />
+          {members} đang nhập
+        </div>
+      )}
       <FootBoxChat handleSendMsg={handleSendMsg} />
     </Wrapper>
   );

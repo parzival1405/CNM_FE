@@ -17,13 +17,24 @@ import { useDispatch, useSelector } from "react-redux";
 function Conversation({ conversation }) {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const { currentConversation, isRoom } = useSelector(
+  const { currentConversation } = useSelector(
     (state) => state.currentConversation
   );
   const { socket } = useSelector((state) => state.socket);
   const _friends = conversation?.member?.filter((m) => m._id !== user._id);
+
   const handleChangeCurrentConversation = () => {
     dispatch(setCurrentConversation(conversation));
+    socket.current.emit(
+      "offTypingText",
+      JSON.stringify({
+        conversationId: currentConversation._id,
+        member: currentConversation.member.filter(
+          (item) => item._id !== user._id
+        ),
+        sender: user.username,
+      })
+    );
   };
   return (
     <ListItem button onClick={handleChangeCurrentConversation}>
