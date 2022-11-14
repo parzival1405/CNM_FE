@@ -191,7 +191,120 @@ function Demo() {
     }
     return () => socket?.current.off("outGroup-receive");
   }, [socket, currentConversation, dispatch]);
-  console.log(isShowConversation);
+
+  useEffect(() => {
+    if (socket?.current) {
+      socket.current.on("deleteGroup-receive", (data) => {
+        console.log(data);
+        if (data._id === currentConversation?._id) {
+          dispatch({
+            type: GLOBALTYPES.DELETE_GROUP,
+          });
+        }
+        dispatch({
+          type: GLOBALTYPES.DELETE_GROUP_ALL_CONVERSATION,
+          payload: { data: data },
+        });
+      });
+    }
+    return () => socket?.current.off("deleteGroup-receive");
+  }, [socket, currentConversation, dispatch]);
+  useEffect(() => {
+    if (socket?.current) {
+      socket.current.on("msg-receive", (data) => {
+        if (
+          currentConversation === undefined ||
+          currentConversation === null ||
+          isShowPhoneBook ||
+          data.conversation._id !== currentConversation?._id
+        ) {
+          console.log("here");
+          dispatch({
+            type: GLOBALTYPES.UPDATE_COUNT_WAITING_MESSAGE,
+            payload: data.conversation,
+          });
+        } else {
+          console.log(data.conversation._id, currentConversation?._id);
+          dispatch({ type: GLOBALTYPES.ADDMESSAGE, data });
+        }
+        dispatch({
+          type: GLOBALTYPES.UPDATE_LAST_MSG_CONVERSATION,
+          payload: {
+            data: data,
+            conversation: data.conversation,
+          },
+        });
+      });
+    }
+    return () => socket?.current.off("msg-receive");
+  }, [currentConversation, isShowPhoneBook, socket]);
+
+  useEffect(() => {
+    if (socket?.current) {
+      socket.current.on("delete-receive", (data) => {
+        if (
+          currentConversation === undefined ||
+          currentConversation === null ||
+          isShowPhoneBook ||
+          data.conversation._id !== currentConversation?._id
+        ) {
+          // dispatch({ type: GLOBALTYPES.DELETEMESSAGE, data });
+        } else {
+          dispatch({ type: GLOBALTYPES.DELETEMESSAGE, data });
+        }
+        dispatch({
+          type: GLOBALTYPES.UPDATE_LAST_MSG_CONVERSATION_DELETE,
+          payload: {
+            data: data,
+            conversation: data.conversation,
+          },
+        });
+      });
+    }
+    return () => socket?.current.off("delete-receive");
+  }, [currentConversation, isShowPhoneBook, socket]);
+
+  useEffect(() => {
+    if (socket?.current) {
+      console.log(1);
+      socket.current.on("requestAddFriendToClient", (data) => {
+        user.friendsQueue.push(data);
+        if (!isShowPhoneBook) {
+          dispatch({
+            type: GLOBALTYPES.UPDATENOTIFICATION,
+          });
+        }
+        dispatch({
+          type: GLOBALTYPES.UPDATEPROFILE,
+          user,
+        });
+      });
+    }
+    return () => {
+      console.log(2);
+      socket?.current.off("requestAddFriendToClient");
+    };
+  }, [dispatch, isShowPhoneBook, socket]);
+
+  useEffect(() => {
+    if (socket?.current) {
+      socket?.current.on("onTypingTextToClient", (data) => {
+        console.log(data)
+        dispatch({ type: GLOBALTYPES.TYPING_TEXT, payload: data });
+      });
+    }
+    return () =>  socket?.current.off("onTypingTextToClient");
+  }, [socket, dispatch]);
+
+  useEffect(() => {
+    if (socket?.current) {
+      socket?.current.on("offTypingTextToClient", (data) => {
+        dispatch({ type: GLOBALTYPES.OFF_TYPING_TEXT, payload: data });
+      });
+    }
+    return () =>  socket?.current.off("offTypingTextToClient");
+  }, [socket, dispatch]);
+
   return (
     <Grid container style={{ height: "100%", flexWrap: "nowrap" }}>
       <Grid item md={"auto"} style={{ backgroundColor: "#0978f5" }}>

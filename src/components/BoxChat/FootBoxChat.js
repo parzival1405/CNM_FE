@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   IconButton,
   Box,
@@ -12,6 +12,7 @@ import Picker from "emoji-picker-react";
 import { SendOutlined, Image, EmojiEmotions, Cancel } from "@material-ui/icons";
 import useStyles from "./styles";
 import { fileShow, videoShow, imageShow } from "../../utils/mediaShow";
+import { useSelector } from "react-redux";
 
 const StyledFormControl = styled(FormControl)(({ theme }) => ({
   backgroundColor: "#fff",
@@ -28,6 +29,13 @@ function FootBoxChat({ handleSendMsg }) {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [media, setMedia] = useState([]);
   const classes = useStyles();
+
+  const { currentConversation } = useSelector(
+    (state) => state.currentConversation
+  );
+  const { user } = useSelector((state) => state.auth);
+  const { socket } = useSelector((state) => state.socket);
+
   const handleEmojiClick = (event, emojiObject) => {
     let message = msg;
     message += emojiObject.emoji;
@@ -73,6 +81,37 @@ function FootBoxChat({ handleSendMsg }) {
     newMedia.splice(index, 1);
     setMedia(newMedia);
   };
+
+  const handleChangeText = (e) => {
+    setMsg(e.target.value);
+    if (e.target.value === "") {
+      socket.current.emit(
+        "offTypingText",
+        JSON.stringify({
+          conversationId: currentConversation._id,
+          member: currentConversation.member.filter(
+            (item) => item._id !== user._id
+          ),
+          sender: user.username,
+        })
+      );
+    } else {
+      socket.current.emit(
+        "onTypingText",
+        JSON.stringify({
+          conversationId: currentConversation._id,
+          member: currentConversation.member.filter(
+            (item) => item._id !== user._id
+          ),
+          sender: user.username,
+        })
+      );
+    }
+  };
+
+  // useEffect(() => {
+  //   setMsg("");
+  // }, [currentConversation]);
 
   return (
     <Box>
@@ -131,7 +170,7 @@ function FootBoxChat({ handleSendMsg }) {
             <InputBase
               placeholder="Nhập tin nhắn"
               value={msg}
-              onChange={(e) => setMsg(e.target.value)}
+              onChange={(e) => handleChangeText(e)}
             />
           </div>
 
