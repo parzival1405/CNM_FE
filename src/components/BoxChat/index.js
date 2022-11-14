@@ -96,6 +96,50 @@ function BoxChat() {
   };
 
   useEffect(() => {
+    if (socket.current) {
+      socket.current.on("msg-receive", (data) => {
+        console.log(data);
+        if (
+          currentConversation === undefined ||
+          data.conversation._id !== currentConversation?._id
+        ) {
+          dispatch({
+            type: GLOBALTYPES.UPDATE_COUNT_WAITING_MESSAGE,
+            payload: data.conversation,
+          });
+        } else {
+          console.log(data.conversation._id, currentConversation?._id);
+          dispatch({ type: GLOBALTYPES.ADDMESSAGE, data });
+        }
+        dispatch({
+          type: GLOBALTYPES.UPDATE_LAST_MSG_CONVERSATION,
+          payload: {
+            data: data,
+            conversation: data.conversation,
+          },
+        });
+      });
+    }
+    return () => socket.current.off("msg-receive");
+  }, [currentConversation, socket]);
+
+  useEffect(() => {
+    if (socket.current) {
+      socket.current.on("delete-receive", (data) => {
+        if (
+          currentConversation === undefined ||
+          data.conversation._id !== currentConversation?._id
+        ) {
+          console.log("here");
+        } else {
+          dispatch({ type: GLOBALTYPES.DELETEMESSAGE, data });
+        }
+      });
+    }
+    return () => socket.current.off("delete-receive");
+  }, [currentConversation, socket]);
+
+  useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
@@ -105,7 +149,9 @@ function BoxChat() {
     setOpen(true);
   };
   return (
-    <Wrapper style={{ borderLeft: "1px solid #bfd4e7" }}>
+    // Drawer Open and Close
+    // <Wrapper className={clsx(classes.wrapperDrawerClose)}>
+    <Wrapper className={clsx(classes.wrapperDrawerOpen)}>
       <HeaderBoxChat />
       <Paper
         style={{ flexGrow: 1, boxShadow: "none" }}

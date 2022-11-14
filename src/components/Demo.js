@@ -9,8 +9,75 @@ import Nav from "./Nav";
 import Slider from "./Slider";
 import { GLOBALTYPES } from "../constants/actionType";
 import ListFriendsRequest from "./ListFriendsRequest";
+import ListGroup from "./ListGroup";
 import PhoneBooks from "./PhoneBooks";
-import DrawerInfoChat from "./Bar/DrawerInfoChat";
+import { Group } from "@material-ui/icons";
+
+const listGroup = [
+  {
+    id: 1,
+    name: "Alo Alo",
+    members: 3,
+    image:
+      "https://images.vexels.com/media/users/3/145908/raw/52eabf633ca6414e60a7677b0b917d92-male-avatar-maker.jpg",
+  },
+  {
+    id: 2,
+    name: "Nhóm 4",
+    members: 6,
+    image:
+      "https://images.assetsdelivery.com/compings_v2/yupiramos/yupiramos2004/yupiramos200436847.jpg",
+  },
+  {
+    id: 2,
+    name: "Nhóm 5",
+    members: 6,
+    image:
+      "https://images.assetsdelivery.com/compings_v2/yupiramos/yupiramos2004/yupiramos200436847.jpg",
+  },
+  {
+    id: 2,
+    name: "Nhóm 6",
+    members: 6,
+    image:
+      "https://images.assetsdelivery.com/compings_v2/yupiramos/yupiramos2004/yupiramos200436847.jpg",
+  },
+  {
+    id: 2,
+    name: "Nhóm 7",
+    members: 6,
+    image:
+      "https://images.assetsdelivery.com/compings_v2/yupiramos/yupiramos2004/yupiramos200436847.jpg",
+  },
+  {
+    id: 2,
+    name: "Nhóm 8",
+    members: 6,
+    image:
+      "https://images.assetsdelivery.com/compings_v2/yupiramos/yupiramos2004/yupiramos200436847.jpg",
+  },
+  {
+    id: 2,
+    name: "Nhóm 9",
+    members: 6,
+    image:
+      "https://images.assetsdelivery.com/compings_v2/yupiramos/yupiramos2004/yupiramos200436847.jpg",
+  },
+  {
+    id: 2,
+    name: "Nhóm 10",
+    members: 6,
+    image:
+      "https://images.assetsdelivery.com/compings_v2/yupiramos/yupiramos2004/yupiramos200436847.jpg",
+  },
+  {
+    id: 2,
+    name: "Nhóm 11",
+    members: 6,
+    image:
+      "https://images.assetsdelivery.com/compings_v2/yupiramos/yupiramos2004/yupiramos200436847.jpg",
+  },
+];
 
 function Demo() {
   const dispatch = useDispatch();
@@ -239,12 +306,8 @@ function Demo() {
   }, [socket, dispatch]);
 
   return (
-    <Grid container style={{ height: "100%", display: "flex" }}>
-      <Grid
-        item
-        md={"auto"}
-        style={{ backgroundColor: "#0978f5", flex: "0 1 auto" }}
-      >
+    <Grid container style={{ height: "100%", flexWrap: "nowrap" }}>
+      <Grid item md={"auto"} style={{ backgroundColor: "#0978f5" }}>
         <Nav />
       </Grid>
       <Grid item md={3} className={"con"}>
@@ -269,18 +332,20 @@ function Demo() {
         </Grid>
       )}
       {isShowPhoneBook && (
-        <Grid item md={8} style={{ flex: "1 1 auto" }}>
+        <Grid style={{ flexGrow: 1, height: "inherit" }}>
           <div className="friend-request__container">
-            <div
-              className="friend-request__container--list"
-              style={{
-                padding: "20px 100px",
-              }}
-            >
-              <ListFriendsRequest style={{ flex: "1 1 auto" }} />
+            <div className="friend-request__container--list">
+              <ListGroup listFriendsRequest={listGroup} />
             </div>
           </div>
         </Grid>
+        // <Grid style={{ flexGrow: 1, height: "inherit" }}>
+        //   <div className="friend-request__container">
+        //     <div className="friend-request__container--list">
+        //       <ListFriendsRequest />
+        //     </div>
+        //   </div>
+        // </Grid>
       )}
     </Grid>
   );
