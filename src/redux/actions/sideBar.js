@@ -36,6 +36,22 @@ export const showMember = () => async (dispatch) => {
   } catch (err) {}
 };
 
+export const showRequestAddFriend = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: GLOBALTYPES.SHOW_REQUESTADDFRIEND,
+    });
+  } catch (err) {}
+};
+
+export const showListGroup= () => async (dispatch) => {
+  try {
+    dispatch({
+      type: GLOBALTYPES.SHOW_LISTGROUP,
+    });
+  } catch (err) {}
+};
+
 export const hideSide = (side) => async (dispatch) => {
   try {
     dispatch({

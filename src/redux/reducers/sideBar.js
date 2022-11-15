@@ -6,6 +6,8 @@ export default function modalReducers(
     isShowPhoneBook: false,
     isShowInformation: false,
     isShowMember: false,
+    isShowRequestAddFriend: false,
+    isShowListGroup: false,
   },
   action
 ) {
@@ -15,12 +17,28 @@ export default function modalReducers(
         ...state,
         isShowConversation: true,
         isShowPhoneBook: false,
+        isShowRequestAddFriend: false,
+        isShowListGroup: false,
+      };
+    case GLOBALTYPES.SHOW_REQUESTADDFRIEND:
+      return {
+        ...state,
+        isShowRequestAddFriend: true,
+        isShowListGroup: false,
+      };
+    case GLOBALTYPES.SHOW_LISTGROUP:
+      return {
+        ...state,
+        isShowListGroup: true,
+        isShowRequestAddFriend: false,
       };
     case GLOBALTYPES.SHOW_PHONEBOOK:
       return {
         ...state,
         isShowConversation: false,
         isShowPhoneBook: true,
+        isShowRequestAddFriend: true,
+        isShowListGroup: false,
       };
     case GLOBALTYPES.SHOW_INFORMATION:
       return {

@@ -9,6 +9,11 @@ export default (state = initialState, action) => {
         ...state,
         currentConversation: action?.data,
       };
+    case GLOBALTYPES.IMAGE_AND_VIDEO:
+      return {
+        ...state,
+        media: action.data.media,
+      };
     case GLOBALTYPES.UPDATEMEMBER:
       return {
         ...state,

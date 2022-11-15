@@ -8,6 +8,10 @@ import PersonAddIcon from "@material-ui/icons/PersonAdd";
 
 import "./styles.css";
 import Friend from "./Friend";
+import {
+  showListGroup,
+  showRequestAddFriend,
+} from "../../redux/actions/sideBar";
 
 const navList = [
   {
@@ -26,7 +30,15 @@ function PhoneBooks({ socket }) {
   const { user, token } = useSelector((state) => state.auth);
   const location = useLocation();
   const dispatch = useDispatch();
-
+  const handleShowRequestAddFriend = () => {
+    dispatch(showRequestAddFriend());
+  };
+  const handleShowListGroup = () => {
+    dispatch(showListGroup());
+  };
+  const { isShowRequestAddFriend,isShowListGroup } = useSelector(
+    (state) => state.sideBar
+  );
   return (
     <>
       <div className="conversation-sidebar">
@@ -36,18 +48,28 @@ function PhoneBooks({ socket }) {
             <PersonAddIcon size="small" />
             <p>Thêm bạn bằng số điện thoại</p>
           </div>
-          {navList?.map((item) => (
-              <div key={item.id} className="conversation-sidebar__nav-item">
-                <img src={item.logo} alt="logo" />
-                <p>{item.name}</p>
-              </div>
-          ))}
+          <div
+            key={navList[0].id}
+            onClick={handleShowRequestAddFriend}
+            className={isShowRequestAddFriend ? "conversation-sidebar__nav-item choose" : "conversation-sidebar__nav-item"}
+          >
+            <img src={navList[0].logo} alt="logo" />
+            <p>{navList[0].name}</p>
+          </div>
+          <div
+            key={navList[1].id}
+            onClick={handleShowListGroup}
+            className={isShowListGroup ? "conversation-sidebar__nav-item choose" : "conversation-sidebar__nav-item"}
+          >
+            <img src={navList[1].logo} alt="logo" />
+            <p>{navList[1].name}</p>
+          </div>
         </div>
         <Divider />
         <List style={{ maxHeight: 640, overflow: "auto" }}>
-          {user?.friends?.map((friend) => 
+          {user?.friends?.map((friend) => (
             <Friend key={friend._id} friend={friend} isDelete={true} />
-          )}
+          ))}
         </List>
       </div>
     </>

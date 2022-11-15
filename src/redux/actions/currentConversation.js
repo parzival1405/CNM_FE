@@ -173,3 +173,22 @@ export const deleteGroup = (data2, socket) => async (dispatch) => {
     //   });
   }
 };
+
+export const getImageAndVideo = (data2, socket) => async (dispatch) => {
+  try {
+    const { data } = await api.getImageAndVideo(data2);
+    dispatch({
+      type: GLOBALTYPES.IMAGE_AND_VIDEO,
+      data
+    });
+  }catch (err) {
+    //   dispatch({
+    //     type: GLOBALTYPES.ALERT,
+    //     payload: {
+    //       error: err,
+    //     },
+    //   });
+  }
+}
+
+

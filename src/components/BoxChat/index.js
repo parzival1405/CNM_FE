@@ -151,7 +151,7 @@ function BoxChat() {
   return (
     // Drawer Open and Close
     // <Wrapper className={clsx(classes.wrapperDrawerClose)}>
-    <Wrapper className={clsx(classes.wrapperDrawerOpen)}>
+    <Wrapper className={clsx(classes.wrapperDrawerClose)}>
       <HeaderBoxChat />
       <Paper
         style={{ flexGrow: 1, boxShadow: "none" }}

@@ -22,6 +22,7 @@ import {
   InputBase,
   alpha,
 } from "@material-ui/core";
+import { useSelector } from "react-redux";
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
@@ -32,9 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Groups = ({ item }) => {
-  const { image, name, members } = item;
-
+const Groups = ({ group }) => {
   return (
     <>
       <div
@@ -44,28 +43,23 @@ const Groups = ({ item }) => {
         <div className="friend-request__main">
           <div className="friend-request__main-content">
             <AvatarGroup max={4}>
-              <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-              <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
-              <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
-              <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
-              <Avatar
-                alt="Trevor Henderson"
-                src="/static/images/avatar/5.jpg"
-              />
+            {group.member.map((member) => (
+            <Avatar key={member?._id} src={member?.avatarURL} alt="avatar" />
+          ))}
             </AvatarGroup>
             <Typography
               style={{ marginLeft: "30%", marginTop: 20 }}
               variant="subtitle1"
               gutterBottom
             >
-              {name}
+              {group.label}
             </Typography>
             <Typography
               style={{ marginLeft: "20%", marginTop: 20 }}
               variant="subtitle1"
               gutterBottom
             >
-              {members} Thành viên
+              {group.member.length} Thành viên
             </Typography>
           </div>
         </div>
@@ -75,6 +69,8 @@ const Groups = ({ item }) => {
 };
 
 const ListGroup = ({ listFriendsRequest }) => {
+  const {conversations} = useSelector((state) => state.conversations)
+  const groupsFilter = conversations.filter(conv => conv.isGroup === true)
   const classes = useStyles();
   const [title, setTitle] = React.useState("");
 
@@ -116,7 +112,7 @@ const ListGroup = ({ listFriendsRequest }) => {
               className={classes.selectEmpty}
               inputProps={{ "aria-label": "age" }}
             >
-              <option value={10}> Tất cả ({listFriendsRequest.length})</option>
+              <option value={10}> Tất cả ({conversations.length})</option>
               <option value={20}>
                 Tôi quản lý({listFriendsRequest.length})
               </option>
@@ -133,10 +129,10 @@ const ListGroup = ({ listFriendsRequest }) => {
             justifyContent: "space-around",
           }}
         >
-          {listFriendsRequest.length > 0 &&
-            listFriendsRequest.map((friend) => (
+          {groupsFilter.length > 0 &&
+            groupsFilter.map((group) => (
               <>
-                <Groups item={friend} key={friend.id} />
+                <Groups group={group} key={group._id} />
               </>
             ))}
         </Paper>

@@ -12,6 +12,7 @@ import ListFriendsRequest from "./ListFriendsRequest";
 import ListGroup from "./ListGroup";
 import PhoneBooks from "./PhoneBooks";
 import { Group } from "@material-ui/icons";
+import DrawerInfoChat from "./Bar/DrawerInfoChat"
 
 const listGroup = [
   {
@@ -86,7 +87,7 @@ function Demo() {
     (state) => state.currentConversation
   );
   const { user } = useSelector((state) => state.auth);
-  const { isShowPhoneBook, isShowConversation } = useSelector(
+  const { isShowPhoneBook, isShowConversation,isShowRequestAddFriend,isShowListGroup } = useSelector(
     (state) => state.sideBar
   );
   useEffect(() => {
@@ -335,17 +336,11 @@ function Demo() {
         <Grid style={{ flexGrow: 1, height: "inherit" }}>
           <div className="friend-request__container">
             <div className="friend-request__container--list">
-              <ListGroup listFriendsRequest={listGroup} />
+              {isShowRequestAddFriend && <ListFriendsRequest />}
+              {isShowListGroup && <ListGroup listFriendsRequest={listGroup} />}
             </div>
           </div>
         </Grid>
-        // <Grid style={{ flexGrow: 1, height: "inherit" }}>
-        //   <div className="friend-request__container">
-        //     <div className="friend-request__container--list">
-        //       <ListFriendsRequest />
-        //     </div>
-        //   </div>
-        // </Grid>
       )}
     </Grid>
   );
