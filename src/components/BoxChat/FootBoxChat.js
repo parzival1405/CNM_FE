@@ -119,10 +119,6 @@ function FootBoxChat({ handleSendMsg }) {
     }
   };
 
-  // useEffect(() => {
-  //   setMsg("");
-  // }, [currentConversation]);
-
   return (
     <Box>
       <AppBar
