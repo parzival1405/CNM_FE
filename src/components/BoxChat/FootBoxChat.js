@@ -52,6 +52,16 @@ function FootBoxChat({ handleSendMsg }) {
       setMsg("");
       setMedia([]);
     }
+    socket.current.emit(
+      "offTypingText",
+      JSON.stringify({
+        conversationId: currentConversation._id,
+        member: currentConversation.member.filter(
+          (item) => item._id !== user._id
+        ),
+        sender: user.username,
+      })
+    );
   };
 
   const demoSubmit = (event) => {
