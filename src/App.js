@@ -20,6 +20,7 @@ import { refresh } from "./redux/actions/auth";
 import Forgot from "./pages/Auth/ForgotPass";
 import ChangeGroupLabelModal from "./components/Modal/ChangeGroupLabelModal";
 import ShowChangeCreator from "./components/Modal/ShowChangeCreator";
+import { SnackbarProvider } from "notistack";
 function App() {
   const dispatch = useDispatch();
   const { user, token } = useSelector((state) => state.auth);
@@ -29,28 +30,38 @@ function App() {
   }, [dispatch]);
 
   return (
-    <BrowserRouter>
-      <Paper style={{ height: "100%", boxShadow: "none" }}>
-        {/* {user && <SocketClient />} */}
-        <OTPModal/>
-        {user && <ProfileModal />}
-        {user && <ChangeGroupLabelModal />}
-        {user && <AddFriendModal />}
-        {user && <AddGroupModal />}
-        {user && <AddFriendToGroupModal />}
-        {user && <ShowChangeCreator />}
-        <Routes>
-          <Route path="/register" element={<Register />}></Route>
-          <Route path="/login" element={user ? <Navigate to="/"/> : <Login />}></Route>
-          <Route path="/forgot" element={<Forgot />}></Route>
-          <Route
-            path="/"
-            element={user ? <Chat /> : <Navigate to="/login" replace />}
-          ></Route>
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </Paper>
-    </BrowserRouter>
+    <SnackbarProvider
+      maxSnack={6}
+      autoHideDuration={5000}
+      anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+      style={{backgroundColor:"#005fff"}}
+    >
+      <BrowserRouter>
+        <Paper style={{ height: "100%", boxShadow: "none" }}>
+          {/* {user && <SocketClient />} */}
+          <OTPModal />
+          {user && <ProfileModal />}
+          {user && <ChangeGroupLabelModal />}
+          {user && <AddFriendModal />}
+          {user && <AddGroupModal />}
+          {user && <AddFriendToGroupModal />}
+          {user && <ShowChangeCreator />}
+          <Routes>
+            <Route path="/register" element={<Register />}></Route>
+            <Route
+              path="/login"
+              element={user ? <Navigate to="/" /> : <Login />}
+            ></Route>
+            <Route path="/forgot" element={<Forgot />}></Route>
+            <Route
+              path="/"
+              element={user ? <Chat /> : <Navigate to="/login" replace />}
+            ></Route>
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Paper>
+      </BrowserRouter>
+    </SnackbarProvider>
   );
 }
 

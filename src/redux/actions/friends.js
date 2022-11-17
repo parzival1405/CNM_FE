@@ -74,13 +74,25 @@ export const deniedAddFriend = (data2,user,socket) => async (dispatch) => {
   }
 };
 
-export const deleteFriend = (data2) => async (dispatch) => {
+export const deleteFriend = (data2,user,socket) => async (dispatch) => {
   try {
     const { data } = await api.deleteFriend(data2);
     dispatch({
       type: GLOBALTYPES.UPDATEPROFILE,
       data,
     });
+    socket.emit(
+      "deleteFriend",
+      JSON.stringify({
+        recipient: data2.deleteFriendId,
+        sender: {
+          avatarURL: user.avatarURL,
+          phoneNumber: user.phoneNumber,
+          username: user.username,
+          _id: user._id,
+        },
+      })
+    );
   } catch (error) {
     console.log(error);
   }

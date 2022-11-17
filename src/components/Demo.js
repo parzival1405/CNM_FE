@@ -13,6 +13,7 @@ import ListGroup from "./ListGroup";
 import PhoneBooks from "./PhoneBooks";
 import { Group } from "@material-ui/icons";
 import DrawerInfoChat from "./Bar/DrawerInfoChat";
+import { useSnackbar } from "notistack";
 
 const listGroup = [
   {
@@ -82,6 +83,7 @@ const listGroup = [
 
 function Demo() {
   const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
   const { socket } = useSelector((state) => state.socket);
   const { currentConversation } = useSelector(
     (state) => state.currentConversation
@@ -213,6 +215,7 @@ function Demo() {
   useEffect(() => {
     if (socket?.current) {
       socket.current.on("msg-receive", (data) => {
+        
         if (
           currentConversation === undefined ||
           currentConversation === null ||
@@ -223,6 +226,7 @@ function Demo() {
             type: GLOBALTYPES.UPDATE_COUNT_WAITING_MESSAGE,
             payload: data.conversation,
           });
+          enqueueSnackbar(`nhận được 1 tin nhắn từ ${data.sender.username}`)
         } else {
           dispatch({ type: GLOBALTYPES.ADDMESSAGE, data });
         }
@@ -233,6 +237,7 @@ function Demo() {
             conversation: data.conversation,
           },
         });
+        
       });
     }
     return () => socket?.current.off("msg-receive");
@@ -267,6 +272,7 @@ function Demo() {
     if (socket?.current) {
       socket.current.on("requestAddFriendToClient", (data) => {
         user.friendsQueue.push(data);
+        enqueueSnackbar(`nhận được 1 lời mời kết bạn từ ${data.username}`)
         if (!isShowPhoneBook) {
           dispatch({
             type: GLOBALTYPES.UPDATENOTIFICATION,
@@ -310,6 +316,7 @@ function Demo() {
           });
         }
         dispatch({ type: GLOBALTYPES.UPDATE_FRIENDS, data: data });
+        enqueueSnackbar(`${data.username} đã chấp nhận lời mời kết bạn của bạn`)
       });
     }
     return () => socket?.current.off("acceptAddFriendToClient");
@@ -318,7 +325,6 @@ function Demo() {
   useEffect(() => {
     if (socket?.current) {
       socket?.current.on("deleteFriendToClient", (data) => {
-        console.log(data)
         dispatch({
           type: GLOBALTYPES.UPDATE_DELETE_FRIENDS,
           data: data,

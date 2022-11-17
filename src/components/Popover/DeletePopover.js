@@ -53,7 +53,7 @@ function DeletePopover({
         const data = {
           deleteFriendId: member._id,
         };
-        dispatch(deleteFriend(data, socket.current));
+        dispatch(deleteFriend(data,user, socket.current));
       }
     } else {
       if (
