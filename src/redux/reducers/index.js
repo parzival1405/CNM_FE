@@ -9,7 +9,6 @@ import currentConversation from "./currentConversation"
 import modal from "./modal"
 import userResultFromModalAddFriendReducer from './userResultFromModalAddFriendReducer'
 import socket from "./socket";
-import dataToOTPModal from "./dataToOTPModal"
 import sideBar from "./sideBar"
 import typingReducer from "./typingReducer";
 
@@ -23,7 +22,6 @@ export default combineReducers({
     modal,
     socket,
     userResultFromModalAddFriend:userResultFromModalAddFriendReducer,
-    dataToOTPModal,
     sideBar,
     typingReducer
 })

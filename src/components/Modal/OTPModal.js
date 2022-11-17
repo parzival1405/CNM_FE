@@ -17,7 +17,6 @@ import { validateionOTP } from "../../utils/Validation";
 function Test() {
   const navigate = useNavigate();
   const { isShowOTP } = useSelector((state) => state.modal);
-  const { data } = useSelector((state) => state.dataToOTPModal);
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -41,6 +40,7 @@ function Test() {
 
   const handleSendSms = (values) => {
     configureCaptcha();
+    const data = window.dataUser;
     const phoneNumber = "+84" + data.phoneNumber.slice(1);
     const appVerifier = window.recaptchaVerifier;
     firebase

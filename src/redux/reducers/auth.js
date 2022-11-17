@@ -12,8 +12,8 @@ export default (state = initState, action) => {
       sessionStorage.setItem("profile", JSON.stringify({ ...action?.data }));
       return {
         ...state,
-        user : action?.data.user,
-        token: action?.data.token
+        user: action?.data.user,
+        token: action?.data.token,
       };
     case GLOBALTYPES.LOGOUT:
       sessionStorage.clear();
@@ -21,8 +21,8 @@ export default (state = initState, action) => {
     case GLOBALTYPES.RE_AUTH:
       return {
         ...state,
-        user : action?.data.user,
-        token: action?.data.token
+        user: action?.data.user,
+        token: action?.data.token,
       };
     case GLOBALTYPES.UPDATENOTIFICATION:
       return { ...state, notification: state.notification + 1 };
@@ -36,6 +36,55 @@ export default (state = initState, action) => {
         JSON.stringify({ user: newProfile, token: state.token })
       );
       return { ...state, user: newProfile };
+    case GLOBALTYPES.UPDATE_FRIENDS: {
+      const friend = action.data;
+      let _friends = state.user.friends;
+      _friends.push(friend);
+
+      return {
+        ...state,
+        user: { ...state.user, friends: _friends },
+      };
+
+      // sessionStorage.clear();
+      // sessionStorage.setItem(
+      //   "profile",
+      //   JSON.stringify({ user: newProfile, token: state.token })
+      // );
+    }
+
+    case GLOBALTYPES.UPDATE_FRIENDS: {
+      const friend = action.data;
+      let _friends = state.user.friends;
+      _friends.push(friend);
+
+      return {
+        ...state,
+        user: { ...state.user, friends: _friends },
+      };
+
+      // sessionStorage.clear();
+      // sessionStorage.setItem(
+      //   "profile",
+      //   JSON.stringify({ user: newProfile, token: state.token })
+      // );
+    }
+
+    case GLOBALTYPES.UPDATE_DELETE_FRIENDS: {
+      return {
+        ...state,
+        user: { ...state.user, friends: state.user.friends.filter(
+          (u) => u._id !== action.data._id
+        ), },
+      };
+
+      // sessionStorage.clear();
+      // sessionStorage.setItem(
+      //   "profile",
+      //   JSON.stringify({ user: newProfile, token: state.token })
+      // );
+    }
+
     default:
       return state;
   }

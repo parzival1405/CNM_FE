@@ -5,6 +5,7 @@ import "./styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import { acceptAddFriend, deniedAddFriend } from "../../redux/actions/friends";
 import { createConversation } from "../../redux/actions/coversations";
+import { checkConversation } from "../../api";
 
 const FriendRequest = ({ item }) => {
   const { socket } = useSelector((state) => state.socket);
@@ -16,24 +17,25 @@ const FriendRequest = ({ item }) => {
     const data = {
       deniedFriendId: item._id,
     };
-    dispatch(deniedAddFriend(data, socket.current));
+    dispatch(deniedAddFriend(data, user, socket.current));
   };
 
-  const handleAccept = () => {
+  const handleAccept = async () => {
     const data = {
       acceptFriendId: item._id,
     };
-    
-    dispatch(acceptAddFriend(data, socket.current));
-
-
+    dispatch(acceptAddFriend(data, user, socket.current));
     const data2 = {
       label: "",
-      member: [user._id,item._id],
+      member: [user._id, item._id],
       createdBy: user._id,
-      isGroup:false
+      isGroup: false,
     };
-    dispatch(createConversation(data2, socket.current));
+
+    const already = await checkConversation(data2);
+    if (!already.data.already) {
+      dispatch(createConversation(data2, socket.current));
+    }
   };
   return (
     <>

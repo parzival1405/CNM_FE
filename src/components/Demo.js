@@ -12,7 +12,7 @@ import ListFriendsRequest from "./ListFriendsRequest";
 import ListGroup from "./ListGroup";
 import PhoneBooks from "./PhoneBooks";
 import { Group } from "@material-ui/icons";
-import DrawerInfoChat from "./Bar/DrawerInfoChat"
+import DrawerInfoChat from "./Bar/DrawerInfoChat";
 
 const listGroup = [
   {
@@ -87,13 +87,15 @@ function Demo() {
     (state) => state.currentConversation
   );
   const { user } = useSelector((state) => state.auth);
-  const { isShowPhoneBook, isShowConversation,isShowRequestAddFriend,isShowListGroup } = useSelector(
-    (state) => state.sideBar
-  );
+  const {
+    isShowPhoneBook,
+    isShowConversation,
+    isShowRequestAddFriend,
+    isShowListGroup,
+  } = useSelector((state) => state.sideBar);
   useEffect(() => {
     if (socket?.current) {
       socket.current.on("addConversation-receive", (data) => {
-        console.log(data);
         dispatch({
           type: GLOBALTYPES.POST_CONVERSATION,
           data,
@@ -177,7 +179,6 @@ function Demo() {
   useEffect(() => {
     if (socket?.current) {
       socket.current.on("outGroup-receive", (data) => {
-        console.log(data);
         if (data._id === currentConversation?._id) {
           dispatch({
             type: GLOBALTYPES.OUT_GROUP,
@@ -196,7 +197,6 @@ function Demo() {
   useEffect(() => {
     if (socket?.current) {
       socket.current.on("deleteGroup-receive", (data) => {
-        console.log(data);
         if (data._id === currentConversation?._id) {
           dispatch({
             type: GLOBALTYPES.DELETE_GROUP,
@@ -219,13 +219,11 @@ function Demo() {
           isShowPhoneBook ||
           data.conversation._id !== currentConversation?._id
         ) {
-          console.log("here");
           dispatch({
             type: GLOBALTYPES.UPDATE_COUNT_WAITING_MESSAGE,
             payload: data.conversation,
           });
         } else {
-          console.log(data.conversation._id, currentConversation?._id);
           dispatch({ type: GLOBALTYPES.ADDMESSAGE, data });
         }
         dispatch({
@@ -267,7 +265,6 @@ function Demo() {
 
   useEffect(() => {
     if (socket?.current) {
-      console.log(1);
       socket.current.on("requestAddFriendToClient", (data) => {
         user.friendsQueue.push(data);
         if (!isShowPhoneBook) {
@@ -282,7 +279,6 @@ function Demo() {
       });
     }
     return () => {
-      console.log(2);
       socket?.current.off("requestAddFriendToClient");
     };
   }, [dispatch, isShowPhoneBook, socket]);
@@ -290,11 +286,10 @@ function Demo() {
   useEffect(() => {
     if (socket?.current) {
       socket?.current.on("onTypingTextToClient", (data) => {
-        console.log(data)
         dispatch({ type: GLOBALTYPES.TYPING_TEXT, payload: data });
       });
     }
-    return () =>  socket?.current.off("onTypingTextToClient");
+    return () => socket?.current.off("onTypingTextToClient");
   }, [socket, dispatch]);
 
   useEffect(() => {
@@ -303,7 +298,34 @@ function Demo() {
         dispatch({ type: GLOBALTYPES.OFF_TYPING_TEXT, payload: data });
       });
     }
-    return () =>  socket?.current.off("offTypingTextToClient");
+    return () => socket?.current.off("offTypingTextToClient");
+  }, [socket, dispatch]);
+
+  useEffect(() => {
+    if (socket?.current) {
+      socket?.current.on("acceptAddFriendToClient", (data) => {
+        if (!isShowPhoneBook) {
+          dispatch({
+            type: GLOBALTYPES.UPDATENOTIFICATION,
+          });
+        }
+        dispatch({ type: GLOBALTYPES.UPDATE_FRIENDS, data: data });
+      });
+    }
+    return () => socket?.current.off("acceptAddFriendToClient");
+  }, [socket, dispatch]);
+
+  useEffect(() => {
+    if (socket?.current) {
+      socket?.current.on("deleteFriendToClient", (data) => {
+        console.log(data)
+        dispatch({
+          type: GLOBALTYPES.UPDATE_DELETE_FRIENDS,
+          data: data,
+        });
+      });
+    }
+    return () => socket?.current.off("deleteFriendToClient");
   }, [socket, dispatch]);
 
   return (
