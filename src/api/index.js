@@ -20,8 +20,8 @@ export const updateProfile = (data) => API.post("api/user/updateProfile", data);
 export const getAllFriends = () => API.post("api/user/getAllFriends");
 
 export const sendMessage = (data) => API.post("api/message/sendMessage", data);
-export const getAllMessage = (conversation) =>
-  API.post("api/message/getAllMessage", conversation);
+export const getMessageByConversationId = (conversation) =>
+  API.post("api/message/getMessageByConversationId", conversation);
 
 export const getAllGroupWithUser = () =>
   API.post("api/group/getAllGroupWithUser");
