@@ -29,13 +29,6 @@ export default (state = initialState, action) => {
         ...conversationSend,
         count_waiting_msg,
       };
-      console.log({
-        ...state,
-        numberOfNotification: state.numberOfNotification + 1,
-        conversations: state.conversations.map((conver) =>
-          conver._id == conversationSend._id ? conversationSend : conver
-        ),
-      });
       return {
         ...state,
         numberOfNotification: state.numberOfNotification + 1,
@@ -81,6 +74,26 @@ export default (state = initialState, action) => {
         ),
       };
     }
+
+    case GLOBALTYPES.UPDATE_LAST_MSG_CONVERSATION_DELETE: {
+      const msg = action.payload.data;
+      let conversationSend = state.conversations.find(
+        (convers) => convers._id === action?.payload.conversation._id
+      );
+      if (conversationSend) {
+        conversationSend = {
+          ...conversationSend,
+          lastMessage: { ...msg, conversation: conversationSend._id,isDelete:true },
+        };
+      }
+      return {
+        ...state,
+        conversations: state.conversations.map((conver) =>
+          conver._id == conversationSend._id ? conversationSend : conver
+        ),
+      };
+    }
+
     case GLOBALTYPES.UPDATEMEMBER_ALL_CONVERSATION: {
       const conversation = action?.payload.data;
       if (action?.payload.oldConId) {

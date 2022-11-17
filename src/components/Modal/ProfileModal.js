@@ -5,6 +5,7 @@ import {
   FormControl,
   FormControlLabel,
   FormLabel,
+  IconButton,
   InputLabel,
   MenuItem,
   Paper,
@@ -12,6 +13,7 @@ import {
   RadioGroup,
   Select,
   TextField,
+  Tooltip,
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import BaseModal from "./BaseModal";
@@ -26,6 +28,8 @@ import {
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { Form, Formik } from "formik";
+import { Image } from "@material-ui/icons";
+import { demoPostFile } from "../../api";
 function Profile() {
   const classes = useStyles();
   const { isShowFormSettingModal } = useSelector((state) => state.modal);
@@ -33,6 +37,7 @@ function Profile() {
   // const { socket } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [avatar, setAvatar] = useState(() => user.avatarURL);
+  const [avatarFile, setAvatarFile] = useState(null);
   const [username, setUsername] = useState(() => user.username);
   const [gender, setGender] = useState(() => user.gender);
   const [dob, setDob] = useState(user.dob);
@@ -48,9 +53,45 @@ function Profile() {
     dispatch(hideModal("isShowFormSettingModal"));
   };
 
-  const handleSubmitForm = (values) => {
-    dispatch(updateProfile(values));
+  const handleSubmitForm = async (values) => {
+    let newData = null;
+
+    if (avatarFile !== null) {
+      const formData = new FormData();
+      formData.append("media", avatar);
+      const {
+        data: { data },
+      } = await demoPostFile(formData);
+      newData = {
+        username: values.username,
+        gender: values.gender,
+        dob: values.dob,
+        avatarURL: data,
+      };
+    } else {
+      newData = {
+        username: values.username,
+        gender: values.gender,
+        dob: values.dob,
+        avatarURL: avatar,
+      };
+    }
+
+    dispatch(updateProfile(newData));
     handleHideModal();
+  };
+
+  const handleChangeAvatar = (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+    let err = "";
+    if (!file) return (err = "Tệp không tồn lại");
+    if (file.size > 1024 * 1024 * 5) {
+      return (err = "Tệp tối đa 5mb");
+    }
+    // if (err) setMediaErr(err);
+    // else setMediaErr("");
+    setAvatarFile(file);
   };
 
   const body = (
@@ -59,12 +100,26 @@ function Profile() {
         <div style={{ textAlign: "center", margin: "10px 0" }}>
           <h2>Cập nhật thông tin cá nhân</h2>
         </div>
-        <Avatar className={classes.avatar} src={avatar} />
+        <Avatar className={classes.avatar} src={user.avatarURL} />
         <h3 className={classes.username}>{username}</h3>
+        <input
+          type="file"
+          name="file"
+          id="file"
+          accept="image/*"
+          onChange={handleChangeAvatar}
+          hidden
+        />
+        <label htmlFor="file" style={{ display: "flex" }}>
+          <Tooltip title="Chọn ảnh đại diện">
+            <IconButton component="span">
+              <Image style={{ color: "#0978f5" }} />
+            </IconButton>
+          </Tooltip>
+        </label>
         <Formik
           initialValues={{
             username: username,
-            avatarURL: avatar,
             gender: gender,
             dob: dob,
           }}
@@ -100,17 +155,6 @@ function Profile() {
                 helperText={errors.username}
                 touched={touched.username}
                 value={values.username}
-                onChange={handleChange}
-                className={classes.title}
-              />
-
-              <TextField
-                label="Đường dẫn avatar"
-                name="avatarURL"
-                error={errors.avatarURL}
-                helperText={errors.avatarURL}
-                touched={touched.avatarURL}
-                value={values.avatarURL}
                 onChange={handleChange}
                 className={classes.title}
               />

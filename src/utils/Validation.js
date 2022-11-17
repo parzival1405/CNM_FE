@@ -24,7 +24,6 @@ export const validationRegister = Yup.object().shape({
 
 export const validationChangeProfile = Yup.object().shape({
   username: Yup.string().required("  Bạn phải điền tên hiển thị!"),
-  avatarURL: Yup.string().required("  Bạn phải điền đường dẫn avatar"),
   dob: Yup.string().required("  Bạn phải chọn ngày sinh!"),
   gender: Yup.bool(),
 });

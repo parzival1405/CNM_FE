@@ -6,6 +6,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import Message from "../Message/Message";
 import useStyles from "./ChatBodyStyle";
 import clsx from "clsx";
+import Typing from "../../utils/Typing";
 import { GLOBALTYPES } from "../../constants/actionType";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -33,7 +34,14 @@ function BoxChat() {
   const { socket } = useSelector((state) => state.socket);
   const dispatch = useDispatch();
   const scrollRef = useRef();
-
+  const typing = useSelector((state) => state.typingReducer);
+  var members = [];
+  const listUserTyping = typing.filter(
+    (item) => item.conversationId === currentConversation._id
+  );
+  if (listUserTyping.length > 0) {
+    members = listUserTyping.map((item) => item.sender);
+  }
   useEffect(() => {
     if (currentConversation) {
       dispatch(
@@ -87,6 +95,50 @@ function BoxChat() {
     }
   };
 
+  // useEffect(() => {
+  //   if (socket.current) {
+  //     socket.current.on("msg-receive", (data) => {
+  //       console.log(data);
+  //       if (
+  //         currentConversation === undefined ||
+  //         data.conversation._id !== currentConversation?._id
+  //       ) {
+  //         dispatch({
+  //           type: GLOBALTYPES.UPDATE_COUNT_WAITING_MESSAGE,
+  //           payload: data.conversation,
+  //         });
+  //       } else {
+  //         console.log(data.conversation._id, currentConversation?._id);
+  //         dispatch({ type: GLOBALTYPES.ADDMESSAGE, data });
+  //       }
+  //       dispatch({
+  //         type: GLOBALTYPES.UPDATE_LAST_MSG_CONVERSATION,
+  //         payload: {
+  //           data: data,
+  //           conversation: data.conversation,
+  //         },
+  //       });
+  //     });
+  //   }
+  //   return () => socket.current.off("msg-receive");
+  // }, [currentConversation, socket]);
+
+  // useEffect(() => {
+  //   if (socket.current) {
+  //     socket.current.on("delete-receive", (data) => {
+  //       if (
+  //         currentConversation === undefined ||
+  //         data.conversation._id !== currentConversation?._id
+  //       ) {
+  //         console.log("here");
+  //       } else {
+  //         dispatch({ type: GLOBALTYPES.DELETEMESSAGE, data });
+  //       }
+  //     });
+  //   }
+  //   return () => socket.current.off("delete-receive");
+  // }, [currentConversation, socket]);
+
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -97,7 +149,9 @@ function BoxChat() {
     setOpen(true);
   };
   return (
-    <Wrapper style={{ borderLeft: "1px solid #bfd4e7" }}>
+    // Drawer Open and Close
+    // <Wrapper className={clsx(classes.wrapperDrawerClose)}>
+    <Wrapper className={clsx(classes.wrapperDrawerClose)}>
       <HeaderBoxChat />
       <Paper
         style={{ flexGrow: 1, boxShadow: "none" }}
@@ -126,6 +180,19 @@ function BoxChat() {
             ))}
         </InfiniteScroll>
       </Paper>
+      {listUserTyping.length > 0 && (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            backgroundColor: "#fff",
+            color: "#000",
+          }}
+        >
+          <Typing />
+          {members} đang nhập
+        </div>
+      )}
       <FootBoxChat handleSendMsg={handleSendMsg} />
     </Wrapper>
   );

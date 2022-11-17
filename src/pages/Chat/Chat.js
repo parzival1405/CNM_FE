@@ -20,8 +20,6 @@ function Chat() {
 
   useEffect(() => {
     if (user) {
-      // socket.current = io("http://localhost:5000",{ transports : ['websocket'] });
-      // socket.current.emit("add-user", user);
       socket.current = io("http://localhost:5000", {
         query: {
           _id:user._id,
@@ -33,7 +31,8 @@ function Chat() {
       // socket.current.emit("add-user", user);
       dispatch(initSocket({socket:socket}))
     }
-  }, [user]);
+    return () => socket.current.close();
+  },[dispatch]);
   return <Demo/>;
 }
 

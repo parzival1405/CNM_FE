@@ -11,6 +11,7 @@ import userResultFromModalAddFriendReducer from './userResultFromModalAddFriendR
 import socket from "./socket";
 import dataToOTPModal from "./dataToOTPModal"
 import sideBar from "./sideBar"
+import typingReducer from "./typingReducer";
 
 export default combineReducers({
     auth,
@@ -23,5 +24,6 @@ export default combineReducers({
     socket,
     userResultFromModalAddFriend:userResultFromModalAddFriendReducer,
     dataToOTPModal,
-    sideBar
+    sideBar,
+    typingReducer
 })

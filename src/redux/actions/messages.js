@@ -50,6 +50,17 @@ export const deleteMessage = (messData,socket) => async (dispatch) => {
       ...data,
       conversation: messData.conversation,
     }));
+    const data2 = {
+      ...data,
+      conversation: messData.conversation,
+    }
+    dispatch({
+      type: GLOBALTYPES.UPDATE_LAST_MSG_CONVERSATION_DELETE,
+      payload: {
+        data: data2,
+        conversation: data2.conversation,
+      },
+    });
     dispatch({ type: GLOBALTYPES.DELETEMESSAGE, data });
     dispatch({ type: GLOBALTYPES.END_LOADING });
   } catch (error) {
