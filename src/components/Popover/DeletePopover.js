@@ -10,9 +10,13 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { deleteMessage } from "../../redux/actions/messages";
 import TestPo from "./TestPo";
-import { SignalCellularNull } from "@material-ui/icons";
-import { deleteMemberGroup } from "../../redux/actions/currentConversation";
+import { SignalCellularNull, StarRateTwoTone } from "@material-ui/icons";
+import {
+  deleteMemberGroup,
+  showConversationByIdFriend,
+} from "../../redux/actions/currentConversation";
 import { deleteFriend } from "../../redux/actions/friends";
+import { showConversation } from "../../redux/actions/sideBar";
 
 function DeletePopover({
   children,
@@ -25,6 +29,7 @@ function DeletePopover({
   const { currentConversation } = useSelector(
     (state) => state.currentConversation
   );
+  const { conversations } = useSelector((state) => state.conversations);
   const { user } = useSelector((state) => state.auth);
   const { socket } = useSelector((state) => state.socket);
   const dispatch = useDispatch();
@@ -48,7 +53,7 @@ function DeletePopover({
         const data = {
           deleteFriendId: member._id,
         };
-        dispatch(deleteFriend(data, socket.current));
+        dispatch(deleteFriend(data,user, socket.current));
       }
     } else {
       if (
@@ -62,7 +67,43 @@ function DeletePopover({
   };
 
   const handleNewConversation = () => {
-    console.log("hể")
+    let newCurrentConversation = conversations.find((conv) => {
+      const listMemberId = conv.member.map((m) => m._id);
+      return (
+        listMemberId.includes(user._id) &&
+        listMemberId.includes(member._id) &&
+        conv.isGroup === false
+      );
+    });
+    if (newCurrentConversation) {
+      dispatch(showConversationByIdFriend(newCurrentConversation));
+    } else {
+      newCurrentConversation = {
+        createdBy: {
+          username: user.username,
+          _id: user._id,
+        },
+        isGroup: false,
+        label: "",
+        lastMessage:null,
+        member: [
+          {
+            avatarURL: user.avatarURL,
+            phoneNumber: user.phoneNumber,
+            username: user.username,
+            _id: user._id,
+          },
+          {
+            avatarURL: member.avatarURL,
+            phoneNumber: member.phoneNumber,
+            username: member.username,
+            _id: member._id,
+          },
+        ],
+        __id: "test",
+      };
+      dispatch(showConversationByIdFriend(newCurrentConversation));
+    }
   };
 
   const body = (
@@ -82,9 +123,11 @@ function DeletePopover({
           />
         )}
       </ListItem>
-      <ListItem button onClick={handleNewConversation}>
-        {isDeleteAndConv && <ListItemText primary={"Nhắn tin"} />}
-      </ListItem>
+      {isDeleteAndConv && (
+        <ListItem button onClick={handleNewConversation}>
+          <ListItemText primary={"Nhắn tin"} />
+        </ListItem>
+      )}
     </List>
   );
   return <TestPo body={body} children={children} />;

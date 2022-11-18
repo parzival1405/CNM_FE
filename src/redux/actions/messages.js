@@ -27,14 +27,30 @@ export const sendMessage = (messageData, socket) => async (dispatch) => {
   }
 };
 
-export const getAllMessage = (conversation, navigate) => async (dispatch) => {
+export const getMessageByConversationId = (conversation, navigate) => async (dispatch) => {
   try {
     dispatch({ type: GLOBALTYPES.START_LOADING });
     const {
       data: { data },
-    } = await api.getAllMessage(conversation);
+    } = await api.getMessageByConversationId(conversation);
     dispatch({ type: GLOBALTYPES.GETALLMESSAGE, data });
     dispatch({ type: GLOBALTYPES.END_LOADING });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const loadMoreMessages = (conversation, navigate) => async (dispatch) => {
+  try {
+    dispatch({ type: GLOBALTYPES.START_LOADING });
+    const {
+      data: { data },
+    } = await api.getMessageByConversationId(conversation);
+    if(data.length > 0){
+      dispatch({ type: GLOBALTYPES.LOADMORE, data });
+    }
+    dispatch({ type: GLOBALTYPES.END_LOADING });
+    
   } catch (error) {
     console.log(error);
   }

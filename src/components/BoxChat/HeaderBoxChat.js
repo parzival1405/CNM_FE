@@ -45,7 +45,7 @@ const HeaderInfo = ({ currentConversation }) => {
           </AvatarGroup>
         }
         title={
-          _friends.length === 1
+          !currentConversation.isGroup
             ? _friends[0].username.slice(0, 30)
             : currentConversation.label.slice(0, 30)
         }
@@ -70,7 +70,7 @@ function HeaderBoxChat() {
   const { currentConversation } = useSelector(
     (state) => state.currentConversation
   );
-  const isRoom = currentConversation.member.length > 2;
+  const isRoom = currentConversation.isGroup;
   const dispatch = useDispatch();
   const handleShowAddFriendToGroupModal = () => {
     dispatch(showAddFriendToGroupModal());

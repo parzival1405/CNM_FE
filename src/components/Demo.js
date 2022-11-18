@@ -14,6 +14,9 @@ import PhoneBooks from "./PhoneBooks";
 import { Group } from "@material-ui/icons";
 import DrawerInfoChat from "./Bar/DrawerInfoChat";
 
+import { useSnackbar } from "notistack";
+
+
 const listGroup = [
   {
     id: 1,
@@ -82,6 +85,7 @@ const listGroup = [
 
 function Demo() {
   const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
   const { socket } = useSelector((state) => state.socket);
   const { currentConversation } = useSelector(
     (state) => state.currentConversation
@@ -96,7 +100,6 @@ function Demo() {
   useEffect(() => {
     if (socket?.current) {
       socket.current.on("addConversation-receive", (data) => {
-        console.log(data);
         dispatch({
           type: GLOBALTYPES.POST_CONVERSATION,
           data,
@@ -180,7 +183,6 @@ function Demo() {
   useEffect(() => {
     if (socket?.current) {
       socket.current.on("outGroup-receive", (data) => {
-        console.log(data);
         if (data._id === currentConversation?._id) {
           dispatch({
             type: GLOBALTYPES.OUT_GROUP,
@@ -199,7 +201,6 @@ function Demo() {
   useEffect(() => {
     if (socket?.current) {
       socket.current.on("deleteGroup-receive", (data) => {
-        console.log(data);
         if (data._id === currentConversation?._id) {
           dispatch({
             type: GLOBALTYPES.DELETE_GROUP,
@@ -222,13 +223,12 @@ function Demo() {
           isShowPhoneBook ||
           data.conversation._id !== currentConversation?._id
         ) {
-          console.log("here");
           dispatch({
             type: GLOBALTYPES.UPDATE_COUNT_WAITING_MESSAGE,
             payload: data.conversation,
           });
+          enqueueSnackbar(`nhận được 1 tin nhắn từ ${data.sender.username}`);
         } else {
-          console.log(data.conversation._id, currentConversation?._id);
           dispatch({ type: GLOBALTYPES.ADDMESSAGE, data });
         }
         dispatch({
@@ -270,9 +270,9 @@ function Demo() {
 
   useEffect(() => {
     if (socket?.current) {
-      console.log(1);
       socket.current.on("requestAddFriendToClient", (data) => {
         user.friendsQueue.push(data);
+        enqueueSnackbar(`nhận được 1 lời mời kết bạn từ ${data.username}`);
         if (!isShowPhoneBook) {
           dispatch({
             type: GLOBALTYPES.UPDATENOTIFICATION,
@@ -285,7 +285,6 @@ function Demo() {
       });
     }
     return () => {
-      console.log(2);
       socket?.current.off("requestAddFriendToClient");
     };
   }, [dispatch, isShowPhoneBook, socket]);
@@ -293,7 +292,7 @@ function Demo() {
   useEffect(() => {
     if (socket?.current) {
       socket?.current.on("onTypingTextToClient", (data) => {
-        console.log(data);
+
         dispatch({ type: GLOBALTYPES.TYPING_TEXT, payload: data });
       });
     }
@@ -307,6 +306,45 @@ function Demo() {
       });
     }
     return () => socket?.current.off("offTypingTextToClient");
+  }, [socket, dispatch]);
+
+  useEffect(() => {
+    if (socket?.current) {
+      socket?.current.on("acceptAddFriendToClient", (data) => {
+        if (!isShowPhoneBook) {
+          dispatch({
+            type: GLOBALTYPES.UPDATENOTIFICATION,
+          });
+        }
+        dispatch({ type: GLOBALTYPES.UPDATE_FRIENDS, data: data });
+        enqueueSnackbar(
+          `${data.username} đã chấp nhận lời mời kết bạn của bạn`
+        );
+      });
+    }
+    return () => socket?.current.off("acceptAddFriendToClient");
+  }, [socket, dispatch]);
+
+  useEffect(() => {
+    if (socket?.current) {
+      socket?.current.on("recallFriendToClient", (data) => {
+        console.log("here",data)
+        dispatch({ type: GLOBALTYPES.UPDATE_FRIENDS_QUEUE, data: data });
+      });
+    }
+    return () => socket?.current.off("acceptAddFriendToClient");
+  }, [socket, dispatch]);
+
+  useEffect(() => {
+    if (socket?.current) {
+      socket?.current.on("deleteFriendToClient", (data) => {
+        dispatch({
+          type: GLOBALTYPES.UPDATE_DELETE_FRIENDS,
+          data: data,
+        });
+      });
+    }
+    return () => socket?.current.off("deleteFriendToClient");
   }, [socket, dispatch]);
 
   return (

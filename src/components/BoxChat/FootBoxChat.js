@@ -65,7 +65,9 @@ function FootBoxChat({ handleSendMsg }) {
   };
 
   const demoSubmit = (event) => {
-    // event.preventDefault();
+    if(event.keyCode == 13){
+      sendChat(event)
+   }
     console.log("here");
   };
 
@@ -182,7 +184,11 @@ function FootBoxChat({ handleSendMsg }) {
               placeholder="Nhập tin nhắn"
               value={msg}
               onChange={(e) => handleChangeText(e)}
+
               style={{ width: "100%", height: "100%", padding: "16px" }}
+
+              onKeyDown={(e) => demoSubmit(e)}
+
             />
           </div>
 

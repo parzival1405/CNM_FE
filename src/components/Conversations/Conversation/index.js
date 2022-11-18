@@ -5,6 +5,7 @@ import {
   ListItemAvatar,
   ListItemText,
 } from "@material-ui/core";
+import clsx from "clsx";
 import { AvatarGroup } from "@material-ui/lab";
 // import {
 //   getAllMessage,
@@ -13,9 +14,10 @@ import { AvatarGroup } from "@material-ui/lab";
 // } from "../../../redux/actions/messages";
 import { setCurrentConversation } from "../../../redux/actions/currentConversation";
 import { useDispatch, useSelector } from "react-redux";
-
+import useStyles from "./styles";
 function Conversation({ conversation }) {
   const dispatch = useDispatch();
+  const classes = useStyles();
   const { user } = useSelector((state) => state.auth);
   const { currentConversation, isRoom } = useSelector(
     (state) => state.currentConversation
@@ -37,7 +39,13 @@ function Conversation({ conversation }) {
     );
   };
   return (
-    <ListItem button onClick={handleChangeCurrentConversation}>
+    <ListItem
+      button
+      onClick={handleChangeCurrentConversation}
+      className={clsx(
+        currentConversation?._id === conversation._id && classes.selected,
+      )}
+    >
       <ListItemAvatar>
         <AvatarGroup max={3}>
           {_friends.map((friend) => (

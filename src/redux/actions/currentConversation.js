@@ -1,6 +1,23 @@
 import * as api from "../../api";
 import { GLOBALTYPES } from "../../constants/actionType";
 
+export const showConversationByIdFriend = (newCurrentConversation) => async (dispatch) => {
+  try {
+    dispatch({
+      type: GLOBALTYPES.SHOW_CONVERSATION,
+    });
+    dispatch({
+      type: GLOBALTYPES.REMOVE_COUNT_WAITING_MESSAGE,
+      payload: newCurrentConversation,
+    });
+    dispatch({
+      type: GLOBALTYPES.CURRENTCONVERSATION,
+      data: newCurrentConversation,
+    });
+  } catch (err) {}
+};
+
+
 export const setCurrentConversation =
   (currentConversation) => async (dispatch) => {
     try {
