@@ -2,6 +2,7 @@ import {
   Avatar,
   Button,
   Chip,
+  Divider,
   Fade,
   InputAdornment,
   List,
@@ -12,7 +13,7 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import { Label } from "@material-ui/icons";
+import { LabelOutlined, RemoveCircleOutline } from "@material-ui/icons";
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -30,11 +31,16 @@ function AddGroupModal() {
   const listFriend = user?.friends;
   const [listMember, setListMember] = useState([]);
   const [listMemberErr, setListMemberErr] = useState("");
-
+  // const [ds, setdisplay] = useState("none");
+  // const [bgll, setbg] = useState("#fff");
+  const [show, toggleShow] = useState(false);
   const handleSubmitForm = (values) => {
     const _listMember = listMember.map((member) => member._id);
     if (_listMember.length < 2) {
       setListMemberErr("Chọn ít nhất 2 thành viên");
+      // setdisplay("flex");
+      // setbg("f8d7da");
+      toggleShow(!show);
       return;
     }
 
@@ -43,7 +49,7 @@ function AddGroupModal() {
       label: values.label,
       member: _listMember,
       createdBy: user._id,
-      isGroup:true
+      isGroup: true,
     };
     dispatch(createConversation(data, socket.current));
     setListMember([]);
@@ -71,7 +77,8 @@ function AddGroupModal() {
         id="modal-add-group"
         style={{ borderRadius: "10px" }}
       >
-        <h3>Tạo nhóm</h3>
+        <h2 style={{ textAlign: "center" }}>Tạo nhóm</h2>
+        <Divider variant="fullWidth" style={{ margin: "20px 0" }} />
         <Formik
           initialValues={{
             label: "",
@@ -101,7 +108,7 @@ function AddGroupModal() {
               onSubmit={handleSubmit}
             >
               <TextField
-                label="Tên nhóm"
+                placeholder="Đặt tên nhóm"
                 name="label"
                 error={errors.label}
                 helperText={errors.label}
@@ -112,7 +119,7 @@ function AddGroupModal() {
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <Label />
+                      <LabelOutlined style={{ color: "#0978f5" }} />
                     </InputAdornment>
                   ),
                 }}
@@ -136,17 +143,42 @@ function AddGroupModal() {
                           alt="avatar"
                           sizes="small"
                           src={item.avatarURl}
+                          style={{ color: "white", backgroundColor: "#0978f5" }}
                         />
                       }
                       label={item.username}
                       disabled={user._id === item._id}
                       onDelete={() => handleDeleteMember(item)}
-                      color="secondary"
+                      style={{ backgroundColor: "#0978f5", color: "white" }}
+                      deleteIcon={
+                        <RemoveCircleOutline style={{ color: "white" }} />
+                      }
                     />
                   ))}
-                  <span style={{ color: "red" }}>{listMemberErr}</span>
                 </div>
               </div>
+              {show && (
+                <span
+                  style={{
+                    display: listMember.length === 1 ? "flex" : "none",
+
+                    // backgroundColor: listMember.length === 1 ? "#f8d7da" : "#fff",
+                    // display: { ds },
+                    // backgroundColor: { bgll },
+                    // display: "flex",
+                    backgroundColor: "#f8d7da",
+                    padding: "10px",
+                    borderRadius: "10px",
+                    margin: "5px 0",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    textAlign: "center",
+                    color: "#842029",
+                  }}
+                >
+                  {listMemberErr}
+                </span>
+              )}
               <div>
                 {listFriend && (
                   <Typography>Bạn bè ({listFriend.length})</Typography>
@@ -172,7 +204,7 @@ function AddGroupModal() {
                   Hủy
                 </Button>
                 <Button
-                  color="primary"
+                  style={{ backgroundColor: "#0978f5", color: "white" }}
                   variant="contained"
                   type="submit"
                   isSubmitting={isSubmitting}

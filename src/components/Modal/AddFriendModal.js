@@ -4,7 +4,6 @@ import {
   Button,
   Divider,
   Fade,
-  InputAdornment,
   ListItem,
   ListItemAvatar,
   ListItemText,
@@ -12,7 +11,7 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import { Phone } from "@material-ui/icons";
+
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { hideModal } from "../../redux/actions/modal";
@@ -23,6 +22,18 @@ import {
 } from "../../redux/actions/userResultFromModalAddFriendAction";
 import useDebounce from "../../hooks/useDebounce";
 import { requestAddFriend } from "../../redux/actions/friends";
+import {
+  useTheme,
+  createMuiTheme,
+  MuiThemeProvider,
+} from "@material-ui/core/styles";
+const bltheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#0978f5",
+    },
+  },
+});
 function AddFriendModal() {
   const classes = useStyles();
   const { isShowAddFriendModal } = useSelector((state) => state.modal);
@@ -33,9 +44,7 @@ function AddFriendModal() {
   const userResult = useSelector(
     (state) => state.userResultFromModalAddFriend.data
   );
-  const {socket} = useSelector(
-    (state) => state.socket
-  );
+  const { socket } = useSelector((state) => state.socket);
   const { loading, error } = useSelector(
     (state) => state.userResultFromModalAddFriend
   );
@@ -51,15 +60,20 @@ function AddFriendModal() {
 
   const handleRequestAddFriend = React.useCallback(() => {
     // xu ly here
-    console.log("here")
-    dispatch(requestAddFriend(userResult,user,socket.current));
-    handleHideModal("")
+    console.log("here");
+    dispatch(requestAddFriend(userResult, user, socket.current));
+    handleHideModal("");
   }, [user, token, dispatch, userResult, socket]);
 
   const handleHideModal = () => {
     dispatch(hideModal("isShowAddFriendModal"));
     setPhoneNumber("");
   };
+  // const darkerblutheme = createTheme({
+  //   status: {
+  //     danger: "#0978f5",
+  //   },
+  // });
 
   const body = (
     <Fade in={isShowAddFriendModal}>
@@ -68,10 +82,10 @@ function AddFriendModal() {
         id="modal-add-friend"
         style={{ padding: 0, borderRadius: "10px" }}
       >
-        <div style={{ textAlign: "center" }}>
-          <h3>Thêm bạn</h3>
+        <div style={{ textAlign: "center", marginTop: "10px" }}>
+          <h2>Thêm bạn</h2>
         </div>
-        <Divider variant="fullWidth" style={{ marginBottom: "10px" }} />
+        <Divider variant="fullWidth" style={{ margin: "10px 0" }} />
         <form action="" className={classes.form} noValidate autoComplete="off">
           <TextField
             placeholder="Số điện thoại"
@@ -109,7 +123,9 @@ function AddFriendModal() {
                     </Button>
                   ) : (
                     <>
-                      {userResult.friendsQueue?.map(fr => fr._id).includes(user._id) ? (
+                      {userResult.friendsQueue
+                        ?.map((fr) => fr._id)
+                        .includes(user._id) ? (
                         <Button variant="outlined" color="primary" disabled>
                           Đã gửi yêu cầu
                         </Button>
@@ -137,15 +153,18 @@ function AddFriendModal() {
             >
               Hủy
             </Button>
-            <Button
-              color="primary"
-              variant="contained"
-              type="submit"
-              disabled={phoneNumber.length === 0}
-              style={{ margin: "0 8px 8px 8px" }}
-            >
-              Tìm kiếm
-            </Button>
+
+            <MuiThemeProvider theme={bltheme}>
+              <Button
+                color="primary"
+                variant="contained"
+                type="submit"
+                disabled={phoneNumber.length === 0}
+                style={{ margin: "0 8px 8px 8px" }}
+              >
+                Tìm kiếm
+              </Button>
+            </MuiThemeProvider>
           </div>
         </form>
       </Paper>

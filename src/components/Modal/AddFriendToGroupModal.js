@@ -38,7 +38,7 @@ function AddFriendToGroupModal() {
       conversationId: currentConversation._id,
       newMember: _listMember,
     };
-    dispatch(addMembersToGroup(data,user, socket.current));
+    dispatch(addMembersToGroup(data, user, socket.current));
     setListMember([]);
     handleHideModal();
   }, [dispatch, token, listMember, user]);
@@ -58,7 +58,7 @@ function AddFriendToGroupModal() {
   const body = (
     <Fade in={isShowAddFriendToGroupModal}>
       <Paper className={classes.paper} id="modal-add-group">
-        <h3>Thêm thành viên</h3>
+        <h2>Thêm thành viên</h2>
         <form
           action=""
           className={classes.form}

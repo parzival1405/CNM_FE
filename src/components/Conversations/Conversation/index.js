@@ -48,17 +48,21 @@ function Conversation({ conversation }) {
       <ListItemText
         style={{ paddingLeft: "5px" }}
         primary={
-          conversation.isGroup 
-            ? conversation.label?.slice(0, 30) 
-            :_friends[0].username?.slice(0, 30)
+          conversation.isGroup
+            ? conversation.label?.slice(0, 30)
+            : _friends[0].username?.slice(0, 30)
         }
         secondary={
           conversation?.count_waiting_msg
             ? `Có ${conversation?.count_waiting_msg} tin nhắn chưa xem`
             : user?._id === conversation?.lastMessage?.sender?._id
-            ? (!conversation?.lastMessage?.isDelete ? `Bạn:${conversation?.lastMessage?.text}` : "Đã thu hồi tin nhắn")
+            ? !conversation?.lastMessage?.isDelete
+              ? `Bạn:${conversation?.lastMessage?.text}`
+              : "Đã thu hồi tin nhắn"
             : conversation?.lastMessage
-            ? (!conversation?.lastMessage?.isDelete ? `${conversation?.lastMessage?.sender?.username}:${conversation?.lastMessage?.text}` : "Tin nhắn đã được thu hồi")
+            ? !conversation?.lastMessage?.isDelete
+              ? `${conversation?.lastMessage?.sender?.username}:${conversation?.lastMessage?.text}`
+              : "Tin nhắn đã được thu hồi"
             : ""
         }
       />

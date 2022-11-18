@@ -2,11 +2,11 @@ import { makeStyles } from "@material-ui/core/styles";
 
 export default makeStyles((theme) => ({
   wrapperDrawerOpen: {
-    borderLeft: "1px solid #bfd4e7",
+    borderLeft: "1px solid #E1E1E1",
     width: "63%",
   },
   wrapperDrawerClose: {
-    borderLeft: "1px solid #bfd4e7",
+    borderLeft: "1px solid #E1E1E1",
     width: "100%",
   },
   chatBody: {
