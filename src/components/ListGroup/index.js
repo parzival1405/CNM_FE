@@ -43,9 +43,13 @@ const Groups = ({ group }) => {
         <div className="friend-request__main">
           <div className="friend-request__main-content">
             <AvatarGroup max={4}>
-            {group.member.map((member) => (
-            <Avatar key={member?._id} src={member?.avatarURL} alt="avatar" />
-          ))}
+              {group.member.map((member) => (
+                <Avatar
+                  key={member?._id}
+                  src={member?.avatarURL}
+                  alt="avatar"
+                />
+              ))}
             </AvatarGroup>
             <Typography
               style={{ marginLeft: "30%", marginTop: 20 }}
@@ -69,8 +73,8 @@ const Groups = ({ group }) => {
 };
 
 const ListGroup = ({ listFriendsRequest }) => {
-  const {conversations} = useSelector((state) => state.conversations)
-  const groupsFilter = conversations.filter(conv => conv.isGroup === true)
+  const { conversations } = useSelector((state) => state.conversations);
+  const groupsFilter = conversations.filter((conv) => conv.isGroup === true);
   const classes = useStyles();
   const [title, setTitle] = React.useState("");
 
@@ -91,7 +95,7 @@ const ListGroup = ({ listFriendsRequest }) => {
             style={{
               backgroundColor: "#0978f5",
               boxShadow: "none",
-              borderLeft: "1px solid #bfd4e7",
+              borderLeft: "1px solid #E1E1E1",
               height: "60px",
             }}
           >

@@ -80,7 +80,6 @@ function Nav() {
         <IconButton>
           <Settings style={{ fontSize: "32px", color: "white" }} />
         </IconButton>
-        
       </Box>
     </List>
   );

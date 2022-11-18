@@ -13,7 +13,9 @@ import ListGroup from "./ListGroup";
 import PhoneBooks from "./PhoneBooks";
 import { Group } from "@material-ui/icons";
 import DrawerInfoChat from "./Bar/DrawerInfoChat";
+
 import { useSnackbar } from "notistack";
+
 
 const listGroup = [
   {
@@ -290,6 +292,7 @@ function Demo() {
   useEffect(() => {
     if (socket?.current) {
       socket?.current.on("onTypingTextToClient", (data) => {
+
         dispatch({ type: GLOBALTYPES.TYPING_TEXT, payload: data });
       });
     }
@@ -345,14 +348,20 @@ function Demo() {
   }, [socket, dispatch]);
 
   return (
-    <Grid container style={{ height: "100%", flexWrap: "nowrap" }}>
+    <Grid
+      container
+      style={{ height: "100%", flexWrap: "nowrap", border: "1px solid white" }}
+    >
       <Grid item md={"auto"} style={{ backgroundColor: "#0978f5" }}>
         <Nav />
       </Grid>
-      <Grid item md={3} className={"con"}>
-        {isShowConversation && (
-          <Conversations style={{ flex: "0 1 auto", minWidth: "1000px" }} />
-        )}
+      <Grid
+        item
+        md={3}
+        className={"con"}
+        style={{ borderBottom: "1px solid white", margin: "0" }}
+      >
+        {isShowConversation && <Conversations style={{ flex: "0 1 auto" }} />}
         {isShowPhoneBook && <PhoneBooks style={{ flex: "0 1 auto" }} />}
       </Grid>
       {isShowConversation && (

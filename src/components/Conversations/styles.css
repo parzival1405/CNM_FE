@@ -2,6 +2,7 @@
 
 .conversation-sidebar__nav {
     padding: 10px 0px;
+    height: 100%;
 }
 
 .conversation-sidebar__nav-add {
