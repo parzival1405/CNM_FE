@@ -12,7 +12,7 @@ import ListFriendsRequest from "./ListFriendsRequest";
 import ListGroup from "./ListGroup";
 import PhoneBooks from "./PhoneBooks";
 import { Group } from "@material-ui/icons";
-import DrawerInfoChat from "./Bar/DrawerInfoChat"
+import DrawerInfoChat from "./Bar/DrawerInfoChat";
 
 const listGroup = [
   {
@@ -87,9 +87,12 @@ function Demo() {
     (state) => state.currentConversation
   );
   const { user } = useSelector((state) => state.auth);
-  const { isShowPhoneBook, isShowConversation,isShowRequestAddFriend,isShowListGroup } = useSelector(
-    (state) => state.sideBar
-  );
+  const {
+    isShowPhoneBook,
+    isShowConversation,
+    isShowRequestAddFriend,
+    isShowListGroup,
+  } = useSelector((state) => state.sideBar);
   useEffect(() => {
     if (socket?.current) {
       socket.current.on("addConversation-receive", (data) => {
@@ -290,11 +293,11 @@ function Demo() {
   useEffect(() => {
     if (socket?.current) {
       socket?.current.on("onTypingTextToClient", (data) => {
-        console.log(data)
+        console.log(data);
         dispatch({ type: GLOBALTYPES.TYPING_TEXT, payload: data });
       });
     }
-    return () =>  socket?.current.off("onTypingTextToClient");
+    return () => socket?.current.off("onTypingTextToClient");
   }, [socket, dispatch]);
 
   useEffect(() => {
@@ -303,7 +306,7 @@ function Demo() {
         dispatch({ type: GLOBALTYPES.OFF_TYPING_TEXT, payload: data });
       });
     }
-    return () =>  socket?.current.off("offTypingTextToClient");
+    return () => socket?.current.off("offTypingTextToClient");
   }, [socket, dispatch]);
 
   return (

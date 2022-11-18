@@ -44,6 +44,7 @@ import {
   outGroup,
 } from "../../redux/actions/currentConversation";
 import ListImage from "./ListImage";
+import "./DrawerInfoChat.css";
 
 const drawerWidth = "25%";
 
@@ -51,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
   },
+
   appBar: {
     transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.sharp,
@@ -120,7 +122,9 @@ export default function PersistentDrawerRight() {
     (state) => state.currentConversation
   );
   const { user } = useSelector((state) => state.auth);
-  const _friends = currentConversation?.member?.filter((m) => m._id !== user._id);
+  const _friends = currentConversation?.member?.filter(
+    (m) => m._id !== user._id
+  );
   const handleDrawerClose = () => {
     dispatch(hideSide("isShowInformation"));
   };
@@ -199,17 +203,43 @@ export default function PersistentDrawerRight() {
         </DrawerHeader>
         <Divider style={{ justifyContent: "center", alignItems: "center" }} />
         <h2 style={{ display: "flex", justifyContent: "center" }} variant="h6">
-          {currentConversation.isGroup ? currentConversation?.label : _friends[0].username}
+          {currentConversation.isGroup
+            ? currentConversation?.label
+            : _friends[0].username}
         </h2>
         <AvatarGroup
           max={4}
           style={{ justifyContent: "center", marginTop: 20 }}
         >
-          {currentConversation.isGroup ? currentConversation.member.map((member) => (
-            <Avatar key={member?._id} src={member?.avatarURL} alt="avatar" />
-          )) : <Avatar key={_friends[0]?._id} src={_friends[0]?.avatarURL} alt="avatar" />}
+          {currentConversation.isGroup ? (
+            currentConversation.member.map((member) => (
+              <Avatar key={member?._id} src={member?.avatarURL} alt="avatar" />
+            ))
+          ) : (
+            <Avatar
+              key={_friends[0]?._id}
+              src={_friends[0]?.avatarURL}
+              alt="avatar"
+            />
+          )}
         </AvatarGroup>
         <List style={{ display: "flex", flexDirection: "row" }}>
+          <ListItem style={{ padding: 0 }}>
+            <ListItem
+              button
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <ListItemIcon>
+                <NotificationsIcon />
+              </ListItemIcon>
+              <ListItemText secondary={"Tắt thông báo"} />
+            </ListItem>
+          </ListItem>
+          {currentConversation.isGroup && (
             <ListItem style={{ padding: 0 }}>
               <ListItem
                 button
@@ -220,41 +250,29 @@ export default function PersistentDrawerRight() {
                 }}
               >
                 <ListItemIcon>
-                  <NotificationsIcon />
+                  <PersonAddIcon />
                 </ListItemIcon>
-                <ListItemText secondary={"Tắt thông báo"} />
+                <ListItemText secondary={"Thêm thành viên"} />
               </ListItem>
             </ListItem>
-          {currentConversation.isGroup && <ListItem style={{ padding: 0 }}>
-            <ListItem
-              button
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <ListItemIcon>
-                <PersonAddIcon />
-              </ListItemIcon>
-              <ListItemText secondary={"Thêm thành viên"} />
+          )}
+          {currentConversation.isGroup && (
+            <ListItem style={{ padding: 0 }}>
+              <ListItem
+                button
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <ListItemIcon>
+                  <SettingsIcon />
+                </ListItemIcon>
+                <ListItemText secondary={"Quản lý nhóm"} />
+              </ListItem>
             </ListItem>
-          </ListItem>}
-          {currentConversation.isGroup && <ListItem style={{ padding: 0 }}>
-            <ListItem
-              button
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <ListItemIcon>
-                <SettingsIcon />
-              </ListItemIcon>
-              <ListItemText secondary={"Quản lý nhóm"} />
-            </ListItem>
-          </ListItem>}
+          )}
         </List>
         <Divider />
         {currentConversation.isGroup && (
@@ -298,7 +316,7 @@ export default function PersistentDrawerRight() {
             <Typography>Ảnh/Video</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <ListImage  />
+            <ListImage />
           </AccordionDetails>
         </Accordion>
         <Accordion style={{ marginTop: 20 }}>
