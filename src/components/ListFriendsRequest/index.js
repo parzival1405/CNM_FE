@@ -3,7 +3,7 @@ import { Grid, Typography } from "@material-ui/core";
 
 import "./styles.css";
 import { useDispatch, useSelector } from "react-redux";
-import { acceptAddFriend, deniedAddFriend } from "../../redux/actions/friends";
+import { acceptAddFriend, deniedAddFriend, recallFriend } from "../../redux/actions/friends";
 import { createConversation } from "../../redux/actions/coversations";
 import { checkConversation } from "../../api";
 
@@ -46,12 +46,6 @@ const FriendRequest = ({ item }) => {
             <Typography variant="subtitle1" gutterBottom>
               {username}
             </Typography>
-            {/* <Typography variant="subtitle2" display="block" gutterBottom>
-                            {subtitle}
-                        </Typography>
-                        <Typography variant="subtitle2" display="block" gutterBottom>
-                            {message}
-                        </Typography> */}
           </div>
         </div>
 
@@ -76,9 +70,49 @@ const FriendRequest = ({ item }) => {
   );
 };
 
+const FriendRecall = ({ item }) => {
+  const { socket } = useSelector((state) => state.socket);
+  const { user } = useSelector((state) => state.auth);
+  const { avatarURL, username } = item;
+  const dispatch = useDispatch();
+
+  const handleRecall = () => {
+    const data = {
+      recallFriendRequestId: item._id,
+    };
+    dispatch(recallFriend(data, user, socket.current));
+  };
+
+  return (
+    <>
+      <div className="friend-request">
+        <div className="friend-request__main">
+          <img src={avatarURL} alt="avatar" />
+          <div className="friend-request__main-content">
+            <Typography variant="subtitle1" gutterBottom>
+              {username}
+            </Typography>
+          </div>
+        </div>
+
+        <div className="friend-request__action">
+          <button
+            type="button"
+            onClick={handleRecall}
+            className="friend-request__action next"
+          >
+            Hủy lời mời
+          </button>
+        </div>
+      </div>
+    </>
+  );
+};
+
 const ListFriendsRequest = () => {
   const { user } = useSelector((state) => state.auth);
   const listFriendsRequest = user.friendsQueue;
+  const listFriendsRecall = user.SendRequestQueue;
   return (
     <>
       <div className="list-friends-request">
@@ -95,6 +129,23 @@ const ListFriendsRequest = () => {
           {listFriendsRequest?.length > 0 &&
             listFriendsRequest?.map((friend) => (
               <FriendRequest item={friend} key={friend._id} />
+            ))}
+        </div>
+      </div>
+      <div className="list-friends-request">
+        <div className="list-friends-request__container">
+          <Typography
+            variant="subtitle1"
+            display="block"
+            className="list-friends-request__container-title"
+            gutterBottom
+          >
+            Đã gửi lời mời kết bạn (
+            {listFriendsRecall?.length ? listFriendsRecall?.length : "0"})
+          </Typography>
+          {listFriendsRecall?.length > 0 &&
+            listFriendsRecall?.map((friend) => (
+              <FriendRecall item={friend} key={friend._id} />
             ))}
         </div>
       </div>

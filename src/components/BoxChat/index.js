@@ -1,7 +1,15 @@
 import React, { useEffect, useRef } from "react";
 import FootBoxChat from "./FootBoxChat";
 import HeaderBoxChat from "./HeaderBoxChat";
-import { styled, Box, Paper, Card, CardMedia, Typography, CardContent } from "@material-ui/core";
+import {
+  styled,
+  Box,
+  Paper,
+  Card,
+  CardMedia,
+  Typography,
+  CardContent,
+} from "@material-ui/core";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Message from "../Message/Message";
 import useStyles from "./ChatBodyStyle";
@@ -17,6 +25,7 @@ import {
 } from "../../redux/actions/messages";
 import { demoPostFile, getDataS3API } from "../../api";
 import DrawerInfoChat from "../Bar/DrawerInfoChat";
+import Divider from "./Divider";
 const Wrapper = styled("div")(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
@@ -26,7 +35,7 @@ const Wrapper = styled("div")(({ theme }) => ({
 function BoxChat() {
   const classes = useStyles();
 
-  const { isLoading, messages,skip } = useSelector((state) => state.messages);
+  const { isLoading, messages, skip } = useSelector((state) => state.messages);
   const { user, token } = useSelector((state) => state.auth);
   const { currentConversation, isRoom } = useSelector(
     (state) => state.currentConversation
@@ -62,7 +71,7 @@ function BoxChat() {
         const {
           data: { data },
         } = await demoPostFile(formData);
-        console.log(data);
+        console.log(item);
         mediaArray.push({
           url: data,
           type: item.type,
@@ -72,7 +81,7 @@ function BoxChat() {
             {
               sender: user._id,
               conversation: currentConversation,
-              text: message,
+              text: item.name,
               type: item.type,
               media: mediaArray,
             },
@@ -101,10 +110,12 @@ function BoxChat() {
   }, [messages]);
 
   const fetchMoreData = () => {
-    dispatch(loadMoreMessages({
-      conversation: currentConversation._id,
-      skip:skip,
-    }));
+    dispatch(
+      loadMoreMessages({
+        conversation: currentConversation._id,
+        skip: skip,
+      })
+    );
   };
   return (
     // Drawer Open and Close
@@ -114,7 +125,7 @@ function BoxChat() {
         style={{ flexGrow: 1, boxShadow: "none" }}
         className={clsx(
           classes.chatBody,
-          messages?.length  === 0 ? `${classes.displayTop}` : ""
+          messages?.length === 0 ? `${classes.displayTop}` : ""
         )}
         id="scrollableDiv"
       >
@@ -125,29 +136,88 @@ function BoxChat() {
           inverse={true}
           hasMore={true}
           loader={
-          messages.length > 0 && <h4 style={{ textAlign: "center" }}>Loading...</h4>
+            messages.length > 0 && (
+              <h4 style={{ textAlign: "center" }}>Loading...</h4>
+            )
           }
           scrollableTarget="scrollableDiv"
         >
           {!isLoading &&
-            messages.map((message, index) => (
-              <Message key={index} message={message} />
-            ))}
+            messages.map((message, index) => {
+              console.log();
+              const before = new Date(messages?.at(index + 1)?.createdAt);
+              const after = new Date(message.createdAt);
+              console.log(before);
+              if (isNaN(before)) {
+                const date =
+                  after.getHours() +
+                  " : " +
+                  after.getMinutes() +
+                  "  " +
+                  after.getUTCDate() +
+                  "/" +
+                  (after.getMonth() + 1) +
+                  "/" +
+                  after.getUTCFullYear();
+                return (
+                  <>
+                    <Message key={index} message={message} />
+                    <Divider key={index+"a"}>{date}</Divider>
+                  </>
+                );
+              }
+              var hours = Math.abs(before - after) / 36e5;
+              if (hours > 1) {
+                let date = "";
+                const currentDate = new Date();
+                if (
+                  after.getMonth() === currentDate.getMonth() &&
+                  after.getUTCFullYear() === currentDate.getUTCFullYear() &&
+                  after.getUTCDate() === currentDate.getUTCDate()
+                ) {
+                  date =
+                    after.getHours() +
+                    " : " +
+                    after.getMinutes() +
+                    "  " +
+                    "Hôm nay";
+                } else {
+                  date =
+                    after.getHours() +
+                    " : " +
+                    after.getMinutes() +
+                    "  " +
+                    after.getUTCDate() +
+                    "/" +
+                    (after.getMonth() + 1) +
+                    "/" +
+                    after.getUTCFullYear();
+                }
+
+                return (
+                  <>
+                    <Message key={index} message={message} />
+                    <Divider key={index+"b"}>{date}</Divider>
+                  </>
+                );
+              }
+              return <Message key={index} message={message} />;
+            })}
         </InfiniteScroll>
       </Paper>
-      {messages?.length  ===0 && 
-                <Card className={classes.card}>
-                        <CardMedia
-                        className={classes.media}
-                        image="https://images.unsplash.com/photo-1605170439002-90845e8c0137?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1632&q=80"
-                        />
-                        <CardContent>
-                        <Typography gutterBottom variant="body" component="h4">
-                            Hãy bắt đầu với cuộc trò chuyện
-                        </Typography>
-                        </CardContent>
-                </Card>
-            }
+      {messages?.length === 0 && (
+        <Card className={classes.card}>
+          <CardMedia
+            className={classes.media}
+            image="https://images.unsplash.com/photo-1605170439002-90845e8c0137?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1632&q=80"
+          />
+          <CardContent>
+            <Typography gutterBottom variant="body" component="h4">
+              Hãy bắt đầu với cuộc trò chuyện
+            </Typography>
+          </CardContent>
+        </Card>
+      )}
       {listUserTyping.length > 0 && (
         <div
           style={{

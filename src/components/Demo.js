@@ -215,7 +215,6 @@ function Demo() {
   useEffect(() => {
     if (socket?.current) {
       socket.current.on("msg-receive", (data) => {
-        
         if (
           currentConversation === undefined ||
           currentConversation === null ||
@@ -226,7 +225,7 @@ function Demo() {
             type: GLOBALTYPES.UPDATE_COUNT_WAITING_MESSAGE,
             payload: data.conversation,
           });
-          enqueueSnackbar(`nhận được 1 tin nhắn từ ${data.sender.username}`)
+          enqueueSnackbar(`nhận được 1 tin nhắn từ ${data.sender.username}`);
         } else {
           dispatch({ type: GLOBALTYPES.ADDMESSAGE, data });
         }
@@ -237,7 +236,6 @@ function Demo() {
             conversation: data.conversation,
           },
         });
-        
       });
     }
     return () => socket?.current.off("msg-receive");
@@ -272,7 +270,7 @@ function Demo() {
     if (socket?.current) {
       socket.current.on("requestAddFriendToClient", (data) => {
         user.friendsQueue.push(data);
-        enqueueSnackbar(`nhận được 1 lời mời kết bạn từ ${data.username}`)
+        enqueueSnackbar(`nhận được 1 lời mời kết bạn từ ${data.username}`);
         if (!isShowPhoneBook) {
           dispatch({
             type: GLOBALTYPES.UPDATENOTIFICATION,
@@ -316,7 +314,19 @@ function Demo() {
           });
         }
         dispatch({ type: GLOBALTYPES.UPDATE_FRIENDS, data: data });
-        enqueueSnackbar(`${data.username} đã chấp nhận lời mời kết bạn của bạn`)
+        enqueueSnackbar(
+          `${data.username} đã chấp nhận lời mời kết bạn của bạn`
+        );
+      });
+    }
+    return () => socket?.current.off("acceptAddFriendToClient");
+  }, [socket, dispatch]);
+
+  useEffect(() => {
+    if (socket?.current) {
+      socket?.current.on("recallFriendToClient", (data) => {
+        console.log("here",data)
+        dispatch({ type: GLOBALTYPES.UPDATE_FRIENDS_QUEUE, data: data });
       });
     }
     return () => socket?.current.off("acceptAddFriendToClient");

@@ -43,7 +43,6 @@ export const getMessageByConversationId = (conversation, navigate) => async (dis
 export const loadMoreMessages = (conversation, navigate) => async (dispatch) => {
   try {
     dispatch({ type: GLOBALTYPES.START_LOADING });
-    console.log(conversation)
     const {
       data: { data },
     } = await api.getMessageByConversationId(conversation);

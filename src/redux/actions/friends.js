@@ -15,10 +15,15 @@ export const getAllYourFriends = (navigate) => async (dispatch) => {
 export const requestAddFriend =
   (userResult, user, socket) => async (dispatch) => {
     try {
-      const data = {
+      const dataId = {
         userId: userResult._id,
       };
-      await api.requestAddFriend(data);
+      const { data } = await api.requestAddFriend(dataId);
+      
+      dispatch({
+        type: GLOBALTYPES.UPDATEPROFILE,
+        data,
+      });
       const dataSocket = {
         _id: user._id,
         username: user.username,
@@ -69,6 +74,30 @@ export const deniedAddFriend = (data2,user,socket) => async (dispatch) => {
       data,
     });
     
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const recallFriend = (data2,user,socket) => async (dispatch) => {
+  try {
+    const { data } = await api.recallFriend(data2);
+    dispatch({
+      type: GLOBALTYPES.UPDATEPROFILE,
+      data,
+    });
+    socket.emit(
+      "recallFriend",
+      JSON.stringify({
+        recipient: data2.recallFriendRequestId,
+        sender: {
+          avatarURL: user.avatarURL,
+          phoneNumber: user.phoneNumber,
+          username: user.username,
+          _id: user._id,
+        },
+      })
+    );
   } catch (error) {
     console.log(error);
   }

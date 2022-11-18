@@ -67,7 +67,7 @@ function Messages({ message }) {
                 message?.sender?._id == user._id ? `${classes.wrapperEnd}` : ""
               )}
             >
-              {message.text && (
+              {message.text && message?.media.length === 0 && (
                 <div
                   className={clsx(
                     classes.textWrapper,
@@ -140,7 +140,7 @@ function Messages({ message }) {
                       }}
                     >
                       <a
-                        href={item.url}
+                        href={`https://docs.google.com/gview?embedded=true&url=${item.url}`}
                         target="_blank"
                         rel="noreferrer"
                         style={{
@@ -148,7 +148,7 @@ function Messages({ message }) {
                           color: "black",
                         }}
                       >
-                        {item.url}
+                        {message.text}
                       </a>
                     </div>
                   )}

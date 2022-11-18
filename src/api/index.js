@@ -68,7 +68,7 @@ export const deleteGroup = (data) =>
 export const acceptFriend = (data) => API.post("api/user/acceptFriend", data);
 export const deniedFriend = (data) => API.post("api/user/deniedFriend", data);
 export const deleteFriend = (data) => API.post("api/user/deleteFriend", data);
-
+export const recallFriend = (data) => API.post("api/user/recallFriend", data);
 export const checkPhonenumber = (data) =>
   API.post("api/auth/checkPhonenumber", data);
 
