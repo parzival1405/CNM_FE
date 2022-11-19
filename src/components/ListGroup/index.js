@@ -101,7 +101,7 @@ const ListGroup = ({ listFriendsRequest }) => {
           >
             <Toolbar>
               <GroupIcon style={{ fontSize: 30 }}></GroupIcon>
-              <Typography style={{ marginLeft: 30, fontSize: 30 }}>
+              <Typography style={{ marginLeft: 30, fontSize: 20 }}>
                 Danh sách nhóm
               </Typography>
             </Toolbar>

@@ -1,11 +1,12 @@
 import {
   Button,
+  Divider,
   Fade,
   InputAdornment,
   Paper,
   TextField,
 } from "@material-ui/core";
-import { Label } from "@material-ui/icons";
+import { Label, LabelOutlined } from "@material-ui/icons";
 import { Form, Formik } from "formik";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,6 +16,17 @@ import { validateionChangeGroupName } from "../../utils/Validation";
 
 import BaseModal from "./BaseModal";
 import useStyles from "./styles";
+
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+
+const bltheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#0978f5",
+    },
+  },
+});
+
 function ChangeGroupLabelModal() {
   const classes = useStyles();
   const { isShowChangeGroupLabel } = useSelector((state) => state.modal);
@@ -35,7 +47,14 @@ function ChangeGroupLabelModal() {
       if (label === currentConversation.label) {
         handleHideModal();
       }
-      dispatch(changeCurrentConversationGroupName(data,currentConversation.label,user, socket.current));
+      dispatch(
+        changeCurrentConversationGroupName(
+          data,
+          currentConversation.label,
+          user,
+          socket.current
+        )
+      );
       handleHideModal();
     },
     [currentConversation, user, dispatch, socket]
@@ -48,7 +67,8 @@ function ChangeGroupLabelModal() {
   const body = (
     <Fade in={isShowChangeGroupLabel}>
       <Paper className={classes.paper} id="modal-add-friend">
-        <h3>Đổi tên nhóm</h3>
+        <h2 style={{ textAlign: "center" }}>Đổi tên nhóm</h2>
+        <Divider variant="fullWidth" style={{ margin: "20px 0" }} />
         <Formik
           initialValues={{
             label: "",
@@ -78,7 +98,7 @@ function ChangeGroupLabelModal() {
               onSubmit={handleSubmit}
             >
               <TextField
-                label="Tên nhóm mới"
+                placeholder="Tên nhóm mới"
                 name="label"
                 error={errors.label}
                 helperText={errors.label}
@@ -89,7 +109,7 @@ function ChangeGroupLabelModal() {
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <Label />
+                      <LabelOutlined style={{ color: "#0978f5" }} />
                     </InputAdornment>
                   ),
                 }}
@@ -101,14 +121,16 @@ function ChangeGroupLabelModal() {
                 <Button variant="contained" onClick={resetForm}>
                   Xóa trắng
                 </Button>
-                <Button
-                  color="primary"
-                  variant="contained"
-                  type="submit"
-                  isSubmitting={isSubmitting}
-                >
-                  Xác nhận
-                </Button>
+                <MuiThemeProvider theme={bltheme}>
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    type="submit"
+                    isSubmitting={isSubmitting}
+                  >
+                    Xác nhận
+                  </Button>
+                </MuiThemeProvider>
               </div>
             </Form>
           )}

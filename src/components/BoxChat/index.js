@@ -162,7 +162,7 @@ function BoxChat() {
                 return (
                   <>
                     <Message key={index} message={message} />
-                    <Divider key={index+"a"}>{date}</Divider>
+                    <Divider key={index + "a"}>{date}</Divider>
                   </>
                 );
               }
@@ -197,7 +197,7 @@ function BoxChat() {
                 return (
                   <>
                     <Message key={index} message={message} />
-                    <Divider key={index+"b"}>{date}</Divider>
+                    <Divider key={index + "b"}>{date}</Divider>
                   </>
                 );
               }
@@ -206,16 +206,25 @@ function BoxChat() {
         </InfiniteScroll>
       </Paper>
       {messages?.length === 0 && (
-        <Card className={classes.card}>
-          <CardMedia
-            className={classes.media}
-            image="https://images.unsplash.com/photo-1605170439002-90845e8c0137?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1632&q=80"
-          />
+        <Card
+          className={classes.card}
+          style={{ marginBottom: "10rem", width: "50%" }}
+        >
           <CardContent>
-            <Typography gutterBottom variant="body" component="h4">
-              Hãy bắt đầu với cuộc trò chuyện
+            <Typography
+              gutterBottom
+              variant="body"
+              component="h4"
+              className="begintext"
+              style={{ color: "red" }}
+            >
+              Hãy bắt đầu cùng nhau chia sẻ những câu chuyện thú vị
             </Typography>
           </CardContent>
+          <CardMedia
+            className={classes.media}
+            image="https://img.freepik.com/free-vector/people-leaning-phone-while-chatting-concept-illustration_52683-23817.jpg?w=1060&t=st=1668843383~exp=1668843983~hmac=3e4ab6f09d543d274864cb35af5c365615b63c101a0c2211a96b8d3447a2742c"
+          />
         </Card>
       )}
       {listUserTyping.length > 0 && (
