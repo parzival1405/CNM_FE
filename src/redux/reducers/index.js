@@ -11,6 +11,10 @@ import userResultFromModalAddFriendReducer from './userResultFromModalAddFriendR
 import socket from "./socket";
 import sideBar from "./sideBar"
 import typingReducer from "./typingReducer";
+import online from "./online"
+import peer from "./peer"
+import call from "./call"
+
 
 export default combineReducers({
     auth,
@@ -23,5 +27,8 @@ export default combineReducers({
     socket,
     userResultFromModalAddFriend:userResultFromModalAddFriendReducer,
     sideBar,
-    typingReducer
+    typingReducer,
+    online,
+    peer,
+    call
 })

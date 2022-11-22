@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import BasicPopover from "../../Popover";
 import { MoreHoriz } from "@material-ui/icons";
 import DeletePopover from "../../Popover/DeletePopover";
+import { stringAvatar } from "../../../utils/LetterAvatar";
 
 function Friend({ friend, creator = null, isDelete = false }) {
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ function Friend({ friend, creator = null, isDelete = false }) {
   return (
     <ListItem button>
       <ListItemAvatar>
-        <Avatar key={friend?._id} src={friend?.avatarURL} alt="avatar" />
+        <Avatar key={friend?._id} src={friend?.avatarURL} alt="avatar" {...stringAvatar(friend?.username)}/>
       </ListItemAvatar>
       <ListItemText
         style={{ paddingLeft: "5px" }}

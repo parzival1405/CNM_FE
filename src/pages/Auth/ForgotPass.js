@@ -48,7 +48,6 @@ function Forgot() {
       phoneNumber: values.phoneNumber,
       newPassword: values.newPassword,
     };
-    console.log(data);
     window.dataUser = data
     window.isForgotPass = true
     handleSendSms(values);

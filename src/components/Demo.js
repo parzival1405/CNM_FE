@@ -16,7 +16,6 @@ import DrawerInfoChat from "./Bar/DrawerInfoChat";
 
 import { useSnackbar } from "notistack";
 
-
 const listGroup = [
   {
     id: 1,
@@ -87,6 +86,8 @@ function Demo() {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const { socket } = useSelector((state) => state.socket);
+  const { online } = useSelector((state) => state.online);
+  const call = useSelector((state) => state.call);
   const { currentConversation } = useSelector(
     (state) => state.currentConversation
   );
@@ -108,6 +109,55 @@ function Demo() {
     }
     return () => socket?.current.off("addConversation-receive");
   }, [socket, dispatch]);
+    // Call User
+    useEffect(() => {
+      socket?.current.on("callUserToClient", (data) => {
+        console.log(data)
+        dispatch({ type: GLOBALTYPES.CALL, payload: data });
+      });
+  
+      return () => socket?.current.off("callUserToClient");
+    }, [socket, dispatch]);
+  
+    useEffect(() => {
+      socket?.current.on("userBusy", (data) => {
+        dispatch({
+          type: GLOBALTYPES.ALERT,
+          payload: { error: `${call.username} is busy!` },
+        });
+      });
+  
+      return () => socket?.current.off("userBusy");
+    }, [socket, dispatch, call]);
+
+  useEffect(() => {
+    socket?.current.emit("checkUserOnline", user);
+  }, [socket, user]);
+
+  useEffect(() => {
+    socket?.current.on("checkUserOnlineToMe", (data) => {
+      dispatch({ type: GLOBALTYPES.ONLINE, payload: data });
+    });
+
+    return () => socket?.current.off("checkUserOnlineToMe");
+  }, [socket, dispatch, online]);
+  
+  useEffect(() => {
+    socket?.current.on("CheckUserOffline", (item) => {
+      dispatch({ type: GLOBALTYPES.OFFLINE, payload: item });
+    });
+
+    return () => socket?.current.off("CheckUserOffline");
+  }, [socket, dispatch]);
+  // useEffect(() => {
+  //   socket?.current.on("checkUserOnlineToClient", (item) => {
+  //     if (!online.includes(item)) {
+  //       dispatch({ type: GLOBALTYPES.ONLINE, payload: item });
+  //     }
+  //   });
+
+  //   return () => socket?.current.off("checkUserOnlineToClient");
+  // }, [socket, dispatch, online]);
 
   useEffect(() => {
     if (socket?.current) {
@@ -292,7 +342,6 @@ function Demo() {
   useEffect(() => {
     if (socket?.current) {
       socket?.current.on("onTypingTextToClient", (data) => {
-
         dispatch({ type: GLOBALTYPES.TYPING_TEXT, payload: data });
       });
     }
@@ -316,9 +365,13 @@ function Demo() {
             type: GLOBALTYPES.UPDATENOTIFICATION,
           });
         }
-        dispatch({ type: GLOBALTYPES.UPDATE_FRIENDS, data: data });
+        dispatch({ type: GLOBALTYPES.UPDATE_FRIENDS, data: data.sender });
+        dispatch({
+          type: GLOBALTYPES.UPDATE_RECALL_FRIENDS_QUEUE,
+          data: data.sender._id,
+        });
         enqueueSnackbar(
-          `${data.username} đã chấp nhận lời mời kết bạn của bạn`
+          `${data.sender.username} đã chấp nhận lời mời kết bạn của bạn`
         );
       });
     }
@@ -328,11 +381,11 @@ function Demo() {
   useEffect(() => {
     if (socket?.current) {
       socket?.current.on("recallFriendToClient", (data) => {
-        console.log("here",data)
+        console.log("here", data);
         dispatch({ type: GLOBALTYPES.UPDATE_FRIENDS_QUEUE, data: data });
       });
     }
-    return () => socket?.current.off("acceptAddFriendToClient");
+    return () => socket?.current.off("recallFriendToClient");
   }, [socket, dispatch]);
 
   useEffect(() => {

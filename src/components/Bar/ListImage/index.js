@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: ".5rem",
   },
 }));
-function ListImage({ itemData }) {
+function ListImage() {
   const { media } = useSelector((state) => state.currentConversation);
   const classes = useStyles();
   const [isShowFullImage, setIsShowFullImage] = useState(false);
@@ -30,16 +30,29 @@ function ListImage({ itemData }) {
     image: "",
     title: "",
   });
-  const handleViewFullImageLightBox = (image) => {
-    setImageFull({ image, title: "Hình ảnh" });
+  const handleViewFullImageLightBox = (image,index) => {
+    setPhotoIndex(index)
+    // setImageFull({ image, title: "Hình ảnh" });
     setIsShowFullImage(true);
   };
+
+  const [photoIndex,setPhotoIndex] = useState();
+
   return (
     <div className={classes.root}>
       {isShowFullImage && (
         <Lightbox
-          mainSrc={imageFull.image}
+          mainSrc={media[photoIndex].media.url}
+          nextSrc={media[(photoIndex + 1) % media.length].media.url}
+          prevSrc={media[(photoIndex + media.length - 1) % media.length].media.url}
+          // mainSrc={imageFull.image}
           onCloseRequest={() => setIsShowFullImage(false)}
+          onMovePrevRequest={() =>
+              setPhotoIndex((photoIndex + media.length - 1) % media.length)
+          }
+          onMoveNextRequest={() =>
+            setPhotoIndex((photoIndex + 1) % media.length)
+          }
         />
       )}
       {media?.length === 0 || !media ? (
@@ -57,7 +70,7 @@ function ListImage({ itemData }) {
               <ImageListItem
                 key={index}
                 cols={1}
-                onClick={() => handleViewFullImageLightBox(item.media.url)}
+                onClick={() => handleViewFullImageLightBox(item.media.url,index)}
                 className={classes.image}
               >
                 <img src={item.media.url} alt="image1" />

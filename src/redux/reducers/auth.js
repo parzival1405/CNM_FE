@@ -41,53 +41,104 @@ export default (state = initState, action) => {
       let _friends = state.user.friends;
       _friends.push(friend);
 
-      return {
-        ...state,
-        user: { ...state.user, friends: _friends },
-      };
-
-      // sessionStorage.clear();
-      // sessionStorage.setItem(
-      //   "profile",
-      //   JSON.stringify({ user: newProfile, token: state.token })
-      // );
-    }
-
-    case GLOBALTYPES.UPDATE_FRIENDS: {
-      const friend = action.data;
-      let _friends = state.user.friends;
-      _friends.push(friend);
+      sessionStorage.clear();
+      sessionStorage.setItem(
+        "profile",
+        JSON.stringify({
+          user: { ...state.user, friends: _friends },
+          token: state.token,
+        })
+      );
 
       return {
         ...state,
         user: { ...state.user, friends: _friends },
       };
     }
+
+    // case GLOBALTYPES.UPDATE_FRIENDS: {
+    //   const friend = action.data;
+    //   let _friends = state.user.friends;
+    //   _friends.push(friend);
+
+    //   return {
+    //     ...state,
+    //     user: { ...state.user, friends: _friends },
+    //   };
+    // }
 
     case GLOBALTYPES.UPDATE_FRIENDS_QUEUE: {
+      sessionStorage.clear();
+      sessionStorage.setItem(
+        "profile",
+        JSON.stringify({
+          user: {
+            ...state.user,
+            friendsQueue: state.user.friendsQueue.filter(
+              (u) => u._id !== action.data._id
+            ),
+          },
+          token: state.token,
+        })
+      );
       return {
         ...state,
-        user: { ...state.user, friendsQueue: state.user.friendsQueue.filter(
-          (u) => u._id !== action.data._id
-        ), },
+        user: {
+          ...state.user,
+          friendsQueue: state.user.friendsQueue.filter(
+            (u) => u._id !== action.data._id
+          ),
+        },
       };
     }
 
+    case GLOBALTYPES.UPDATE_RECALL_FRIENDS_QUEUE: {
+      sessionStorage.clear();
+      sessionStorage.setItem(
+        "profile",
+        JSON.stringify({
+          user: {
+            ...state.user,
+            SendRequestQueue: state.user.SendRequestQueue.filter(
+              (u) => u._id !== action.data
+            ),
+          },
+          token: state.token,
+        })
+      );
 
-
-    case GLOBALTYPES.UPDATE_DELETE_FRIENDS: {
       return {
         ...state,
-        user: { ...state.user, friends: state.user.friends.filter(
-          (u) => u._id !== action.data._id
-        ), },
+        user: {
+          ...state.user,
+          SendRequestQueue: state.user.SendRequestQueue.filter(
+            (u) => u._id !== action.data
+          ),
+        },
       };
+    }
 
-      // sessionStorage.clear();
-      // sessionStorage.setItem(
-      //   "profile",
-      //   JSON.stringify({ user: newProfile, token: state.token })
-      // );
+    case GLOBALTYPES.UPDATE_DELETE_FRIENDS: {
+      sessionStorage.clear();
+      sessionStorage.setItem(
+        "profile",
+        JSON.stringify({
+          user: {
+            ...state.user,
+            friends: state.user.friends.filter(
+              (u) => u._id !== action.data._id
+            ),
+          },
+          token: state.token,
+        })
+      );
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          friends: state.user.friends.filter((u) => u._id !== action.data._id),
+        },
+      };
     }
 
     default:

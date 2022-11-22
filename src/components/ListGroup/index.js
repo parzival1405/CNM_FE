@@ -23,6 +23,7 @@ import {
   alpha,
 } from "@material-ui/core";
 import { useSelector } from "react-redux";
+import { stringAvatar } from "../../utils/LetterAvatar";
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
@@ -48,6 +49,7 @@ const Groups = ({ group }) => {
                   key={member?._id}
                   src={member?.avatarURL}
                   alt="avatar"
+                  {...stringAvatar(member?.username)}
                 />
               ))}
             </AvatarGroup>
@@ -74,10 +76,11 @@ const Groups = ({ group }) => {
 
 const ListGroup = ({ listFriendsRequest }) => {
   const { conversations } = useSelector((state) => state.conversations);
+  const { user } = useSelector((state) => state.auth);
   const groupsFilter = conversations.filter((conv) => conv.isGroup === true);
   const classes = useStyles();
   const [title, setTitle] = React.useState("");
-
+  console.log(conversations);
   const handleChange = (event) => {
     setTitle(event.target.value);
   };
@@ -116,9 +119,9 @@ const ListGroup = ({ listFriendsRequest }) => {
               className={classes.selectEmpty}
               inputProps={{ "aria-label": "age" }}
             >
-              <option value={10}> Tất cả ({conversations.length})</option>
+              <option value={10}> Tất cả ({groupsFilter.length})</option>
               <option value={20}>
-                Tôi quản lý({listFriendsRequest.length})
+                Tôi quản lý({groupsFilter.filter(conv => conv.createdBy._id === user._id).length})
               </option>
             </NativeSelect>
           </FormControl>

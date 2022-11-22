@@ -44,20 +44,24 @@ export const refresh = () => async (dispatch) => {
   }
 };
 
-export const forgotPassword = (data,navigate) => async (dispatch) => {
-  await api.forgotPassword(data);
-  navigate("/login");
+export const forgotPassword = (data, navigate) => async (dispatch) => {
+  try {
+    await api.forgotPassword(data);
+    alert("Lấy lại mật khẩu thành công");
+    navigate("/login");
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const updateProfile = (data) => async (dispatch) => {
- 
-    try {
-      await api.updateProfile(data);
-      dispatch({
-        type: GLOBALTYPES.UPDATEPROFILE,
-        data,
-      });
-    } catch (err) {
-      console.log(err);
-    }
+  try {
+    await api.updateProfile(data);
+    dispatch({
+      type: GLOBALTYPES.UPDATEPROFILE,
+      data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };

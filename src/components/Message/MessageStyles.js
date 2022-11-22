@@ -104,12 +104,10 @@ export default makeStyles((theme) => ({
     },
   },
   call: {
-    width: 150,
-    padding: ".5rem",
+    padding: "10px 20px",
     backgroundColor: theme.palette.grey[200],
     borderRadius: ".5rem",
     display: "flex",
-    justifyContent: "center",
     alignItems: "center",
     "& svg": {
       marginRight: ".5rem",

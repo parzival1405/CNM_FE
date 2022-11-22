@@ -49,18 +49,21 @@ function Login() {
       password: values.password,
     };
 
-    const {
-      data: { user },
-    } = await api.checkOTP(data);
-
-    window.dataUser = data
-    window.isSignup = false;
-    window.isForgotPass = false;
-    if (user.isVerifyOtp) {
-      handleSendSms(values);
-      dispatch(ShowOTP());
-    } else {
-      dispatch(signin(values, navigate));
+    try {
+      const {
+        data: { user },
+      } = await api.checkOTP(data);
+      window.dataUser = data;
+      window.isSignup = false;
+      window.isForgotPass = false;
+      if (user.isVerifyOtp) {
+        handleSendSms(values);
+        dispatch(ShowOTP());
+      } else {
+        dispatch(signin(values, navigate));
+      }
+    } catch (error) {
+      alert("Sai mật khẩu");
     }
   };
   const handleSubmit = async (values) => {

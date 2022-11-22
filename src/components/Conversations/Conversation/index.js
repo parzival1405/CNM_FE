@@ -4,6 +4,7 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
+  Typography,
 } from "@material-ui/core";
 import clsx from "clsx";
 import { AvatarGroup } from "@material-ui/lab";
@@ -15,6 +16,7 @@ import { AvatarGroup } from "@material-ui/lab";
 import { setCurrentConversation } from "../../../redux/actions/currentConversation";
 import { useDispatch, useSelector } from "react-redux";
 import useStyles from "./styles";
+import { stringAvatar } from "../../../utils/LetterAvatar";
 function Conversation({ conversation }) {
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -38,6 +40,7 @@ function Conversation({ conversation }) {
       })
     );
   };
+
   return (
     <ListItem
       button
@@ -49,7 +52,7 @@ function Conversation({ conversation }) {
       <ListItemAvatar>
         <AvatarGroup max={3}>
           {_friends.map((friend) => (
-            <Avatar key={friend?._id} src={friend?.avatarURL} alt="avatar" />
+            <Avatar key={friend?._id} src={friend?.avatarURL} alt="avatar" {...stringAvatar(friend.username)}/>
           ))}
         </AvatarGroup>
       </ListItemAvatar>
@@ -62,14 +65,14 @@ function Conversation({ conversation }) {
         }
         secondary={
           conversation?.count_waiting_msg
-            ? `Có ${conversation?.count_waiting_msg} tin nhắn chưa xem`
+            ?<Typography type="body2" style={{ color: '#eb4034' }}>{`Có ${conversation?.count_waiting_msg} tin nhắn chưa xem`}</Typography>
             : user?._id === conversation?.lastMessage?.sender?._id
             ? !conversation?.lastMessage?.isDelete
-              ? `Bạn:${conversation?.lastMessage?.text}`
+              ? `Bạn:${conversation?.lastMessage?.text}`.slice(0,40)
               : "Đã thu hồi tin nhắn"
             : conversation?.lastMessage
             ? !conversation?.lastMessage?.isDelete
-              ? `${conversation?.lastMessage?.sender?.username}:${conversation?.lastMessage?.text}`
+              ? `${conversation?.lastMessage?.sender?.username}:${conversation?.lastMessage?.text}`.slice(0,30)
               : "Tin nhắn đã được thu hồi"
             : ""
         }

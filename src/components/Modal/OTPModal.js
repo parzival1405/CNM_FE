@@ -62,6 +62,7 @@ function Test() {
         handleHideModal();
         if(window.isForgotPass){
           dispatch(forgotPassword(data, navigate));
+          return;
         }
 
         if (window.isSignup) {

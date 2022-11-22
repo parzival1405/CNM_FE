@@ -45,6 +45,7 @@ import {
 } from "../../redux/actions/currentConversation";
 import ListImage from "./ListImage";
 import "./DrawerInfoChat.css";
+import { stringAvatar } from "../../utils/LetterAvatar";
 
 const drawerWidth = "25%";
 
@@ -213,13 +214,14 @@ export default function PersistentDrawerRight() {
         >
           {currentConversation.isGroup ? (
             currentConversation.member.map((member) => (
-              <Avatar key={member?._id} src={member?.avatarURL} alt="avatar" />
+              <Avatar key={member?._id} src={member?.avatarURL} alt="avatar" {...stringAvatar(member?.username)} />
             ))
           ) : (
             <Avatar
               key={_friends[0]?._id}
               src={_friends[0]?.avatarURL}
               alt="avatar"
+              {...stringAvatar(_friends[0]?.username)}
             />
           )}
         </AvatarGroup>

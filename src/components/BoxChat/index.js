@@ -144,10 +144,10 @@ function BoxChat() {
         >
           {!isLoading &&
             messages.map((message, index) => {
-              console.log();
+
               const before = new Date(messages?.at(index + 1)?.createdAt);
               const after = new Date(message.createdAt);
-              console.log(before);
+
               if (isNaN(before)) {
                 const date =
                   after.getHours() +
