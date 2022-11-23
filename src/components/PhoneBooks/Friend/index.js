@@ -22,10 +22,11 @@ import { stringAvatar } from "../../../utils/LetterAvatar";
 function Friend({ friend, creator = null, isDelete = false }) {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  console.log(friend);
   return (
     <ListItem button>
       <ListItemAvatar>
-        <Avatar key={friend?._id} src={friend?.avatarURL} alt="avatar" {...stringAvatar(friend?.username)}/>
+        <Avatar key={friend?._id} src={friend.avatarURL} alt="avatar" {...stringAvatar(friend?.username)}/>
       </ListItemAvatar>
       <ListItemText
         style={{ paddingLeft: "5px" }}

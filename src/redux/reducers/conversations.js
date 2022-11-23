@@ -41,10 +41,12 @@ export default (state = initialState, action) => {
       let conversationSend = state.conversations.find(
         (convers) => convers._id === action?.payload._id
       );
-      if(!conversationSend){
+      if (!conversationSend) {
         return state;
       }
-      const RemoveNotification = conversationSend?.count_waiting_msg ? conversationSend?.count_waiting_msg : 0
+      const RemoveNotification = conversationSend?.count_waiting_msg
+        ? conversationSend?.count_waiting_msg
+        : 0;
       if (conversationSend) {
         conversationSend = {
           ...conversationSend,
@@ -53,7 +55,7 @@ export default (state = initialState, action) => {
       }
       return {
         ...state,
-        numberOfNotification:state.numberOfNotification - RemoveNotification,
+        numberOfNotification: state.numberOfNotification - RemoveNotification,
         conversations: state.conversations.map((conver) =>
           conver._id == conversationSend._id ? conversationSend : conver
         ),
@@ -86,7 +88,11 @@ export default (state = initialState, action) => {
       if (conversationSend) {
         conversationSend = {
           ...conversationSend,
-          lastMessage: { ...msg, conversation: conversationSend._id,isDelete:true },
+          lastMessage: {
+            ...msg,
+            conversation: conversationSend._id,
+            isDelete: true,
+          },
         };
       }
       return {
@@ -107,10 +113,22 @@ export default (state = initialState, action) => {
           ),
         };
       } else {
-        return {
-          ...state,
-          conversations: [conversation, ...state.conversations],
-        };
+        const conversationContain = state.conversations.find(
+          (conver) => conver._id == conversation._id
+        );
+        if(conversationContain){
+          return {
+            ...state,
+            conversations: state.conversations.map((conver) =>
+              conver._id == conversation._id ? conversation : conver
+            ),
+          };
+        }else{
+          return {
+            ...state,
+            conversations: [conversation,...state.conversations],
+          };
+        }
       }
     }
     case GLOBALTYPES.CHANGE_GROUP_NAME_ALL_CONVERSATION: {

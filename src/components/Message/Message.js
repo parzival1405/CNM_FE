@@ -17,7 +17,7 @@ import {
 import BasicPopover from "../Popover/BasePopover";
 import { stringAvatar } from "../../utils/LetterAvatar";
 import Times from "../../utils/Times";
-function Messages({ message }) {
+function Messages({ message,showName=false }) {
   const { user } = useSelector((state) => state.auth);
   const { currentConversation } = useSelector(
     (state) => state.currentConversation
@@ -76,6 +76,7 @@ function Messages({ message }) {
                 message?.sender?._id == user._id ? `${classes.wrapperEnd}` : ""
               )}
             >
+              
               {message.text && message?.media.length === 0 && (
                 <div
                   className={clsx(
@@ -85,6 +86,20 @@ function Messages({ message }) {
                       : ""
                   )}
                 >
+                  <Typography
+                    className={clsx(
+                      classes.textContent,
+                      message?.sender?._id == user._id
+                        ? `${classes.flexFirstRight}`
+                        : "",
+                        classes.nameSmall,
+                    )}
+                    color="textPrimary"
+                    component="p"
+                    variant="body"
+                  >
+                    {showName && message.sender.username}
+                  </Typography>
                   <Typography
                     className={clsx(
                       classes.textContent,

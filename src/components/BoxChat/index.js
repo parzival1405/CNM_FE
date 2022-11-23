@@ -165,7 +165,7 @@ function BoxChat() {
                     after.getUTCFullYear();
                   return (
                     <>
-                      <Message key={index} message={message} />
+                      <Message key={index} message={message} showName={true}/>
                       <Divider key={index + "a"}>{date}</Divider>
                     </>
                   );
@@ -200,10 +200,13 @@ function BoxChat() {
 
                   return (
                     <>
-                      <Message key={index} message={message} />
+                      <Message key={index} message={message} showName={true} />
                       <Divider key={index + "b"}>{date}</Divider>
                     </>
                   );
+                }
+                if(messages?.at(index + 1).sender._id !== message.sender._id  ){
+                  return <Message key={index} message={message} showName={true} />;
                 }
                 return <Message key={index} message={message} />;
               }

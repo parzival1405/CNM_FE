@@ -1,22 +1,22 @@
 import * as api from "../../api";
 import { GLOBALTYPES } from "../../constants/actionType";
 
-export const showConversationByIdFriend = (newCurrentConversation) => async (dispatch) => {
-  try {
-    dispatch({
-      type: GLOBALTYPES.SHOW_CONVERSATION,
-    });
-    dispatch({
-      type: GLOBALTYPES.REMOVE_COUNT_WAITING_MESSAGE,
-      payload: newCurrentConversation,
-    });
-    dispatch({
-      type: GLOBALTYPES.CURRENTCONVERSATION,
-      data: newCurrentConversation,
-    });
-  } catch (err) {}
-};
-
+export const showConversationByIdFriend =
+  (newCurrentConversation) => async (dispatch) => {
+    try {
+      dispatch({
+        type: GLOBALTYPES.SHOW_CONVERSATION,
+      });
+      dispatch({
+        type: GLOBALTYPES.REMOVE_COUNT_WAITING_MESSAGE,
+        payload: newCurrentConversation,
+      });
+      dispatch({
+        type: GLOBALTYPES.CURRENTCONVERSATION,
+        data: newCurrentConversation,
+      });
+    } catch (err) {}
+  };
 
 export const setCurrentConversation =
   (currentConversation) => async (dispatch) => {
@@ -37,8 +37,14 @@ export const setCurrentConversation =
 export const addMembersToGroup = (data2, user, socket) => async (dispatch) => {
   try {
     const { data } = await api.addMemberGroup(data2);
-    dispatch({ type: GLOBALTYPES.UPDATEMEMBER, payload: { data: data, user: user } });
-    dispatch({ type: GLOBALTYPES.UPDATEMEMBER_ALL_CONVERSATION, payload: { data: data, user: user,oldConId:data2.conversationId } });
+    dispatch({
+      type: GLOBALTYPES.UPDATEMEMBER,
+      payload: { data: data, user: user },
+    });
+    dispatch({
+      type: GLOBALTYPES.UPDATEMEMBER_ALL_CONVERSATION,
+      payload: { data: data, user: user, oldConId: data2.conversationId },
+    });
     socket.emit(
       "addMemberToGroup",
       JSON.stringify({ conversation: data, userChange: user._id })
@@ -79,7 +85,7 @@ export const changeCurrentConversationGroupName =
   };
 
 export const deleteMemberGroup =
-  (data2,user, member, socket) => async (dispatch) => {
+  (data2, user, member, socket) => async (dispatch) => {
     try {
       const { data } = await api.deleteMember(data2);
       dispatch({
@@ -173,7 +179,7 @@ export const deleteGroup = (data2, socket) => async (dispatch) => {
     });
     dispatch({
       type: GLOBALTYPES.DELETE_GROUP_ALL_CONVERSATION,
-      payload: { data: data},
+      payload: { data: data },
     });
     socket.emit(
       "deleteGroup",
@@ -196,9 +202,9 @@ export const getImageAndVideo = (data2, socket) => async (dispatch) => {
     const { data } = await api.getImageAndVideo(data2);
     dispatch({
       type: GLOBALTYPES.IMAGE_AND_VIDEO,
-      data
+      data,
     });
-  }catch (err) {
+  } catch (err) {
     //   dispatch({
     //     type: GLOBALTYPES.ALERT,
     //     payload: {
@@ -206,6 +212,4 @@ export const getImageAndVideo = (data2, socket) => async (dispatch) => {
     //     },
     //   });
   }
-}
-
-
+};

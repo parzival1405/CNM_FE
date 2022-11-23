@@ -8,7 +8,7 @@ import {
   Popover,
 } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteMessage } from "../../redux/actions/messages";
+import { deleteMessage, sendMessage } from "../../redux/actions/messages";
 import TestPo from "./TestPo";
 import { SignalCellularNull, StarRateTwoTone } from "@material-ui/icons";
 import {
@@ -61,6 +61,17 @@ function DeletePopover({
           `Bạn chắc chắn muốn xóa ${member.username} ra khỏi nhóm ?`
         )
       ) {
+        dispatch(
+          sendMessage(
+            {
+              sender: user._id,
+              conversation: currentConversation,
+              text: `${user.username} đã xóa ${member.username} khỏi nhóm`,
+              type: "notification",
+            },
+            socket.current
+          )
+        );
         deleteId(member._id);
       }
     }
