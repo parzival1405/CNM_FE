@@ -119,7 +119,7 @@ function BoxChat() {
   };
   return (
     // Drawer Open and Close
-    <Wrapper className={clsx(classes.wrapperDrawerClose)}>
+    <Wrapper className={clsx(classes.wrapperDrawerOpen)}>
       <HeaderBoxChat />
       <Paper
         style={{ flexGrow: 1, boxShadow: "none" }}
@@ -144,7 +144,6 @@ function BoxChat() {
         >
           {!isLoading &&
             messages.map((message, index) => {
-
               const before = new Date(messages?.at(index + 1)?.createdAt);
               const after = new Date(message.createdAt);
 
