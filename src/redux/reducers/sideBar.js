@@ -4,7 +4,7 @@ export default function modalReducers(
   state = {
     isShowConversation: true,
     isShowPhoneBook: false,
-    isShowInformation: false,
+    isShowInformation: true,
     isShowMember: false,
     isShowRequestAddFriend: false,
     isShowListGroup: false,

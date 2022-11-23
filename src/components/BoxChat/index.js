@@ -119,7 +119,7 @@ function BoxChat() {
   };
   return (
     // Drawer Open and Close
-    <Wrapper className={clsx(classes.wrapperDrawerClose)}>
+    <Wrapper className={clsx(classes.wrapperDrawerOpen)}>
       <HeaderBoxChat />
       <Paper
         style={{ flexGrow: 1, boxShadow: "none" }}
@@ -144,6 +144,7 @@ function BoxChat() {
         >
           {!isLoading &&
             messages.map((message, index) => {
+
               if (message.type === "notification") {
                 return <Divider key={index + "c"}>{message.text}</Divider>
               } else {
@@ -152,6 +153,7 @@ function BoxChat() {
 
                 if (isNaN(before)) {
                   const date =
+
                     after.getHours() +
                     " : " +
                     after.getMinutes() +
