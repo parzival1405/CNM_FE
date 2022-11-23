@@ -14,6 +14,9 @@ import PhoneBooks from "./PhoneBooks";
 import { Group } from "@material-ui/icons";
 import DrawerInfoChat from "./Bar/DrawerInfoChat";
 
+
+import { useSnackbar } from "notistack";
+
 const listGroup = [
   {
     id: 1,
@@ -82,7 +85,10 @@ const listGroup = [
 
 function Demo() {
   const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
   const { socket } = useSelector((state) => state.socket);
+  const { online } = useSelector((state) => state.online);
+  const call = useSelector((state) => state.call);
   const { currentConversation } = useSelector(
     (state) => state.currentConversation
   );
@@ -96,7 +102,6 @@ function Demo() {
   useEffect(() => {
     if (socket?.current) {
       socket.current.on("addConversation-receive", (data) => {
-        console.log(data);
         dispatch({
           type: GLOBALTYPES.POST_CONVERSATION,
           data,
@@ -105,6 +110,54 @@ function Demo() {
     }
     return () => socket?.current.off("addConversation-receive");
   }, [socket, dispatch]);
+    // Call User
+    useEffect(() => {
+      socket?.current.on("callUserToClient", (data) => {
+        dispatch({ type: GLOBALTYPES.CALL, payload: data });
+      });
+  
+      return () => socket?.current.off("callUserToClient");
+    }, [socket, dispatch]);
+  
+    useEffect(() => {
+      socket?.current.on("userBusy", (data) => {
+        dispatch({
+          type: GLOBALTYPES.ALERT,
+          payload: { error: `${call.username} is busy!` },
+        });
+      });
+  
+      return () => socket?.current.off("userBusy");
+    }, [socket, dispatch, call]);
+
+  useEffect(() => {
+    socket?.current.emit("checkUserOnline", user);
+  }, [socket, user]);
+
+  useEffect(() => {
+    socket?.current.on("checkUserOnlineToMe", (data) => {
+      dispatch({ type: GLOBALTYPES.ONLINE, payload: data });
+    });
+
+    return () => socket?.current.off("checkUserOnlineToMe");
+  }, [socket, dispatch, online]);
+  
+  useEffect(() => {
+    socket?.current.on("CheckUserOffline", (item) => {
+      dispatch({ type: GLOBALTYPES.OFFLINE, payload: item });
+    });
+
+    return () => socket?.current.off("CheckUserOffline");
+  }, [socket, dispatch]);
+  // useEffect(() => {
+  //   socket?.current.on("checkUserOnlineToClient", (item) => {
+  //     if (!online.includes(item)) {
+  //       dispatch({ type: GLOBALTYPES.ONLINE, payload: item });
+  //     }
+  //   });
+
+  //   return () => socket?.current.off("checkUserOnlineToClient");
+  // }, [socket, dispatch, online]);
 
   useEffect(() => {
     if (socket?.current) {
@@ -180,7 +233,6 @@ function Demo() {
   useEffect(() => {
     if (socket?.current) {
       socket.current.on("outGroup-receive", (data) => {
-        console.log(data);
         if (data._id === currentConversation?._id) {
           dispatch({
             type: GLOBALTYPES.OUT_GROUP,
@@ -199,7 +251,6 @@ function Demo() {
   useEffect(() => {
     if (socket?.current) {
       socket.current.on("deleteGroup-receive", (data) => {
-        console.log(data);
         if (data._id === currentConversation?._id) {
           dispatch({
             type: GLOBALTYPES.DELETE_GROUP,
@@ -222,13 +273,12 @@ function Demo() {
           isShowPhoneBook ||
           data.conversation._id !== currentConversation?._id
         ) {
-          console.log("here");
           dispatch({
             type: GLOBALTYPES.UPDATE_COUNT_WAITING_MESSAGE,
             payload: data.conversation,
           });
+          enqueueSnackbar(`nhận được 1 tin nhắn từ ${data.sender.username}`);
         } else {
-          console.log(data.conversation._id, currentConversation?._id);
           dispatch({ type: GLOBALTYPES.ADDMESSAGE, data });
         }
         dispatch({
@@ -270,9 +320,9 @@ function Demo() {
 
   useEffect(() => {
     if (socket?.current) {
-      console.log(1);
       socket.current.on("requestAddFriendToClient", (data) => {
         user.friendsQueue.push(data);
+        enqueueSnackbar(`nhận được 1 lời mời kết bạn từ ${data.username}`);
         if (!isShowPhoneBook) {
           dispatch({
             type: GLOBALTYPES.UPDATENOTIFICATION,
@@ -285,7 +335,6 @@ function Demo() {
       });
     }
     return () => {
-      console.log(2);
       socket?.current.off("requestAddFriendToClient");
     };
   }, [dispatch, isShowPhoneBook, socket]);
@@ -293,7 +342,6 @@ function Demo() {
   useEffect(() => {
     if (socket?.current) {
       socket?.current.on("onTypingTextToClient", (data) => {
-        console.log(data);
         dispatch({ type: GLOBALTYPES.TYPING_TEXT, payload: data });
       });
     }
@@ -307,17 +355,67 @@ function Demo() {
       });
     }
     return () => socket?.current.off("offTypingTextToClient");
+
+  }, [socket, dispatch]);
+
+  useEffect(() => {
+    if (socket?.current) {
+      socket?.current.on("acceptAddFriendToClient", (data) => {
+        if (!isShowPhoneBook) {
+          dispatch({
+            type: GLOBALTYPES.UPDATENOTIFICATION,
+          });
+        }
+        dispatch({ type: GLOBALTYPES.UPDATE_FRIENDS, data: data.sender });
+        dispatch({
+          type: GLOBALTYPES.UPDATE_RECALL_FRIENDS_QUEUE,
+          data: data.sender._id,
+        });
+        enqueueSnackbar(
+          `${data.sender.username} đã chấp nhận lời mời kết bạn của bạn`
+        );
+      });
+    }
+    return () => socket?.current.off("acceptAddFriendToClient");
+  }, [socket, dispatch]);
+
+  useEffect(() => {
+    if (socket?.current) {
+      socket?.current.on("recallFriendToClient", (data) => {
+        console.log("here", data);
+        dispatch({ type: GLOBALTYPES.UPDATE_FRIENDS_QUEUE, data: data });
+      });
+    }
+    return () => socket?.current.off("recallFriendToClient");
+  }, [socket, dispatch]);
+
+  useEffect(() => {
+    if (socket?.current) {
+      socket?.current.on("deleteFriendToClient", (data) => {
+        dispatch({
+          type: GLOBALTYPES.UPDATE_DELETE_FRIENDS,
+          data: data,
+        });
+      });
+    }
+    return () => socket?.current.off("deleteFriendToClient");
   }, [socket, dispatch]);
 
   return (
-    <Grid container style={{ height: "100%", flexWrap: "nowrap" }}>
+    <Grid
+      container
+      style={{ height: "100%", flexWrap: "nowrap", border: "1px solid white" }}
+    >
       <Grid item md={"auto"} style={{ backgroundColor: "#0978f5" }}>
         <Nav />
       </Grid>
-      <Grid item md={3} className={"con"}>
-        {isShowConversation && (
-          <Conversations style={{ flex: "0 1 auto", minWidth: "1000px" }} />
-        )}
+      <Grid
+        item
+        md={3}
+        className={"con"}
+        style={{ borderBottom: "1px solid white", margin: "0" }}
+      >
+        {isShowConversation && <Conversations style={{ flex: "0 1 auto" }} />}
         {isShowPhoneBook && <PhoneBooks style={{ flex: "0 1 auto" }} />}
       </Grid>
       {isShowConversation && (

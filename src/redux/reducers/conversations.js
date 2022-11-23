@@ -41,6 +41,9 @@ export default (state = initialState, action) => {
       let conversationSend = state.conversations.find(
         (convers) => convers._id === action?.payload._id
       );
+      if(!conversationSend){
+        return state;
+      }
       const RemoveNotification = conversationSend?.count_waiting_msg ? conversationSend?.count_waiting_msg : 0
       if (conversationSend) {
         conversationSend = {

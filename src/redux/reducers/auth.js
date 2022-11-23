@@ -12,8 +12,8 @@ export default (state = initState, action) => {
       sessionStorage.setItem("profile", JSON.stringify({ ...action?.data }));
       return {
         ...state,
-        user : action?.data.user,
-        token: action?.data.token
+        user: action?.data.user,
+        token: action?.data.token,
       };
     case GLOBALTYPES.LOGOUT:
       sessionStorage.clear();
@@ -21,8 +21,8 @@ export default (state = initState, action) => {
     case GLOBALTYPES.RE_AUTH:
       return {
         ...state,
-        user : action?.data.user,
-        token: action?.data.token
+        user: action?.data.user,
+        token: action?.data.token,
       };
     case GLOBALTYPES.UPDATENOTIFICATION:
       return { ...state, notification: state.notification + 1 };
@@ -36,6 +36,111 @@ export default (state = initState, action) => {
         JSON.stringify({ user: newProfile, token: state.token })
       );
       return { ...state, user: newProfile };
+    case GLOBALTYPES.UPDATE_FRIENDS: {
+      const friend = action.data;
+      let _friends = state.user.friends;
+      _friends.push(friend);
+
+      sessionStorage.clear();
+      sessionStorage.setItem(
+        "profile",
+        JSON.stringify({
+          user: { ...state.user, friends: _friends },
+          token: state.token,
+        })
+      );
+
+      return {
+        ...state,
+        user: { ...state.user, friends: _friends },
+      };
+    }
+
+    // case GLOBALTYPES.UPDATE_FRIENDS: {
+    //   const friend = action.data;
+    //   let _friends = state.user.friends;
+    //   _friends.push(friend);
+
+    //   return {
+    //     ...state,
+    //     user: { ...state.user, friends: _friends },
+    //   };
+    // }
+
+    case GLOBALTYPES.UPDATE_FRIENDS_QUEUE: {
+      sessionStorage.clear();
+      sessionStorage.setItem(
+        "profile",
+        JSON.stringify({
+          user: {
+            ...state.user,
+            friendsQueue: state.user.friendsQueue.filter(
+              (u) => u._id !== action.data._id
+            ),
+          },
+          token: state.token,
+        })
+      );
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          friendsQueue: state.user.friendsQueue.filter(
+            (u) => u._id !== action.data._id
+          ),
+        },
+      };
+    }
+
+    case GLOBALTYPES.UPDATE_RECALL_FRIENDS_QUEUE: {
+      sessionStorage.clear();
+      sessionStorage.setItem(
+        "profile",
+        JSON.stringify({
+          user: {
+            ...state.user,
+            SendRequestQueue: state.user.SendRequestQueue.filter(
+              (u) => u._id !== action.data
+            ),
+          },
+          token: state.token,
+        })
+      );
+
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          SendRequestQueue: state.user.SendRequestQueue.filter(
+            (u) => u._id !== action.data
+          ),
+        },
+      };
+    }
+
+    case GLOBALTYPES.UPDATE_DELETE_FRIENDS: {
+      sessionStorage.clear();
+      sessionStorage.setItem(
+        "profile",
+        JSON.stringify({
+          user: {
+            ...state.user,
+            friends: state.user.friends.filter(
+              (u) => u._id !== action.data._id
+            ),
+          },
+          token: state.token,
+        })
+      );
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          friends: state.user.friends.filter((u) => u._id !== action.data._id),
+        },
+      };
+    }
+
     default:
       return state;
   }

@@ -65,7 +65,9 @@ function FootBoxChat({ handleSendMsg }) {
   };
 
   const demoSubmit = (event) => {
-    // event.preventDefault();
+    if(event.keyCode == 13){
+      sendChat(event)
+   }
     console.log("here");
   };
 
@@ -125,8 +127,9 @@ function FootBoxChat({ handleSendMsg }) {
         position="static"
         style={{
           boxShadow: "none",
-          border: "1px solid #f0ecf4",
+          borderTop: "1px solid #E1E1E1",
           borderLeft: "0",
+          className: "tn_container",
         }}
       >
         <StyledFormControl
@@ -171,12 +174,21 @@ function FootBoxChat({ handleSendMsg }) {
           </div>
           <div
             className={"nhaptn"}
-            style={{ margin: "16px 0", flex: "1 1 auto" }}
+            style={{
+              flex: "1 1 auto",
+              flexGrow: "1",
+              height: "100%",
+            }}
           >
             <InputBase
               placeholder="Nhập tin nhắn"
               value={msg}
               onChange={(e) => handleChangeText(e)}
+
+              style={{ width: "100%", height: "100%", padding: "16px" }}
+
+              onKeyDown={(e) => demoSubmit(e)}
+
             />
           </div>
 

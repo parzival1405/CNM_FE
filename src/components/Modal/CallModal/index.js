@@ -9,19 +9,22 @@ import {
 import { Call, CallEnd, Videocam } from "@material-ui/icons";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addMesage } from "../../../redux/actions/messagesAction";
-import { GLOBALTYPES } from "../../../redux/actionType";
+import { sendMessage } from "../../../redux/actions/messages";
+import { GLOBALTYPES } from "../../../constants/actionType";
 import BaseModal from "../../Modal/BaseModal";
 import RingRing from "./../../../audio/ringring.mp3";
 import useStyles from "./styles";
+import Typing from "../../../utils/Typing";
 function CallModal() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { call, auth, peer, socket, currentConversation } = useSelector(
-    (state) => state
+  const { user } = useSelector((state) => state.auth);
+  const peer = useSelector((state) => state.peer);
+  const call = useSelector((state) => state.call);
+  const { socket } = useSelector((state) => state.socket);
+  const { currentConversation } = useSelector(
+    (state) => state.currentConversation
   );
-  const currentConver = currentConversation.data;
-
   const [hours, setHours] = useState(0);
   const [mins, setMins] = useState(0);
   const [second, setSecond] = useState(0);
@@ -52,47 +55,27 @@ function CallModal() {
 
   const addCallMessage = useCallback(
     (call, times, disconnect) => {
-      // const getData = async (recipientId,senderId) => {
-      //     let result
-      //     const post = {
-      //         userId: auth.user._id
-      //     }
-      //     const resConver = await postDataAPI(`conversations/friend/${recipientId}`,post, auth.token)
-      //     const resSender = await getDataAPI(`users/${senderId}`, auth.token)
-      //     Promise.all([resConver, resSender]).then(values => {
-      //         result = values.map(item => item.data)
-
-      //        result = {
-      //             conversation:arr[0],
-      //             sender:arr[1],
-      //        }
-      //       });
-      //       return resConver.data
-
-      // }
-      if (call.recipient !== auth.user._id || disconnect) {
-        // const data1 = getData(call.recipient,call.sender)
-        //     const {member, _id} = data1
+      if (call.recipient !== user._id || disconnect) {
         const data = {
-          conversation: currentConver._id,
-          sender: auth.user,
+          conversation: currentConversation,
+          sender: user._id,
           text: "",
           media: [],
           call: { video: call.video, times },
+          type: "call",
         };
-        const member = currentConver.member;
-        dispatch(addMesage({ data, auth, socket, member }));
+        dispatch(sendMessage(data, socket.current));
       }
       // },[])
     },
-    [dispatch, currentConver, auth, socket]
+    [dispatch, currentConversation, user, socket]
   );
   // End Call
   const handleEndCall = () => {
     tracks && tracks.forEach((track) => track.stop());
     if (newCall) newCall.close();
     let times = answer ? total : 0;
-    socket.emit("endCall", { ...call, times });
+    socket.current.emit("endCall", { ...call, times });
 
     addCallMessage(call, times);
     dispatch({ type: GLOBALTYPES.CALL, payload: null });
@@ -103,24 +86,24 @@ function CallModal() {
       setTotal(0);
     } else {
       const timer = setTimeout(() => {
-        socket.emit("endCall", { ...call, times: 0 });
+        socket.current.emit("endCall", { ...call, times: 0 });
         addCallMessage(call, 0);
         dispatch({ type: GLOBALTYPES.CALL, payload: null });
-      }, 15000);
+      }, 20000);
 
       return () => clearTimeout(timer);
     }
   }, [dispatch, answer, call, socket, addCallMessage]);
 
   useEffect(() => {
-    socket.on("endCallToClient", (data) => {
+    socket.current.on("endCallToClient", (data) => {
       tracks && tracks.forEach((track) => track.stop());
       if (newCall) newCall.close();
       addCallMessage(data, data.times);
       dispatch({ type: GLOBALTYPES.CALL, payload: null });
     });
 
-    return () => socket.off("endCallToClient");
+    return () => socket.current.off("endCallToClient");
   }, [socket, dispatch, tracks, addCallMessage, newCall]);
 
   // Stream Media
@@ -199,7 +182,7 @@ function CallModal() {
 
   // Disconnect
   useEffect(() => {
-    socket.on("callerDisconnect", () => {
+    socket.current.on("callerDisconnect", () => {
       tracks && tracks.forEach((track) => track.stop());
       if (newCall) newCall.close();
       let times = answer ? total : 0;
@@ -207,13 +190,13 @@ function CallModal() {
 
       dispatch({ type: GLOBALTYPES.CALL, payload: null });
 
-      dispatch({
-        type: GLOBALTYPES.ALERT,
-        payload: { error: `The ${call.username} disconnect` },
-      });
+      // dispatch({
+      //   type: GLOBALTYPES.ALERT,
+      //   payload: { error: `The ${call.username} disconnect` },
+      // });
     });
 
-    return () => socket.off("callerDisconnect");
+    return () => socket.current.off("callerDisconnect");
   }, [socket, tracks, dispatch, call, addCallMessage, answer, total, newCall]);
 
   // Play - Pause Audio
@@ -248,7 +231,7 @@ function CallModal() {
           }}
         >
           <Avatar
-            src={call.profilePicture}
+            src={call.avatarURL}
             alt="avatar-call"
             className={classes.profilePicture}
           >
@@ -257,7 +240,6 @@ function CallModal() {
           <Typography variant="body" component="h3">
             {call.username}
           </Typography>
-          <Typography variant="body">{`Từ: ${auth.user.username}`}</Typography>
           {answer ? (
             <div>
               <span>{hours.toString().length < 2 ? "0" + hours : hours}</span>
@@ -270,11 +252,9 @@ function CallModal() {
             </div>
           ) : (
             <div>
-              {call.video ? (
-                <span style={{ color: "red" }}>Calling Video...</span>
-              ) : (
-                <span style={{ color: "red" }}>Calling Audio...</span>
-              )}
+              <span style={{ color: "#005fff", display: "flex" }}>
+                Đang gọi <Typing />
+              </span>
             </div>
           )}
           {!answer && (
@@ -292,9 +272,9 @@ function CallModal() {
             className={classes.action}
           >
             <IconButton color="" onClick={() => handleEndCall()}>
-              <CallEnd />
+              <CallEnd style={{ color: "red" }} />
             </IconButton>
-            {call.recipient === auth.user._id && !answer && (
+            {call.recipient === user._id && !answer && (
               <>
                 {call.video ? (
                   <IconButton color="primary" onClick={() => handleAnswer()}>
@@ -316,13 +296,15 @@ function CallModal() {
             opacity: answer && call.video ? "1" : "0",
           }}
         >
-          <video
-            ref={youVideo}
-            className={classes.youVideo}
-            playsInline
-            muted
-          />
-          <video ref={otherVideo} className={classes.otherVideo} playsInline />
+          <div className={classes.youVideoWrap}>
+            <span className={classes.name}>{user.username}</span>
+            <video ref={youVideo} playsInline muted className={classes.video}/>
+          </div>
+          <div className={classes.other}>
+            <span className={classes.name}>{call.username}</span>
+            <video ref={otherVideo} className={classes.otherVideo} playsInline />
+          </div>
+          
 
           <div className="time_video">
             <span>{hours.toString().length < 2 ? "0" + hours : hours}</span>
@@ -333,7 +315,7 @@ function CallModal() {
           </div>
 
           <IconButton onClick={() => handleEndCall()}>
-            <CallEnd />
+            <CallEnd style={{ color: "red" }} />
           </IconButton>
         </div>
       </Paper>

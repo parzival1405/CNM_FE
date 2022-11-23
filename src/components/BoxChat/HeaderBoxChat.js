@@ -6,6 +6,8 @@ import {
   Toolbar,
   CardHeader,
   Avatar,
+  Badge,
+  styled,
 } from "@material-ui/core";
 import { AvatarGroup } from "@material-ui/lab";
 
@@ -15,6 +17,8 @@ import {
   PersonAdd,
   VerticalSplit,
   Edit,
+  VideoCall,
+  PhoneEnabled,
 } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -22,10 +26,58 @@ import {
   showChangeGroupLabelModal,
 } from "../../redux/actions/modal";
 import { showInformation } from "../../redux/actions/sideBar";
+import { stringAvatar } from "../../utils/LetterAvatar";
+import { GLOBALTYPES } from "../../constants/actionType";
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  "& .MuiBadge-badge": {
+    backgroundColor: "#44b700",
+    color: "#44b700",
+    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+    "&::after": {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      borderRadius: "50%",
+      animation: "ripple 1.2s infinite ease-in-out",
+      border: "1px solid currentColor",
+      content: '""',
+    },
+  },
+  // "@keyframes ripple": {
+  //   "0%": {
+  //     transform: "scale(.8)",
+  //     opacity: 1,
+  //   },
+  //   "100%": {
+  //     transform: "scale(2.4)",
+  //     opacity: 0,
+  //   },
+  // },
+}));
+
+const AvatarCom = ({ _friends }) => {
+  return (
+    <AvatarGroup max={2}>
+      {_friends.map((friend) => (
+        <Avatar
+          key={friend?._id}
+          src={friend?.avatarURL}
+          alt="avatar"
+          {...stringAvatar(friend.username)}
+        />
+      ))}
+    </AvatarGroup>
+  );
+};
 
 const HeaderInfo = ({ currentConversation }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const { online } = useSelector((state) => state.online);
+
   const _friends = currentConversation?.member?.filter(
     (m) => m._id !== user._id
   );
@@ -38,18 +90,30 @@ const HeaderInfo = ({ currentConversation }) => {
       <CardHeader
         style={{ padding: "12px 0", height: "5vh" }}
         avatar={
-          <AvatarGroup max={2}>
-            {_friends.map((friend) => (
-              <Avatar key={friend?._id} src={friend?.avatarURL} alt="avatar" />
-            ))}
-          </AvatarGroup>
+          currentConversation.isGroup ? (
+            <AvatarCom _friends={_friends} />
+          ) : online?.includes(_friends[0]._id) ? (
+            <StyledBadge
+              overlap="circular"
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              variant="dot"
+            >
+              <AvatarCom _friends={_friends} />
+            </StyledBadge>
+          ) : (
+            <AvatarCom _friends={_friends} />
+          )
         }
         title={
-          _friends.length === 1
+          !currentConversation.isGroup
             ? _friends[0].username.slice(0, 30)
             : currentConversation.label.slice(0, 30)
         }
-        subheader="Truy cập ... giờ trước"
+        subheader={
+          !currentConversation.isGroup && online?.includes(_friends[0]._id)
+            ? "online"
+            : "offline"
+        }
         subheaderTypographyProps={{ color: "white" }}
       />
       {_friends.length >= 2 ? (
@@ -70,7 +134,50 @@ function HeaderBoxChat() {
   const { currentConversation } = useSelector(
     (state) => state.currentConversation
   );
-  const isRoom = currentConversation.member.length > 2;
+  const peer = useSelector((state) => state.peer);
+  const { socket } = useSelector((state) => state.socket);
+  const { user } = useSelector((state) => state.auth);
+  const _friends = currentConversation?.member?.filter(
+    (m) => m._id !== user._id
+  );
+  const caller = ({ video }) => {
+    const { _id, avatarURL, username } = _friends[0];
+
+    const msg = {
+      sender: user._id,
+      recipient: _id,
+      avatarURL,
+      username,
+      video,
+    };
+    dispatch({ type: GLOBALTYPES.CALL, payload: msg });
+  };
+
+  const callUser = ({ video }) => {
+    const { _id, profilePicture, username } = user;
+
+    const msg = {
+      sender: _id,
+      recipient: _friends[0]._id,
+      profilePicture,
+      username,
+      video,
+    };
+    if (peer.open) msg.peerId = peer._id;
+
+    socket.current.emit("callUser", msg);
+  };
+
+  const handlePhoneCall = () => {
+    caller({ video: false });
+    callUser({ video: false });
+  };
+  const handleVideoCall = () => {
+    caller({ video: true });
+    callUser({ video: true });
+  };
+
+  const isRoom = currentConversation.isGroup;
   const dispatch = useDispatch();
   const handleShowAddFriendToGroupModal = () => {
     dispatch(showAddFriendToGroupModal());
@@ -89,11 +196,23 @@ function HeaderBoxChat() {
         }}
       >
         <Toolbar>
-          <HeaderInfo currentConversation={currentConversation} />
-          <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+          <HeaderInfo
+            currentConversation={currentConversation}
+            style={{ display: "flex", flex: "0 1 auto" }}
+          />
+          <Box
+            sx={{ flexGrow: 1 }}
+            style={{ display: "flex", flex: "1 1 auto" }}
+          />
+          <Box style={{ display: "flex", flex: "0 1 auto" }}>
             <IconButton>
               <Search style={{ color: "white" }} />
+            </IconButton>
+            <IconButton button onClick={handleVideoCall} >
+              <VideoCall style={{ color: "white" }} />
+            </IconButton>
+            <IconButton button onClick={handlePhoneCall}>
+              <PhoneEnabled style={{ color: "white" }} />
             </IconButton>
             {isRoom ? (
               <IconButton onClick={handleShowAddFriendToGroupModal}>

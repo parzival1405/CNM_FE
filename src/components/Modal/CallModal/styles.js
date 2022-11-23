@@ -25,11 +25,26 @@ export default makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
   },
-  otherVideo: {},
-  youVideo: {
+  name:{
+    position:"absolute",
+    bottom: 10,
+    left:10,
+    color: "white",
+    background:"#a19999" ,
+    padding: "3px 10px",
+    borderRadius:"5px",
+  },
+  video:{
+    width:"100%",
+  },
+  otherVideo: {width: "100%",},
+  other:{
+    position:"relative",
+  },
+  youVideoWrap: {
     position: "absolute",
-    top: 0,
-    left: 0,
+    right: 0,
+    bottom: -4,
     width: "300px",
   },
 }));

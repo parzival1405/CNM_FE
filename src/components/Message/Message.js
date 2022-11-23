@@ -1,4 +1,4 @@
-import { Avatar, IconButton, Typography } from "@material-ui/core";
+import { Avatar, IconButton, Paper, Typography } from "@material-ui/core";
 import React, { useState } from "react";
 import clsx from "clsx";
 import useStyles from "./MessageStyles";
@@ -7,8 +7,16 @@ import moment from "moment";
 import { useSelector } from "react-redux";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-image-lightbox/style.css";
-import { MoreHoriz } from "@material-ui/icons";
+import {
+  MoreHoriz,
+  PhoneDisabled,
+  VideocamOff,
+  PhoneForwarded,
+  PhoneCallback,
+} from "@material-ui/icons";
 import BasicPopover from "../Popover/BasePopover";
+import { stringAvatar } from "../../utils/LetterAvatar";
+import Times from "../../utils/Times";
 function Messages({ message }) {
   const { user } = useSelector((state) => state.auth);
   const { currentConversation } = useSelector(
@@ -60,6 +68,7 @@ function Messages({ message }) {
                 message?.sender?._id == user._id ? classes.avatarHidden : ""
               }
               src={message?.sender?.avatarURL}
+              {...stringAvatar(message?.sender?.username)}
             ></Avatar>
             <div
               className={clsx(
@@ -67,7 +76,7 @@ function Messages({ message }) {
                 message?.sender?._id == user._id ? `${classes.wrapperEnd}` : ""
               )}
             >
-              {message.text && (
+              {message.text && message?.media.length === 0 && (
                 <div
                   className={clsx(
                     classes.textWrapper,
@@ -140,7 +149,7 @@ function Messages({ message }) {
                       }}
                     >
                       <a
-                        href={item.url}
+                        href={`https://docs.google.com/gview?embedded=true&url=${item.url}`}
                         target="_blank"
                         rel="noreferrer"
                         style={{
@@ -148,12 +157,27 @@ function Messages({ message }) {
                           color: "black",
                         }}
                       >
-                        {item.url}
+                        {message.text}
                       </a>
                     </div>
                   )}
                 </div>
               ))}
+              {message.call && (
+                <Paper className={classes.call}>
+                  {message.call.video ? (
+                    <VideocamOff />
+                  ) : message.sender._id === user._id ? (
+                    <PhoneForwarded />
+                  ) : (
+                    <PhoneCallback />
+                  )}
+                  <div>
+                    {message.call.video ? "Chat Video" : "Chat Audio"}
+                    <Times total={message.call.times} />
+                  </div>
+                </Paper>
+              )}
             </div>
           </div>
         </>

@@ -20,8 +20,8 @@ export const updateProfile = (data) => API.post("api/user/updateProfile", data);
 export const getAllFriends = () => API.post("api/user/getAllFriends");
 
 export const sendMessage = (data) => API.post("api/message/sendMessage", data);
-export const getAllMessage = (conversation) =>
-  API.post("api/message/getAllMessage", conversation);
+export const getMessageByConversationId = (conversation) =>
+  API.post("api/message/getMessageByConversationId", conversation);
 
 export const getAllGroupWithUser = () =>
   API.post("api/group/getAllGroupWithUser");
@@ -68,7 +68,7 @@ export const deleteGroup = (data) =>
 export const acceptFriend = (data) => API.post("api/user/acceptFriend", data);
 export const deniedFriend = (data) => API.post("api/user/deniedFriend", data);
 export const deleteFriend = (data) => API.post("api/user/deleteFriend", data);
-
+export const recallFriend = (data) => API.post("api/user/recallFriend", data);
 export const checkPhonenumber = (data) =>
   API.post("api/auth/checkPhonenumber", data);
 
@@ -76,3 +76,6 @@ export const forgotPassword = (data) =>
   API.post("api/auth/forgotPassword", data);
 export const getImageAndVideo = (data) =>
   API.post("api/conversation/getImageAndVideo", data);
+  export const checkConversation = (data) =>
+  API.post("api/conversation/checkConversation", data);
+

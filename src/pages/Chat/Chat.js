@@ -9,6 +9,7 @@ import * as api from "../../api";
 import { io } from "socket.io-client";
 import Demo from "../../components/Demo";
 import { initSocket } from "../../redux/actions/socket";
+import friends from "../../redux/reducers/friends";
 function Chat() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -22,10 +23,12 @@ function Chat() {
     if (user) {
       socket.current = io("http://localhost:8000", {
         query: {
-          _id: user._id,
-          friends: user.friends,
-          username: user.username,
-          avatarURL: user.avatarURL,
+
+          _id:user._id,
+          friends:user.friends.map(friend => friend._id),
+          username:user.username,
+          avatarURL:user.avatarURL
+
         },
       });
       // socket.current.emit("add-user", user);

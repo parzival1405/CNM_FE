@@ -1,6 +1,7 @@
 import {
   Avatar,
   Button,
+  Divider,
   Fade,
   FormControl,
   FormControlLabel,
@@ -28,7 +29,7 @@ import {
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { Form, Formik } from "formik";
-import { Image } from "@material-ui/icons";
+import { Image, PhotoCamera } from "@material-ui/icons";
 import { demoPostFile } from "../../api";
 function Profile() {
   const classes = useStyles();
@@ -96,11 +97,64 @@ function Profile() {
 
   const body = (
     <Fade in={isShowFormSettingModal}>
-      <Paper className={classes.paperSetting} id="modal-add-group">
+      <Paper
+        className={classes.paperSetting}
+        id="modal-add-group"
+        style={{ borderRadius: "10px" }}
+      >
         <div style={{ textAlign: "center", margin: "10px 0" }}>
           <h2>Cập nhật thông tin cá nhân</h2>
         </div>
-        <Avatar className={classes.avatar} src={user.avatarURL} />
+        <Divider variant="fullWidth" style={{ marginBottom: "10px" }} />
+        <div
+          className="test1"
+          style={{ display: "flex", flexDirection: "row" }}
+        >
+          <Avatar
+            className={classes.avatar}
+            src={user.avatarURL}
+            style={{ display: "flex", justifyContent: "center" }}
+          />
+          {/* <div
+            style={{
+              marginTop: "70px",
+              marginLeft: "-20px",
+              backgroundColor: "white",
+              zIndex: "999",
+              width: "40px",
+              height: "40px",
+              borderRadius: "50%",
+              border: "1px solid #E1E1E1",
+            }}
+          > */}
+          <label htmlFor="file">
+            <Tooltip title="Chọn ảnh đại diện">
+              <IconButton
+                component="span"
+                style={{
+                  marginTop: "70px",
+                  marginLeft: "-35px",
+                  backgroundColor: "white",
+                  zIndex: "999",
+                  width: "15px",
+                  height: "15px",
+                  borderRadius: "50%",
+                  border: "1px solid #E1E1E1",
+                }}
+              >
+                <PhotoCamera
+                  style={{
+                    color: "#0978f5",
+                    top: "50%",
+                    left: "50%",
+                    padding: "0",
+                  }}
+                />
+              </IconButton>
+            </Tooltip>
+          </label>
+          {/* </div> */}
+        </div>
         <h3 className={classes.username}>{username}</h3>
         <input
           type="file"
@@ -109,14 +163,15 @@ function Profile() {
           accept="image/*"
           onChange={handleChangeAvatar}
           hidden
+          style={{ marginTop: "-50px" }}
         />
-        <label htmlFor="file" style={{ display: "flex" }}>
+        {/* <label htmlFor="file" style={{ display: "flex" }}>
           <Tooltip title="Chọn ảnh đại diện">
             <IconButton component="span">
               <Image style={{ color: "#0978f5" }} />
             </IconButton>
           </Tooltip>
-        </label>
+        </label> */}
         <Formik
           initialValues={{
             username: username,
@@ -180,7 +235,7 @@ function Profile() {
                       <FormControlLabel
                         value="true"
                         control={<Radio checked={values.gender === true} />}
-                        label="Male"
+                        label="Nam"
                         name="gender"
                         onChange={(val) => {
                           setFieldValue("gender", true);
@@ -189,7 +244,7 @@ function Profile() {
                       <FormControlLabel
                         value="false"
                         control={<Radio checked={values.gender === false} />}
-                        label="Female"
+                        label="Nữ"
                         name="gender"
                         onChange={(val) => {
                           setFieldValue("gender", false);
@@ -224,7 +279,7 @@ function Profile() {
                         "aria-label": "change date",
                       }}
                       style={{
-                        width: "50%",
+                        width: "60%",
                         marginLeft: "50px",
                         fontSize: "20px",
                       }}

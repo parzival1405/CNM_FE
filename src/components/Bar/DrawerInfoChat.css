@@ -6,5 +6,7 @@
 
 .MuiPaper-root .MuiDrawer-paper {
   z-index: 10 !important;
+
   max-width: 25% !important;
+
 }

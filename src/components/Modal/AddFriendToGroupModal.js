@@ -2,6 +2,7 @@ import {
   Avatar,
   Button,
   Chip,
+  Divider,
   Fade,
   List,
   ListItem,
@@ -16,6 +17,16 @@ import { addMembersToGroup } from "../../redux/actions/currentConversation";
 import { hideModal } from "../../redux/actions/modal";
 import BaseModal from "./BaseModal";
 import useStyles from "./styles";
+import { RemoveCircleOutline } from "@material-ui/icons";
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+
+const bltheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#0978f5",
+    },
+  },
+});
 const isMemberOfGroup = (conversation, memberId) => {
   return conversation.member.find((e) => e._id === memberId) ? true : false;
 };
@@ -31,14 +42,21 @@ function AddFriendToGroupModal() {
 
   const listFriend = user?.friends;
   const [listMember, setListMember] = useState([]);
-
+  const [listMemberErr, setListMemberErr] = useState("");
+  const [show, toggleShow] = useState(false);
   const handleSubmitForm = React.useCallback(() => {
+    if (listMember.length === 0) {
+      setListMemberErr("Chọn ít nhất 1 thành viên");
+      toggleShow(true);
+      return;
+    }
     const _listMember = listMember.map((member) => member._id);
+
     const data = {
       conversationId: currentConversation._id,
       newMember: _listMember,
     };
-    dispatch(addMembersToGroup(data,user, socket.current));
+    dispatch(addMembersToGroup(data, user, socket.current));
     setListMember([]);
     handleHideModal();
   }, [dispatch, token, listMember, user]);
@@ -46,6 +64,8 @@ function AddFriendToGroupModal() {
   const handleAddMember = (item) => {
     if (listMember.includes(item)) return;
     setListMember([...listMember, item]);
+    setListMemberErr("");
+    toggleShow(false);
   };
   const handleDeleteMember = (item) => {
     setListMember((listMember) =>
@@ -58,7 +78,8 @@ function AddFriendToGroupModal() {
   const body = (
     <Fade in={isShowAddFriendToGroupModal}>
       <Paper className={classes.paper} id="modal-add-group">
-        <h3>Thêm thành viên</h3>
+        <h2 style={{ textAlign: "center" }}>Thêm thành viên</h2>
+        <Divider variant="fullWidth" style={{ margin: "20px 0" }} />
         <form
           action=""
           className={classes.form}
@@ -88,16 +109,37 @@ function AddFriendToGroupModal() {
                       alt="avatar"
                       sizes="small"
                       src={item.profilePicture}
+                      style={{ color: "white", backgroundColor: "#0978f5" }}
                     />
                   }
                   label={item.username}
                   disabled={user._id === item._id}
                   onDelete={() => handleDeleteMember(item)}
-                  color="secondary"
+                  style={{ backgroundColor: "#0978f5", color: "white" }}
+                  deleteIcon={
+                    <RemoveCircleOutline style={{ color: "white" }} />
+                  }
                 />
               ))}
             </div>
           </div>
+          {show && (
+            <span
+              style={{
+                display: listMember.length === 0 ? "flex" : "none",
+                backgroundColor: "#f8d7da",
+                padding: "10px",
+                borderRadius: "10px",
+                margin: "5px 0",
+                alignItems: "center",
+                justifyContent: "center",
+                textAlign: "center",
+                color: "#842029",
+              }}
+            >
+              {listMemberErr}
+            </span>
+          )}
           <div>
             {listFriend && (
               <Typography>Bạn bè ({listFriend.length})</Typography>
@@ -136,9 +178,11 @@ function AddFriendToGroupModal() {
             <Button variant="outlined" onClick={() => setListMember([])}>
               Xóa Trống
             </Button>
-            <Button color="primary" variant="contained" type="submit">
-              Thêm
-            </Button>
+            <MuiThemeProvider theme={bltheme}>
+              <Button color="primary" variant="contained" type="submit">
+                Thêm
+              </Button>
+            </MuiThemeProvider>
           </div>
         </form>
       </Paper>
