@@ -205,13 +205,13 @@ export default function PersistentDrawerRight() {
         open={isShowInformation}
       >
         <DrawerHeader style={{ justifyContent: "center" }}>
-          <IconButton onClick={handleDrawerClose}>
+          {/* <IconButton>
             {theme.direction === "rtl" ? (
               <ChevronLeftIcon />
             ) : (
               <ChevronRightIcon />
             )}
-          </IconButton>
+          </IconButton> */}
           <Typography variant="h6" gutterBottom>
             Thông tin
           </Typography>

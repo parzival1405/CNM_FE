@@ -5,7 +5,6 @@ const initialState = { isLoading: true, currentConversation: null };
 export default (state = initialState, action) => {
   switch (action.type) {
     case GLOBALTYPES.CURRENTCONVERSATION:
-      console.log(action?.data)
       return {
         ...state,
         currentConversation: action?.data,
