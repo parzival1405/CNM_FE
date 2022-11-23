@@ -112,7 +112,6 @@ function Demo() {
     // Call User
     useEffect(() => {
       socket?.current.on("callUserToClient", (data) => {
-        console.log(data)
         dispatch({ type: GLOBALTYPES.CALL, payload: data });
       });
   
