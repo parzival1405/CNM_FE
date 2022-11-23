@@ -225,9 +225,9 @@ function HeaderBoxChat() {
             ) : (
               <></>
             )}
-            <IconButton onClick={handleShowInformation}>
+            {/* <IconButton onClick={handleShowInformation}>
               <VerticalSplit style={{ color: "white" }} />
-            </IconButton>
+            </IconButton> */}
           </Box>
         </Toolbar>
       </AppBar>
