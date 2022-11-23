@@ -94,9 +94,11 @@ function Test() {
             alignItems: "center",
             textAlign: "center",
             borderRadius: "2px",
+            color: "white",
+            padding: "5px",
           }}
         >
-          <p>Xác nhận OTP</p>
+          <p style={{ fontSize: "22px" }}>Xác nhận OTP</p>
         </div>
         <div
           style={{

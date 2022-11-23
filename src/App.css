@@ -1888,3 +1888,13 @@ h2 h4 {
 .begintext{
   font-family: "Roboto";
 }
+.expansion-panel {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
+.MuiPaper-root.MuiAccordion-root::before {
+  background-color: #f7f7f7;
+  height: 0;
+}
