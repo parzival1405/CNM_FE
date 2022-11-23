@@ -22,6 +22,14 @@ import { hideModal } from "../../redux/actions/modal";
 import { validateionCreateGroup } from "../../utils/Validation";
 import BaseModal from "./BaseModal";
 import useStyles from "./styles";
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+const bltheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#0978f5",
+    },
+  },
+});
 function AddGroupModal() {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -38,8 +46,6 @@ function AddGroupModal() {
     const _listMember = listMember.map((member) => member._id);
     if (_listMember.length < 2) {
       setListMemberErr("Chọn ít nhất 2 thành viên");
-      // setdisplay("flex");
-      // setbg("f8d7da");
       toggleShow(!show);
       return;
     }
@@ -161,11 +167,6 @@ function AddGroupModal() {
                 <span
                   style={{
                     display: listMember.length === 1 ? "flex" : "none",
-
-                    // backgroundColor: listMember.length === 1 ? "#f8d7da" : "#fff",
-                    // display: { ds },
-                    // backgroundColor: { bgll },
-                    // display: "flex",
                     backgroundColor: "#f8d7da",
                     padding: "10px",
                     borderRadius: "10px",
@@ -203,14 +204,16 @@ function AddGroupModal() {
                 <Button variant="contained" onClick={handleHideModal}>
                   Hủy
                 </Button>
-                <Button
-                  style={{ backgroundColor: "#0978f5", color: "white" }}
-                  variant="contained"
-                  type="submit"
-                  isSubmitting={isSubmitting}
-                >
-                  Tạo nhóm
-                </Button>
+                <MuiThemeProvider theme={bltheme}>
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    type="submit"
+                    isSubmitting={isSubmitting}
+                  >
+                    Tạo nhóm
+                  </Button>
+                </MuiThemeProvider>
               </div>
             </Form>
           )}
