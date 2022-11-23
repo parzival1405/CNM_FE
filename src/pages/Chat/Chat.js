@@ -21,20 +21,22 @@ function Chat() {
 
   useEffect(() => {
     if (user) {
-      socket.current = io("http://localhost:5000", {
+      socket.current = io("http://localhost:8000", {
         query: {
+
           _id:user._id,
           friends:user.friends.map(friend => friend._id),
           username:user.username,
           avatarURL:user.avatarURL
+
         },
       });
       // socket.current.emit("add-user", user);
-      dispatch(initSocket({socket:socket}))
+      dispatch(initSocket({ socket: socket }));
     }
     return () => socket.current.close();
-  },[dispatch]);
-  return <Demo/>;
+  }, [dispatch]);
+  return <Demo />;
 }
 
 export default Chat;

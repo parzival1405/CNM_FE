@@ -14,6 +14,7 @@ import PhoneBooks from "./PhoneBooks";
 import { Group } from "@material-ui/icons";
 import DrawerInfoChat from "./Bar/DrawerInfoChat";
 
+
 import { useSnackbar } from "notistack";
 
 const listGroup = [
@@ -354,6 +355,7 @@ function Demo() {
       });
     }
     return () => socket?.current.off("offTypingTextToClient");
+
   }, [socket, dispatch]);
 
   useEffect(() => {
