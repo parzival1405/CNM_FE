@@ -46,14 +46,16 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
       content: '""',
     },
   },
-  // "@keyframes ripple": {
-  //   "0%": {
-  //     transform: "scale(.8)",
-  //     opacity: 1,
-  //   },
-  //   "100%": {
-  //     transform: "scale(2.4)",
-  //     opacity: 0,
+  // "@global": {
+  //   "@keyframes ripple": {
+  //     "0%": {
+  //       transform: "scale(.8)",
+  //       opacity: 1,
+  //     },
+  //     "100%": {
+  //       transform: "scale(2.4)",
+  //       opacity: 0,
+  //     },
   //   },
   // },
 }));
@@ -110,9 +112,11 @@ const HeaderInfo = ({ currentConversation }) => {
             : currentConversation.label.slice(0, 30)
         }
         subheader={
-          !currentConversation.isGroup && online?.includes(_friends[0]._id)
-            ? "online"
-            : "offline"
+          !currentConversation.isGroup
+            ? online?.includes(_friends[0]._id)
+              ? "Đang hoạt động"
+              : "offline"
+            : `${currentConversation.member.length} thành viên`
         }
         subheaderTypographyProps={{ color: "white" }}
       />
@@ -208,7 +212,7 @@ function HeaderBoxChat() {
             <IconButton>
               <Search style={{ color: "white" }} />
             </IconButton>
-            <IconButton button onClick={handleVideoCall} >
+            <IconButton button onClick={handleVideoCall}>
               <VideoCall style={{ color: "white" }} />
             </IconButton>
             <IconButton button onClick={handlePhoneCall}>

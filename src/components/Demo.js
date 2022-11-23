@@ -149,15 +149,15 @@ function Demo() {
 
     return () => socket?.current.off("CheckUserOffline");
   }, [socket, dispatch]);
-  // useEffect(() => {
-  //   socket?.current.on("checkUserOnlineToClient", (item) => {
-  //     if (!online.includes(item)) {
-  //       dispatch({ type: GLOBALTYPES.ONLINE, payload: item });
-  //     }
-  //   });
+  useEffect(() => {
+    socket?.current.on("checkUserOnlineToClient", (item) => {
+      if (!online.includes(item)) {
+        dispatch({ type: GLOBALTYPES.ADD_ONLINE, payload: item });
+      }
+    });
 
-  //   return () => socket?.current.off("checkUserOnlineToClient");
-  // }, [socket, dispatch, online]);
+    return () => socket?.current.off("checkUserOnlineToClient");
+  }, [socket, dispatch, online]);
 
   useEffect(() => {
     if (socket?.current) {
@@ -330,7 +330,7 @@ function Demo() {
         }
         dispatch({
           type: GLOBALTYPES.UPDATEPROFILE,
-          user,
+          data : user,
         });
       });
     }

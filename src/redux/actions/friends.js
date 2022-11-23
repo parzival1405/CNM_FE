@@ -33,8 +33,8 @@ export const requestAddFriend =
       socket.emit(
         "requestAddFriend",
         JSON.stringify({
-          dataSocket,
-          to: userResult._id,
+          sender:dataSocket,
+          recipient: userResult._id,
         })
       );
     } catch (error) {

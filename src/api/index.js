@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API = axios.create({ baseURL: "http://localhost:8000" });
+const API = axios.create({ baseURL: process.env.REACT_APP_URL_SERVER });
+console.log(process.env.REACT_APP_URL_SERVER);
 // const url = 'https://mern-course-1405.herokuapp.com/posts';
 
 API.interceptors.request.use((req) => {

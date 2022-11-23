@@ -36,24 +36,24 @@ function App() {
       const newPeer = new Peer(undefined, {
         path: "/",
         secure: false,
-        config: {
-          iceServers: [
-            { urls: ["stun:ss-turn2.xirsys.com"] },
-            {
-              username:
-                "Awknma80yWxQgb3VQgBrQs_iNy-vaysOaDBOZ4xcA2GOLjY_ve-TdzjeCRZWrbrlAAAAAGGac750dWFuYW5oMjU4MjAwMA==",
-              credential: "19d8e05c-4ae8-11ec-af6d-0242ac140004",
-              urls: [
-                "turn:ss-turn2.xirsys.com:80?transport=udp",
-                "turn:ss-turn2.xirsys.com:3478?transport=udp",
-                "turn:ss-turn2.xirsys.com:80?transport=tcp",
-                "turn:ss-turn2.xirsys.com:3478?transport=tcp",
-                "turns:ss-turn2.xirsys.com:443?transport=tcp",
-                "turns:ss-turn2.xirsys.com:5349?transport=tcp",
-              ],
-            },
-          ],
-        },
+        // config: {
+        //   iceServers: [
+        //     { urls: ["stun:ss-turn2.xirsys.com"] },
+        //     {
+        //       username:
+        //         "Awknma80yWxQgb3VQgBrQs_iNy-vaysOaDBOZ4xcA2GOLjY_ve-TdzjeCRZWrbrlAAAAAGGac750dWFuYW5oMjU4MjAwMA==",
+        //       credential: "19d8e05c-4ae8-11ec-af6d-0242ac140004",
+        //       urls: [
+        //         "turn:ss-turn2.xirsys.com:80?transport=udp",
+        //         "turn:ss-turn2.xirsys.com:3478?transport=udp",
+        //         "turn:ss-turn2.xirsys.com:80?transport=tcp",
+        //         "turn:ss-turn2.xirsys.com:3478?transport=tcp",
+        //         "turns:ss-turn2.xirsys.com:443?transport=tcp",
+        //         "turns:ss-turn2.xirsys.com:5349?transport=tcp",
+        //       ],
+        //     },
+        //   ],
+        // },
       });
       dispatch({ type: GLOBALTYPES.PEER, payload: newPeer });
     }

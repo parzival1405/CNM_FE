@@ -24,6 +24,7 @@ export const signin = (formData, navigate) => async (dispatch) => {
 export const logout = (navigate) => async (dispatch) => {
   try {
     dispatch({ type: GLOBALTYPES.LOGOUT });
+    dispatch({ type: GLOBALTYPES.DELETE_GROUP });
     navigate("/login");
   } catch (error) {
     console.log(error);

@@ -237,7 +237,7 @@ function CallModal() {
           >
             {call.username.slice(0, 1)}
           </Avatar>
-          <Typography variant="body" component="h3">
+          <Typography variant="body" component="h3" style={{color:"#fff",marginBottom:"10px"}}>
             {call.username}
           </Typography>
           {answer ? (
@@ -252,12 +252,12 @@ function CallModal() {
             </div>
           ) : (
             <div>
-              <span style={{ color: "#005fff", display: "flex" }}>
+              <span style={{ color: "#fff", display: "flex" ,marginBottom:"15px" }}>
                 Đang gọi <Typing />
               </span>
             </div>
           )}
-          {!answer && (
+          {/* {!answer && (
             <div className={classes.timer}>
               <small>{mins.toString().length < 2 ? "0" + mins : mins}</small>
               <small>:</small>
@@ -265,7 +265,7 @@ function CallModal() {
                 {second.toString().length < 2 ? "0" + second : second}
               </small>
             </div>
-          )}
+          )} */}
           <List
             component="nav"
             aria-label="nav-left"
@@ -294,6 +294,7 @@ function CallModal() {
           className={classes.showVideo}
           style={{
             opacity: answer && call.video ? "1" : "0",
+            zIndex: answer && call.video ? "10" : "0",
           }}
         >
           <div className={classes.youVideoWrap}>
