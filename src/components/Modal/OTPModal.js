@@ -1,4 +1,11 @@
-import { Button, Fade, Paper, TextField } from "@material-ui/core";
+import {
+  Button,
+  Divider,
+  Fade,
+  makeStyles,
+  Paper,
+  TextField,
+} from "@material-ui/core";
 
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -60,7 +67,7 @@ function Test() {
       .confirm(values.otp)
       .then((result) => {
         handleHideModal();
-        if(window.isForgotPass){
+        if (window.isForgotPass) {
           dispatch(forgotPassword(data, navigate));
           return;
         }
@@ -75,7 +82,6 @@ function Test() {
         alert("Mã xác nhận không chính xác");
       });
   };
-
   const body = (
     <Fade in={isShowOTP}>
       <Paper className={classes.paper} id="modal-add-friend">
@@ -153,25 +159,31 @@ function Test() {
               onSubmit={handleSubmit}
             >
               <TextField
-                label="Nhập mã xác nhận"
+                placeholder="Nhập mã xác nhận"
                 error={errors.otp}
                 helperText={errors.otp}
                 touched={touched.otp}
                 type="text"
                 fullWidth
-                variant="filled"
-                // InputProps={{
-                //   startAdornment: (
-                //     <InputAdornment position="start">
-                //       <Lock />
-                //     </InputAdornment>
-                //   ),
-                // }}
+                variant="outlined"
                 name="otp"
                 onChange={handleChange}
+                InputProps={{
+                  disableUnderline: true,
+                }}
+                style={{ margin: "10px 0" }}
               />
+
               <div id="sign-in-button"> </div>
-              <div style={{ display: "flex", width: "100%" }}>
+
+              <div
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  marginTop: "10px",
+                  justifyContent: "flex-end",
+                }}
+              >
                 <Button
                   variant="secondary"
                   onClick={() => handleSendSms(values)}
@@ -187,10 +199,7 @@ function Test() {
                 >
                   Xác nhận
                 </Button>
-                <Button
-                  variant="secondary"
-                  onClick={() => handleHideModal()}
-                >
+                <Button variant="secondary" onClick={() => handleHideModal()}>
                   Hủy
                 </Button>
               </div>
