@@ -21,7 +21,7 @@ function Chat() {
 
   useEffect(() => {
     if (user) {
-      socket.current = io("http://localhost:8000", {
+      socket.current = io(process.env.REACT_APP_URL_SERVER, {
         query: {
 
           _id:user._id,

@@ -59,7 +59,7 @@ function Profile() {
 
     if (avatarFile !== null) {
       const formData = new FormData();
-      formData.append("media", avatar);
+      formData.append("media", avatarFile);
       const {
         data: { data },
       } = await demoPostFile(formData);
@@ -79,6 +79,7 @@ function Profile() {
     }
 
     dispatch(updateProfile(newData));
+    setAvatarFile(null);
     handleHideModal();
   };
 
@@ -112,7 +113,7 @@ function Profile() {
         >
           <Avatar
             className={classes.avatar}
-            src={user.avatarURL}
+            src={avatarFile ? URL.createObjectURL(avatarFile) : user.avatarURL}
             style={{ display: "flex", justifyContent: "center" }}
           />
           {/* <div
@@ -127,7 +128,7 @@ function Profile() {
               border: "1px solid #E1E1E1",
             }}
           > */}
-          <label htmlFor="file">
+          <label htmlFor="fileAvatar">
             <Tooltip title="Chọn ảnh đại diện">
               <IconButton
                 component="span"
@@ -158,8 +159,8 @@ function Profile() {
         <h3 className={classes.username}>{username}</h3>
         <input
           type="file"
-          name="file"
-          id="file"
+          name="fileAvatar"
+          id="fileAvatar"
           accept="image/*"
           onChange={handleChangeAvatar}
           hidden
