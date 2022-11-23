@@ -47,6 +47,7 @@ import ListImage from "./ListImage";
 import "./DrawerInfoChat.css";
 
 import { stringAvatar } from "../../utils/LetterAvatar";
+import { sendMessage } from "../../redux/actions/messages";
 
 const drawerWidth = "25%";
 
@@ -147,6 +148,7 @@ export default function PersistentDrawerRight() {
       const data = {
         conversationId: currentConversation._id,
       };
+
       dispatch(deleteGroup(data, socket.current));
     }
   };
@@ -155,6 +157,17 @@ export default function PersistentDrawerRight() {
       const data = {
         conversationId: currentConversation._id,
       };
+      dispatch(
+        sendMessage(
+          {
+            sender: user._id,
+            conversation: currentConversation,
+            text: `${user.username} đã rời khỏi nhóm`,
+            type: "notification",
+          },
+          socket.current
+        )
+      );
       dispatch(outGroup(data, user, socket.current));
     }
   };
@@ -215,8 +228,12 @@ export default function PersistentDrawerRight() {
         >
           {currentConversation.isGroup ? (
             currentConversation.member.map((member) => (
-
-              <Avatar key={member?._id} src={member?.avatarURL} alt="avatar" {...stringAvatar(member?.username)} />
+              <Avatar
+                key={member?._id}
+                src={member?.avatarURL}
+                alt="avatar"
+                {...stringAvatar(member?.username)}
+              />
             ))
           ) : (
             <Avatar

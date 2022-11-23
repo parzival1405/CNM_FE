@@ -19,6 +19,7 @@ import BaseModal from "./BaseModal";
 import useStyles from "./styles";
 import { RemoveCircleOutline } from "@material-ui/icons";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+import { sendMessage } from "../../redux/actions/messages";
 
 const bltheme = createMuiTheme({
   palette: {
@@ -56,6 +57,20 @@ function AddFriendToGroupModal() {
       conversationId: currentConversation._id,
       newMember: _listMember,
     };
+    listMember.map(member => {
+      dispatch(
+        sendMessage(
+          {
+            sender: user._id,
+            conversation: currentConversation,
+            text: `${user.username} đã thêm ${member.username} vào nhóm`,
+            type: "notification",
+          },
+          socket.current
+        )
+      );
+    })
+    
     dispatch(addMembersToGroup(data, user, socket.current));
     setListMember([]);
     handleHideModal();
