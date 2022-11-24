@@ -65,10 +65,9 @@ function FootBoxChat({ handleSendMsg }) {
   };
 
   const demoSubmit = (event) => {
-    if(event.keyCode == 13){
-      sendChat(event)
-   }
-    console.log("here");
+    if (event.keyCode == 13) {
+      sendChat(event);
+    }
   };
 
   const handleChangeMedia = (e) => {
@@ -184,11 +183,8 @@ function FootBoxChat({ handleSendMsg }) {
               placeholder="Nhập tin nhắn"
               value={msg}
               onChange={(e) => handleChangeText(e)}
-
               style={{ width: "100%", height: "100%", padding: "16px" }}
-
               onKeyDown={(e) => demoSubmit(e)}
-
             />
           </div>
 
@@ -228,18 +224,24 @@ function FootBoxChat({ handleSendMsg }) {
             </Box>
           </div>
         </StyledFormControl>
-        {media?.map((item, index) => (
-          <div key={index} className={classes.mediaItem}>
-            {item.type.match(/video/i)
-              ? videoShow(URL.createObjectURL(item))
-              : item.type.match(/image/i)
-              ? imageShow(URL.createObjectURL(item))
-              : fileShow(URL.createObjectURL(item), item)}
-            <span onClick={() => handleDeleteMedia(index)}>
-              <Cancel />{" "}
-            </span>
-          </div>
-        ))}
+        {/* <div className={classes.media}> */}
+        <div
+        className={classes.showMedia}
+        style={{ display: media.length > 0 ? "flex" : "none" }}
+      >
+          {media?.map((item, index) => (
+            <div key={index} className={classes.mediaItem}>
+              {item.type.match(/video/i)
+                ? videoShow(URL.createObjectURL(item))
+                : item.type.match(/image/i)
+                ? imageShow(URL.createObjectURL(item))
+                : fileShow(URL.createObjectURL(item), item)}
+              <span onClick={() => handleDeleteMedia(index)}>
+                <Cancel />{" "}
+              </span>
+            </div>
+          ))}
+        </div>
       </AppBar>
     </Box>
   );

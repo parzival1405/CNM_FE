@@ -20,6 +20,7 @@ import useStyles from "./styles";
 import { RemoveCircleOutline } from "@material-ui/icons";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 import { sendMessage } from "../../redux/actions/messages";
+import { stringAvatar } from "../../utils/LetterAvatar";
 
 const bltheme = createMuiTheme({
   palette: {
@@ -123,8 +124,9 @@ function AddFriendToGroupModal() {
                     <Avatar
                       alt="avatar"
                       sizes="small"
-                      src={item.profilePicture}
+                      src={item.avatarURL}
                       style={{ color: "white", backgroundColor: "#0978f5" }}
+                      {...stringAvatar(item.username)}
                     />
                   }
                   label={item.username}
@@ -171,7 +173,7 @@ function AddFriendToGroupModal() {
                   key={index}
                 >
                   <ListItemAvatar>
-                    <Avatar alt="avatar" />
+                    <Avatar alt="avatar" src={item.avatarURL} {...stringAvatar(item.username)}/>
                   </ListItemAvatar>
                   <ListItemText
                     primary={item.username}

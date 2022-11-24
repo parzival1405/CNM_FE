@@ -135,6 +135,7 @@ function Demo() {
 
   useEffect(() => {
     socket?.current.on("checkUserOnlineToMe", (data) => {
+      console.log(data);
       dispatch({ type: GLOBALTYPES.ONLINE, payload: data });
     });
 
@@ -179,6 +180,7 @@ function Demo() {
   useEffect(() => {
     if (socket?.current) {
       socket.current.on("addMemberToGroup-receive", (data) => {
+        console.log("here", data);
         if (data._id === currentConversation?._id) {
           dispatch({
             type: GLOBALTYPES.UPDATEMEMBER,
@@ -319,7 +321,7 @@ function Demo() {
 
   useEffect(() => {
     if (socket?.current) {
-      socket.current.on("requestAddFriendToClient", (data) => {
+      socket?.current.on("requestAddFriendToClient", (data) => {
         user.friendsQueue.push(data);
         enqueueSnackbar(`nhận được 1 lời mời kết bạn từ ${data.username}`);
         if (!isShowPhoneBook) {
@@ -333,10 +335,8 @@ function Demo() {
         });
       });
     }
-    return () => {
-      socket?.current.off("requestAddFriendToClient");
-    };
-  }, [dispatch, isShowPhoneBook, socket]);
+    return () => socket?.current.off("requestAddFriendToClient");
+  }, [dispatch, isShowPhoneBook, user, socket]);
 
   useEffect(() => {
     if (socket?.current) {
@@ -418,17 +418,16 @@ function Demo() {
       </Grid>
       {isShowConversation && (
         <Grid item style={{ flexGrow: 1, height: "inherit" }}>
-          {
-            currentConversation ? (
-              <>
-                <BoxChat style={{ height: "100%" }} />
+          {currentConversation ? (
+            <>
+              <BoxChat style={{ height: "100%" }} />
+              <Grid className="infor">
                 <DrawerInfoChat style={{ with: 0, height: 0 }}></DrawerInfoChat>
-              </>
-            ) : (
-              ""
-            )
-            // <Slider/>
-          }
+              </Grid>
+            </>
+          ) : (
+            <Slider />
+          )}
         </Grid>
       )}
       {isShowPhoneBook && (

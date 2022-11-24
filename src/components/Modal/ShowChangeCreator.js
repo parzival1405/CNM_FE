@@ -24,6 +24,7 @@ import {
 import useDebounce from "../../hooks/useDebounce";
 import { requestAddFriend } from "../../redux/actions/friends";
 import { changeCreator } from "../../redux/actions/currentConversation";
+import { sendMessage } from "../../redux/actions/messages";
 function ShowChangeCreator() {
   const classes = useStyles();
   const { currentConversation } = useSelector(
@@ -53,6 +54,17 @@ function ShowChangeCreator() {
         `Bạn chắc chắn muốn chuyển quyền trưởng nhóm cho ${newCreator.username}?`
       )
     ) {
+      dispatch(
+        sendMessage(
+          {
+            sender: user._id,
+            conversation: currentConversation,
+            text: `${user.username} đã chuyển quyền trưởng nhóm cho ${newCreator.username}`,
+            type: "notification",
+          },
+          socket.current
+        )
+      );
       dispatch(changeCreator(data, user, socket.current));
       handleHideModal();
     }

@@ -40,10 +40,12 @@ import Friend from "../PhoneBooks/Friend";
 import { showChangeCreator } from "../../redux/actions/modal";
 import {
   deleteGroup,
+  getFileApplication,
   getImageAndVideo,
   outGroup,
 } from "../../redux/actions/currentConversation";
 import ListImage from "./ListImage";
+import ListFile from "./ListFile";
 import "./DrawerInfoChat.css";
 
 import { stringAvatar } from "../../utils/LetterAvatar";
@@ -124,6 +126,8 @@ export default function PersistentDrawerRight() {
   const { currentConversation } = useSelector(
     (state) => state.currentConversation
   );
+  const { messages } = useSelector((state) => state.messages);
+  
   const { user } = useSelector((state) => state.auth);
   const _friends = currentConversation?.member?.filter(
     (m) => m._id !== user._id
@@ -188,6 +192,7 @@ export default function PersistentDrawerRight() {
       conversationId: currentConversation._id,
     };
     dispatch(getImageAndVideo(data));
+    dispatch(getFileApplication(data));
   }, [currentConversation, dispatch]);
 
   return (
@@ -204,27 +209,21 @@ export default function PersistentDrawerRight() {
         anchor="right"
         open={isShowInformation}
       >
-        <DrawerHeader style={{ justifyContent: "center" }}>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "rtl" ? (
-              <ChevronLeftIcon />
-            ) : (
-              <ChevronRightIcon />
-            )}
-          </IconButton>
-          <Typography variant="h6" gutterBottom>
+        <DrawerHeader
+          style={{
+            justifyContent: "center",
+            minHeight: "61px",
+            background: "#0978f5",
+          }}
+        >
+          <Typography variant="h6" style={{ color: "white" }}>
             Thông tin
           </Typography>
         </DrawerHeader>
-        <Divider style={{ justifyContent: "center", alignItems: "center" }} />
-        <h2 style={{ display: "flex", justifyContent: "center" }} variant="h6">
-          {currentConversation.isGroup
-            ? currentConversation?.label
-            : _friends[0].username}
-        </h2>
+
         <AvatarGroup
           max={4}
-          style={{ justifyContent: "center", marginTop: 20 }}
+          style={{ justifyContent: "center", margin: "20px 0", width: "100%" }}
         >
           {currentConversation.isGroup ? (
             currentConversation.member.map((member) => (
@@ -233,6 +232,7 @@ export default function PersistentDrawerRight() {
                 src={member?.avatarURL}
                 alt="avatar"
                 {...stringAvatar(member?.username)}
+                style={{ width: "80px", height: "80px" }}
               />
             ))
           ) : (
@@ -241,63 +241,24 @@ export default function PersistentDrawerRight() {
               src={_friends[0]?.avatarURL}
               alt="avatar"
               {...stringAvatar(_friends[0]?.username)}
+              style={{ width: "80px", height: "80px" }}
             />
           )}
         </AvatarGroup>
-        <List style={{ display: "flex", flexDirection: "row" }}>
-          <ListItem style={{ padding: 0 }}>
-            <ListItem
-              button
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <ListItemIcon>
-                <NotificationsIcon />
-              </ListItemIcon>
-              <ListItemText secondary={"Tắt thông báo"} />
-            </ListItem>
-          </ListItem>
-          {currentConversation.isGroup && (
-            <ListItem style={{ padding: 0 }}>
-              <ListItem
-                button
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <ListItemIcon>
-                  <PersonAddIcon />
-                </ListItemIcon>
-                <ListItemText secondary={"Thêm thành viên"} />
-              </ListItem>
-            </ListItem>
-          )}
-          {currentConversation.isGroup && (
-            <ListItem style={{ padding: 0 }}>
-              <ListItem
-                button
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <ListItemIcon>
-                  <SettingsIcon />
-                </ListItemIcon>
-                <ListItemText secondary={"Quản lý nhóm"} />
-              </ListItem>
-            </ListItem>
-          )}
-        </List>
-        <Divider />
+        <h2
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "0px",
+          }}
+          variant="h6"
+        >
+          {currentConversation.isGroup
+            ? currentConversation?.label
+            : _friends[0].username}
+        </h2>
         {currentConversation.isGroup && (
-          <Accordion style={{ marginTop: 20 }}>
+          <Accordion style={{ marginTop: 0, boxShadow: "none" }}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
@@ -314,21 +275,7 @@ export default function PersistentDrawerRight() {
             </AccordionDetails>
           </Accordion>
         )}
-        {currentConversation.isGroup && (
-          <Accordion style={{ marginTop: 20 }}>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel2a-content"
-              id="panel2a-header"
-            >
-              <Typography>Bảng tin nhóm</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography>Null</Typography>
-            </AccordionDetails>
-          </Accordion>
-        )}
-        <Accordion style={{ marginTop: 20 }}>
+        <Accordion style={{ marginTop: 0, boxShadow: "none" }}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel2a-content"
@@ -340,7 +287,7 @@ export default function PersistentDrawerRight() {
             <ListImage />
           </AccordionDetails>
         </Accordion>
-        <Accordion style={{ marginTop: 20 }}>
+        <Accordion style={{ marginTop: 0, boxShadow: "none" }}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel2a-content"
@@ -349,10 +296,10 @@ export default function PersistentDrawerRight() {
             <Typography>File</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Typography>Null</Typography>
+            <ListFile />
           </AccordionDetails>
         </Accordion>
-        <Accordion style={{ marginTop: 20 }}>
+        <Accordion style={{ marginTop: 0, boxShadow: "none" }}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel2a-content"
@@ -364,20 +311,6 @@ export default function PersistentDrawerRight() {
             <Typography>Null</Typography>
           </AccordionDetails>
         </Accordion>
-        {/*<Accordion style={{marginTop:20}} >
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel2a-content"
-          id="panel2a-header"
-        >
-          <Typography>Thiết lập bảo mật</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            Null
-          </Typography>
-        </AccordionDetails>
-      </Accordion> */}
 
         {user._id === currentConversation.createdBy._id &&
           currentConversation.isGroup && (
@@ -396,16 +329,6 @@ export default function PersistentDrawerRight() {
             <ListItemText primary="Rời nhóm" />
           </ListItem>
         )}
-        <Collapse in={isShowInformation} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            <ListItem button className={classes.nested}>
-              <ListItemIcon>
-                <StarBorder />
-              </ListItemIcon>
-              <ListItemText primary="Starred" />
-            </ListItem>
-          </List>
-        </Collapse>
       </Drawer>
       <Drawer
         sx={{

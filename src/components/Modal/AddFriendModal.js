@@ -108,7 +108,7 @@ function AddFriendModal() {
           {userResult && (
             <ListItem>
               <ListItemAvatar>
-                <Avatar src={userResult?.avatarURl} alt="avatar" />
+                <Avatar src={userResult.avatarURL} alt="avatar" />
               </ListItemAvatar>
               <ListItemText
                 primary={userResult.username}

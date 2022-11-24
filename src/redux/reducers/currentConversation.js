@@ -5,7 +5,6 @@ const initialState = { isLoading: true, currentConversation: null };
 export default (state = initialState, action) => {
   switch (action.type) {
     case GLOBALTYPES.CURRENTCONVERSATION:
-      console.log(action?.data)
       return {
         ...state,
         currentConversation: action?.data,
@@ -14,6 +13,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         media: action.data.media,
+      };
+      case GLOBALTYPES.FILE_APPLICATION:
+      return {
+        ...state,
+        file: action.data.file,
       };
     case GLOBALTYPES.UPDATEMEMBER:
       return {

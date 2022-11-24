@@ -191,7 +191,7 @@ function Login() {
 
           <div
             className="auth__form-container_fields-account"
-            style={{ marginTop: "10px" }}
+            style={{ marginTop: "2rem" }}
           >
             <p
               style={{

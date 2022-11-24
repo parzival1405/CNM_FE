@@ -8,14 +8,13 @@ import {
   Avatar,
   Badge,
   styled,
+  makeStyles,
 } from "@material-ui/core";
 import { AvatarGroup } from "@material-ui/lab";
 
 import {
   Search,
   GroupAdd,
-  PersonAdd,
-  VerticalSplit,
   Edit,
   VideoCall,
   PhoneEnabled,
@@ -75,7 +74,14 @@ const AvatarCom = ({ _friends }) => {
   );
 };
 
+const useStyles = makeStyles({
+  headerTitle: {
+    fontWeight:"bold"
+  }
+});
+
 const HeaderInfo = ({ currentConversation }) => {
+  const materializeUIClasses = useStyles();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { online } = useSelector((state) => state.online);
@@ -106,6 +112,9 @@ const HeaderInfo = ({ currentConversation }) => {
             <AvatarCom _friends={_friends} />
           )
         }
+        classes={{
+          title: materializeUIClasses.headerTitle
+        }} 
         title={
           !currentConversation.isGroup
             ? _friends[0].username.slice(0, 30)
@@ -120,15 +129,13 @@ const HeaderInfo = ({ currentConversation }) => {
         }
         subheaderTypographyProps={{ color: "white" }}
       />
-      {_friends.length >= 2 ? (
+      {currentConversation.isGroup && (
         <IconButton
           aria-label="settings"
           onClick={handleShowChangeGroupLabelModal}
         >
           <Edit style={{ color: "white" }} />
         </IconButton>
-      ) : (
-        <></>
       )}
     </>
   );
@@ -158,12 +165,12 @@ function HeaderBoxChat() {
   };
 
   const callUser = ({ video }) => {
-    const { _id, profilePicture, username } = user;
+    const { _id, avatarURL, username } = user;
 
     const msg = {
       sender: _id,
       recipient: _friends[0]._id,
-      profilePicture,
+      avatarURL,
       username,
       video,
     };
@@ -225,9 +232,9 @@ function HeaderBoxChat() {
             ) : (
               <></>
             )}
-            <IconButton onClick={handleShowInformation}>
+            {/* <IconButton onClick={handleShowInformation}>
               <VerticalSplit style={{ color: "white" }} />
-            </IconButton>
+            </IconButton> */}
           </Box>
         </Toolbar>
       </AppBar>

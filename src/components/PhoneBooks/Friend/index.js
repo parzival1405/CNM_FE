@@ -25,7 +25,7 @@ function Friend({ friend, creator = null, isDelete = false }) {
   return (
     <ListItem button>
       <ListItemAvatar>
-        <Avatar key={friend?._id} src={friend?.avatarURL} alt="avatar" {...stringAvatar(friend?.username)}/>
+        <Avatar key={friend?._id} src={friend.avatarURL} alt="avatar" {...stringAvatar(friend?.username)}/>
       </ListItemAvatar>
       <ListItemText
         style={{ paddingLeft: "5px" }}
