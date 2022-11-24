@@ -336,7 +336,7 @@ function Demo() {
       });
     }
     return () => socket?.current.off("requestAddFriendToClient");
-  }, [dispatch, isShowPhoneBook,user, socket]);
+  }, [dispatch, isShowPhoneBook, user, socket]);
 
   useEffect(() => {
     if (socket?.current) {
@@ -422,7 +422,11 @@ function Demo() {
             currentConversation ? (
               <>
                 <BoxChat style={{ height: "100%" }} />
-                <DrawerInfoChat style={{ with: 0, height: 0 }}></DrawerInfoChat>
+                <Grid className="infor">
+                  <DrawerInfoChat
+                    style={{ with: 0, height: 0 }}
+                  ></DrawerInfoChat>
+                </Grid>
               </>
             ) : (
               ""
