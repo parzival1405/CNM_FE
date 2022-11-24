@@ -62,6 +62,7 @@ export const deleteMessage = (messData,socket) => async (dispatch) => {
     const {
       data: { data },
     } = await api.deleteMessage(messData);
+    
     socket.emit("delete-msg", JSON.stringify({
       ...data,
       conversation: messData.conversation,

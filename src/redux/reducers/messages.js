@@ -39,6 +39,7 @@ export default (
           ? { ...action.data, isDelete: true }
           : message
       );
+      console.log(newMessages);
       return { ...state, messages: newMessages };
     case GLOBALTYPES.ADDGROUPMESSAGE:
       return { ...state, messages: [...state.messages, action.data] };
