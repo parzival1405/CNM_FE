@@ -40,10 +40,12 @@ import Friend from "../PhoneBooks/Friend";
 import { showChangeCreator } from "../../redux/actions/modal";
 import {
   deleteGroup,
+  getFileApplication,
   getImageAndVideo,
   outGroup,
 } from "../../redux/actions/currentConversation";
 import ListImage from "./ListImage";
+import ListFile from "./ListFile";
 import "./DrawerInfoChat.css";
 
 import { stringAvatar } from "../../utils/LetterAvatar";
@@ -124,6 +126,8 @@ export default function PersistentDrawerRight() {
   const { currentConversation } = useSelector(
     (state) => state.currentConversation
   );
+  const { messages } = useSelector((state) => state.messages);
+  
   const { user } = useSelector((state) => state.auth);
   const _friends = currentConversation?.member?.filter(
     (m) => m._id !== user._id
@@ -188,7 +192,8 @@ export default function PersistentDrawerRight() {
       conversationId: currentConversation._id,
     };
     dispatch(getImageAndVideo(data));
-  }, [currentConversation, dispatch]);
+    dispatch(getFileApplication(data));
+  }, [currentConversation, messages, dispatch]);
 
   return (
     <>
@@ -291,7 +296,7 @@ export default function PersistentDrawerRight() {
             <Typography>File</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Typography>Null</Typography>
+            <ListFile />
           </AccordionDetails>
         </Accordion>
         <Accordion style={{ marginTop: 0, boxShadow: "none" }}>

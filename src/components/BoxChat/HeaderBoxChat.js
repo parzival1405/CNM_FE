@@ -8,14 +8,13 @@ import {
   Avatar,
   Badge,
   styled,
+  makeStyles,
 } from "@material-ui/core";
 import { AvatarGroup } from "@material-ui/lab";
 
 import {
   Search,
   GroupAdd,
-  PersonAdd,
-  VerticalSplit,
   Edit,
   VideoCall,
   PhoneEnabled,
@@ -75,7 +74,14 @@ const AvatarCom = ({ _friends }) => {
   );
 };
 
+const useStyles = makeStyles({
+  headerTitle: {
+    fontWeight:"bold"
+  }
+});
+
 const HeaderInfo = ({ currentConversation }) => {
+  const materializeUIClasses = useStyles();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { online } = useSelector((state) => state.online);
@@ -106,6 +112,9 @@ const HeaderInfo = ({ currentConversation }) => {
             <AvatarCom _friends={_friends} />
           )
         }
+        classes={{
+          title: materializeUIClasses.headerTitle
+        }} 
         title={
           !currentConversation.isGroup
             ? _friends[0].username.slice(0, 30)

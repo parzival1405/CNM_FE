@@ -213,3 +213,20 @@ export const getImageAndVideo = (data2, socket) => async (dispatch) => {
     //   });
   }
 };
+
+export const getFileApplication= (data2, socket) => async (dispatch) => {
+  try {
+    const { data } = await api.getFileApplication(data2);
+    dispatch({
+      type: GLOBALTYPES.FILE_APPLICATION,
+      data,
+    });
+  } catch (err) {
+    //   dispatch({
+    //     type: GLOBALTYPES.ALERT,
+    //     payload: {
+    //       error: err,
+    //     },
+    //   });
+  }
+};

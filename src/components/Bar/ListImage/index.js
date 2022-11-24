@@ -1,10 +1,12 @@
 import { ImageList, ImageListItem, makeStyles } from "@material-ui/core";
+import { AttachFile, Image } from "@material-ui/icons";
 import React, { useState } from "react";
 import Lightbox from "react-image-lightbox";
 import { useSelector } from "react-redux";
 // import "react-awesome-lightbox/build/style.css";
 const useStyles = makeStyles((theme) => ({
   root: {
+    width: "100%",
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "space-around",
@@ -15,8 +17,11 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
   },
   msg: {
+    display:"flex",
+    alignItems:"center",
+    justifyContent:"center",
     backgroundColor: theme.palette.grey[100],
-    padding: ".5rem 1rem",
+    padding: ".3rem 1rem",
     textAlign: "center",
     width: "100%",
     borderRadius: ".5rem",
@@ -57,7 +62,7 @@ function ListImage() {
       )}
       {media?.length === 0 || !media ? (
         <div className={classes.msg}>
-          Chưa có ảnh/vieo được chia sẻ trong cuộc hội thoại này
+          <Image style={{color:"#005fff"}}/> Chưa có ảnh/vieo nào được chia sẻ
         </div>
       ) : (
         <ImageList rowHeight={160} className={classes.imageList} cols={3}>

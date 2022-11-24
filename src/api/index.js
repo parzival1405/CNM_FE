@@ -77,6 +77,8 @@ export const forgotPassword = (data) =>
   API.post("api/auth/forgotPassword", data);
 export const getImageAndVideo = (data) =>
   API.post("api/conversation/getImageAndVideo", data);
+  export const getFileApplication = (data) =>
+  API.post("api/conversation/getFileApplication", data);
   export const checkConversation = (data) =>
   API.post("api/conversation/checkConversation", data);
 

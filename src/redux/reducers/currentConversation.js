@@ -14,6 +14,11 @@ export default (state = initialState, action) => {
         ...state,
         media: action.data.media,
       };
+      case GLOBALTYPES.FILE_APPLICATION:
+      return {
+        ...state,
+        file: action.data.file,
+      };
     case GLOBALTYPES.UPDATEMEMBER:
       return {
         ...state,

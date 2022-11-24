@@ -68,7 +68,6 @@ function FootBoxChat({ handleSendMsg }) {
     if (event.keyCode == 13) {
       sendChat(event);
     }
-    console.log("here");
   };
 
   const handleChangeMedia = (e) => {

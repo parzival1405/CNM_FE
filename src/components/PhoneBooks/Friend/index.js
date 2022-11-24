@@ -22,7 +22,6 @@ import { stringAvatar } from "../../../utils/LetterAvatar";
 function Friend({ friend, creator = null, isDelete = false }) {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  console.log(friend);
   return (
     <ListItem button>
       <ListItemAvatar>
