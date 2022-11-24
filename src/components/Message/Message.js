@@ -13,6 +13,7 @@ import {
   VideocamOff,
   PhoneForwarded,
   PhoneCallback,
+  AttachFile,
 } from "@material-ui/icons";
 import BasicPopover from "../Popover/BasePopover";
 import { stringAvatar } from "../../utils/LetterAvatar";
@@ -161,6 +162,7 @@ function Messages({ message,showName=false }) {
                         backgroundColor: "white",
                         padding: ".5rem",
                         borderRadius: ".5rem",
+                        
                       }}
                     >
                       <a
@@ -170,9 +172,12 @@ function Messages({ message,showName=false }) {
                         style={{
                           textDecoration: "none",
                           color: "black",
+                          display:"flex",
+                        alignItems:"center",
+                        color: "#005fff" 
                         }}
                       >
-                        {message.text}
+                        <AttachFile  /> {message.text}
                       </a>
                     </div>
                   )}

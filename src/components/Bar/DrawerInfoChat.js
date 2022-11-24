@@ -193,7 +193,7 @@ export default function PersistentDrawerRight() {
     };
     dispatch(getImageAndVideo(data));
     dispatch(getFileApplication(data));
-  }, [currentConversation, messages, dispatch]);
+  }, [currentConversation, dispatch]);
 
   return (
     <>

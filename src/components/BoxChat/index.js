@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import FootBoxChat from "./FootBoxChat";
 import HeaderBoxChat from "./HeaderBoxChat";
 import {
@@ -35,15 +35,14 @@ const Wrapper = styled("div")(({ theme }) => ({
 function BoxChat() {
   const classes = useStyles();
 
-  const { isLoading, messages, skip } = useSelector((state) => state.messages);
-  const { user, token } = useSelector((state) => state.auth);
-  const { currentConversation, isRoom } = useSelector(
+  const { isLoading,more, messages, skip } = useSelector((state) => state.messages);
+  const { user } = useSelector((state) => state.auth);
+  const { currentConversation } = useSelector(
     (state) => state.currentConversation
   );
 
   const { socket } = useSelector((state) => state.socket);
   const dispatch = useDispatch();
-  const scrollRef = useRef();
   const typing = useSelector((state) => state.typingReducer);
   var members = [];
   const listUserTyping = typing.filter(
@@ -105,18 +104,21 @@ function BoxChat() {
     }
   };
 
-  useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
 
   const fetchMoreData = () => {
-    dispatch(
-      loadMoreMessages({
-        conversation: currentConversation._id,
-        skip: skip,
-      })
-    );
+    setTimeout(() => {
+      dispatch(
+        loadMoreMessages({
+          conversation: currentConversation._id,
+          skip: skip,
+        })
+      );
+    }, 1500);
+    
   };
+
+  console.log("rerender");
+
   return (
     // Drawer Open and Close
     <Wrapper className={clsx(classes.wrapperDrawerOpen)}>
@@ -134,26 +136,30 @@ function BoxChat() {
           next={fetchMoreData}
           style={{ display: "flex", flexDirection: "column-reverse" }} //To put endMessage and loader to the top.
           inverse={true}
-          hasMore={true}
+          hasMore={more}
           loader={
             messages.length > 0 && (
               <h4 style={{ textAlign: "center" }}>Loading...</h4>
             )
           }
+          scrollThreshold="100px"
           scrollableTarget="scrollableDiv"
+          endMessage={
+            <p style={{ textAlign: "center" }}>
+              <b></b>
+            </p>
+          }
         >
-          {!isLoading &&
+          {
             messages.map((message, index) => {
-
               if (message.type === "notification") {
-                return <Divider key={index + "c"}>{message.text}</Divider>
+                return <Divider key={index + "c"}>{message.text}</Divider>;
               } else {
                 const before = new Date(messages?.at(index + 1)?.createdAt);
                 const after = new Date(message.createdAt);
 
                 if (isNaN(before)) {
                   const date =
-
                     after.getHours() +
                     " : " +
                     after.getMinutes() +
@@ -165,7 +171,7 @@ function BoxChat() {
                     after.getUTCFullYear();
                   return (
                     <>
-                      <Message key={index} message={message} showName={true}/>
+                      <Message key={index} message={message} showName={true} />
                       <Divider key={index + "a"}>{date}</Divider>
                     </>
                   );
@@ -205,8 +211,10 @@ function BoxChat() {
                     </>
                   );
                 }
-                if(messages?.at(index + 1).sender._id !== message.sender._id  ){
-                  return <Message key={index} message={message} showName={true} />;
+                if (messages?.at(index + 1).sender._id !== message.sender._id) {
+                  return (
+                    <Message key={index} message={message} showName={true} />
+                  );
                 }
                 return <Message key={index} message={message} />;
               }

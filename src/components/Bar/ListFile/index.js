@@ -13,9 +13,10 @@ const useStyles = makeStyles((theme) => ({
   file: {
     backgroundColor: theme.palette.grey[100],
     padding: "0.5rem",
-    marginTop:"10px",
     borderRadius: ".5rem",
     textDecoration: "none",
+    display:"flex",
+    alignItems:"center",
   },
   msg: {
     display: "flex",
@@ -31,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
 
 function ListFile() {
   const { file } = useSelector((state) => state.currentConversation);
-  console.log(file);
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -41,7 +41,7 @@ function ListFile() {
           sẻ
         </div>
       ) : (
-        <Grid container spacing={3} direction="column">
+        <Grid container spacing={2} direction="column">
           {file?.map((item) => (
             <Grid item style={{ borderRadius: ".5rem",}}>
               <a
@@ -54,7 +54,7 @@ function ListFile() {
                   color: "black",
                 }}
               >
-                {item.text}
+                <AttachFile style={{ color: "#005fff" }} /> {item.text}
               </a>
             </Grid>
           ))}
