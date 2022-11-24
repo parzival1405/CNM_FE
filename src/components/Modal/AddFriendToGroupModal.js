@@ -58,19 +58,19 @@ function AddFriendToGroupModal() {
       conversationId: currentConversation._id,
       newMember: _listMember,
     };
-    listMember.map(member => {
-      dispatch(
-        sendMessage(
-          {
-            sender: user._id,
-            conversation: currentConversation,
-            text: `${user.username} đã thêm ${member.username} vào nhóm`,
-            type: "notification",
-          },
-          socket.current
-        )
-      );
-    })
+    // listMember.map(member => {
+    //   dispatch(
+    //     sendMessage(
+    //       {
+    //         sender: user._id,
+    //         conversation: currentConversation,
+    //         text: `${user.username} đã thêm ${member.username} vào nhóm`,
+    //         type: "notification",
+    //       },
+    //       socket.current
+    //     )
+    //   );
+    // })
     
     dispatch(addMembersToGroup(data, user, socket.current));
     setListMember([]);

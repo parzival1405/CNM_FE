@@ -62,17 +62,17 @@ function DeletePopover({
       const data = {
         conversationId: currentConversation._id,
       };
-      dispatch(
-        sendMessage(
-          {
-            sender: user._id,
-            conversation: currentConversation,
-            text: `${user.username} đã rời khỏi nhóm`,
-            type: "notification",
-          },
-          socket.current
-        )
-      );
+      // dispatch(
+      //   sendMessage(
+      //     {
+      //       sender: user._id,
+      //       conversation: currentConversation,
+      //       text: `${user.username} đã rời khỏi nhóm`,
+      //       type: "notification",
+      //     },
+      //     socket.current
+      //   )
+      // );
       dispatch(outGroup(data, user, socket.current));
     }
   };
@@ -100,17 +100,17 @@ function DeletePopover({
             `Bạn chắc chắn muốn xóa ${member.username} ra khỏi nhóm ?`
           )
         ) {
-          dispatch(
-            sendMessage(
-              {
-                sender: user._id,
-                conversation: currentConversation,
-                text: `${user.username} đã xóa ${member.username} khỏi nhóm`,
-                type: "notification",
-              },
-              socket.current
-            )
-          );
+          // dispatch(
+          //   sendMessage(
+          //     {
+          //       sender: user._id,
+          //       conversation: currentConversation,
+          //       text: `${user.username} đã xóa ${member.username} khỏi nhóm`,
+          //       type: "notification",
+          //     },
+          //     socket.current
+          //   )
+          // );
           deleteId(member._id);
         }
       }

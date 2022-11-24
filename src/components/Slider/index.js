@@ -5,7 +5,7 @@ import { Paper } from "@material-ui/core";
 function Item({ item }) {
   return (
     <div>
-      <img style={{ width: "100%", height: "100%" }} src={item.src}></img>
+      <img style={{ width: "100%", height: "650px" }} src={item.src}></img>
     </div>
   );
 }

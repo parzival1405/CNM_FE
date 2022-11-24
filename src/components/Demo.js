@@ -268,6 +268,7 @@ function Demo() {
   useEffect(() => {
     if (socket?.current) {
       socket.current.on("msg-receive", (data) => {
+        
         if (
           currentConversation === undefined ||
           currentConversation === null ||
@@ -278,7 +279,9 @@ function Demo() {
             type: GLOBALTYPES.UPDATE_COUNT_WAITING_MESSAGE,
             payload: data.conversation,
           });
-          enqueueSnackbar(`nhận được 1 tin nhắn từ ${data.sender.username}`);
+          if(data.type !== "notification"){
+            enqueueSnackbar(`nhận được 1 tin nhắn từ ${data.sender.username}`);
+          }
         } else {
           dispatch({ type: GLOBALTYPES.ADDMESSAGE, data });
         }

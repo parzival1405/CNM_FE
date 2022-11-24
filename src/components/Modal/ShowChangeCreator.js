@@ -54,17 +54,17 @@ function ShowChangeCreator() {
         `Bạn chắc chắn muốn chuyển quyền trưởng nhóm cho ${newCreator.username}?`
       )
     ) {
-      dispatch(
-        sendMessage(
-          {
-            sender: user._id,
-            conversation: currentConversation,
-            text: `${user.username} đã chuyển quyền trưởng nhóm cho ${newCreator.username}`,
-            type: "notification",
-          },
-          socket.current
-        )
-      );
+      // dispatch(
+      //   sendMessage(
+      //     {
+      //       sender: user._id,
+      //       conversation: currentConversation,
+      //       text: `${user.username} đã chuyển quyền trưởng nhóm cho ${newCreator.username}`,
+      //       type: "notification",
+      //     },
+      //     socket.current
+      //   )
+      // );
       dispatch(changeCreator(data, user, socket.current));
       handleHideModal();
     }
