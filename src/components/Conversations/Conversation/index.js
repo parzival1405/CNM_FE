@@ -46,13 +46,18 @@ function Conversation({ conversation }) {
       button
       onClick={handleChangeCurrentConversation}
       className={clsx(
-        currentConversation?._id === conversation._id && classes.selected,
+        currentConversation?._id === conversation._id && classes.selected
       )}
     >
       <ListItemAvatar>
         <AvatarGroup max={3}>
           {_friends.map((friend) => (
-            <Avatar key={friend?._id} src={friend?.avatarURL} alt="avatar" {...stringAvatar(friend.username)}/>
+            <Avatar
+              key={friend?._id}
+              src={friend?.avatarURL}
+              alt="avatar"
+              {...stringAvatar(friend.username)}
+            />
           ))}
         </AvatarGroup>
       </ListItemAvatar>
@@ -64,17 +69,31 @@ function Conversation({ conversation }) {
             : _friends[0].username?.slice(0, 30)
         }
         secondary={
-          conversation?.count_waiting_msg
-            ?<Typography type="body2" style={{ color: '#eb4034' }}>{`Có ${conversation?.count_waiting_msg} tin nhắn chưa xem`}</Typography>
-            : user?._id === conversation?.lastMessage?.sender?._id
-            ? !conversation?.lastMessage?.isDelete
-              ? `Bạn:${conversation?.lastMessage?.text}`.slice(0,40)
-              : "Đã thu hồi tin nhắn"
-            : conversation?.lastMessage
-            ? !conversation?.lastMessage?.isDelete
-              ? `${conversation?.lastMessage?.sender?.username}:${conversation?.lastMessage?.text}`.slice(0,30)
-              : "Tin nhắn đã được thu hồi"
-            : ""
+          conversation?.lastMessage?.type === "notification" ? (
+            conversation?.lastMessage?.text.slice(0, 30)
+          ) : conversation?.count_waiting_msg ? (
+            <Typography
+              type="body2"
+              style={{ color: "#eb4034" }}
+            >{`Có ${conversation?.count_waiting_msg} tin nhắn chưa xem`}</Typography>
+          ) : user?._id === conversation?.lastMessage?.sender?._id ? (
+            !conversation?.lastMessage?.isDelete ? (
+              `Bạn:${conversation?.lastMessage?.text}`.slice(0, 30)
+            ) : (
+              "Đã thu hồi tin nhắn"
+            )
+          ) : conversation?.lastMessage ? (
+            !conversation?.lastMessage?.isDelete ? (
+              `${conversation?.lastMessage?.sender?.username}:${conversation?.lastMessage?.text}`.slice(
+                0,
+                30
+              )
+            ) : (
+              "Tin nhắn đã được thu hồi"
+            )
+          ) : (
+            ""
+          )
         }
       />
     </ListItem>

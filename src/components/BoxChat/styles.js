@@ -17,6 +17,7 @@ export default makeStyles((theme) => ({
     padding: "5px 0",
   },
   mediaItem: {
+    marginRight:"20px",
     position: "relative",
     display: "flex",
     justifyContent: "space-between",

@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { changeCurrentConversationGroupName } from "../../redux/actions/currentConversation";
 import { hideModal } from "../../redux/actions/modal";
 import { validateionChangeGroupName } from "../../utils/Validation";
-
+import { sendMessage } from "../../redux/actions/messages";
 import BaseModal from "./BaseModal";
 import useStyles from "./styles";
 
@@ -47,6 +47,17 @@ function ChangeGroupLabelModal() {
       if (label === currentConversation.label) {
         handleHideModal();
       }
+      dispatch(
+        sendMessage(
+          {
+            sender: user._id,
+            conversation: currentConversation,
+            text: `${user.username} đã đổi tên nhóm thành ${label}`,
+            type: "notification",
+          },
+          socket.current
+        )
+      );
       dispatch(
         changeCurrentConversationGroupName(
           data,

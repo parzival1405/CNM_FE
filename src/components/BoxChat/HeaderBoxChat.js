@@ -120,15 +120,13 @@ const HeaderInfo = ({ currentConversation }) => {
         }
         subheaderTypographyProps={{ color: "white" }}
       />
-      {_friends.length >= 2 ? (
+      {currentConversation.isGroup && (
         <IconButton
           aria-label="settings"
           onClick={handleShowChangeGroupLabelModal}
         >
           <Edit style={{ color: "white" }} />
         </IconButton>
-      ) : (
-        <></>
       )}
     </>
   );
@@ -158,12 +156,12 @@ function HeaderBoxChat() {
   };
 
   const callUser = ({ video }) => {
-    const { _id, profilePicture, username } = user;
+    const { _id, avatarURL, username } = user;
 
     const msg = {
       sender: _id,
       recipient: _friends[0]._id,
-      profilePicture,
+      avatarURL,
       username,
       video,
     };

@@ -14,7 +14,6 @@ import PhoneBooks from "./PhoneBooks";
 import { Group } from "@material-ui/icons";
 import DrawerInfoChat from "./Bar/DrawerInfoChat";
 
-
 import { useSnackbar } from "notistack";
 
 const listGroup = [
@@ -110,25 +109,25 @@ function Demo() {
     }
     return () => socket?.current.off("addConversation-receive");
   }, [socket, dispatch]);
-    // Call User
-    useEffect(() => {
-      socket?.current.on("callUserToClient", (data) => {
-        dispatch({ type: GLOBALTYPES.CALL, payload: data });
+  // Call User
+  useEffect(() => {
+    socket?.current.on("callUserToClient", (data) => {
+      dispatch({ type: GLOBALTYPES.CALL, payload: data });
+    });
+
+    return () => socket?.current.off("callUserToClient");
+  }, [socket, dispatch]);
+
+  useEffect(() => {
+    socket?.current.on("userBusy", (data) => {
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { error: `${call.username} is busy!` },
       });
-  
-      return () => socket?.current.off("callUserToClient");
-    }, [socket, dispatch]);
-  
-    useEffect(() => {
-      socket?.current.on("userBusy", (data) => {
-        dispatch({
-          type: GLOBALTYPES.ALERT,
-          payload: { error: `${call.username} is busy!` },
-        });
-      });
-  
-      return () => socket?.current.off("userBusy");
-    }, [socket, dispatch, call]);
+    });
+
+    return () => socket?.current.off("userBusy");
+  }, [socket, dispatch, call]);
 
   useEffect(() => {
     socket?.current.emit("checkUserOnline", user);
@@ -136,12 +135,13 @@ function Demo() {
 
   useEffect(() => {
     socket?.current.on("checkUserOnlineToMe", (data) => {
+      console.log(data);
       dispatch({ type: GLOBALTYPES.ONLINE, payload: data });
     });
 
     return () => socket?.current.off("checkUserOnlineToMe");
   }, [socket, dispatch, online]);
-  
+
   useEffect(() => {
     socket?.current.on("CheckUserOffline", (item) => {
       dispatch({ type: GLOBALTYPES.OFFLINE, payload: item });
@@ -180,6 +180,7 @@ function Demo() {
   useEffect(() => {
     if (socket?.current) {
       socket.current.on("addMemberToGroup-receive", (data) => {
+        console.log("here", data);
         if (data._id === currentConversation?._id) {
           dispatch({
             type: GLOBALTYPES.UPDATEMEMBER,
@@ -320,7 +321,7 @@ function Demo() {
 
   useEffect(() => {
     if (socket?.current) {
-      socket.current.on("requestAddFriendToClient", (data) => {
+      socket?.current.on("requestAddFriendToClient", (data) => {
         user.friendsQueue.push(data);
         enqueueSnackbar(`nhận được 1 lời mời kết bạn từ ${data.username}`);
         if (!isShowPhoneBook) {
@@ -330,14 +331,12 @@ function Demo() {
         }
         dispatch({
           type: GLOBALTYPES.UPDATEPROFILE,
-          data : user,
+          data: user,
         });
       });
     }
-    return () => {
-      socket?.current.off("requestAddFriendToClient");
-    };
-  }, [dispatch, isShowPhoneBook, socket]);
+    return () => socket?.current.off("requestAddFriendToClient");
+  }, [dispatch, isShowPhoneBook,user, socket]);
 
   useEffect(() => {
     if (socket?.current) {
@@ -355,7 +354,6 @@ function Demo() {
       });
     }
     return () => socket?.current.off("offTypingTextToClient");
-
   }, [socket, dispatch]);
 
   useEffect(() => {

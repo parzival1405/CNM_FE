@@ -231,7 +231,7 @@ function CallModal() {
           }}
         >
           <Avatar
-            src={call.avatarURL}
+            src={call.avatarURL }
             alt="avatar-call"
             className={classes.profilePicture}
           >

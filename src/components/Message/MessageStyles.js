@@ -19,11 +19,14 @@ export default makeStyles((theme) => ({
     alignItems: "start",
     width: "auto",
     maxWidth: "50%",
+    display:"block",
   },
   wrapperEnd: {
     alignItems: "end",
     textAlign: "end",
+    
   },
+  
   textWrapper: {
     // backgroundColor: theme.palette.grey[300],
     backgroundColor: "#E1E1E1",
@@ -31,6 +34,7 @@ export default makeStyles((theme) => ({
     borderRadius: ".5rem",
     position: "relative",
     width: "auto",
+    wordWrap:"break-word",
   },
   textWrapperColor: {
     // background: `linear-gradient(to left bottom, ${theme.palette.secondary.main}, ${theme.palette.secondary.main})`,
@@ -42,6 +46,9 @@ export default makeStyles((theme) => ({
     color: "black",
     fontFamily: "ROBOTO",
     marginBottom: "10px",
+  },
+  nameSmall:{
+    fontSize:12,
   },
   flexFirstRight: {
     color: "white",
