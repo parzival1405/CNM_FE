@@ -144,44 +144,16 @@ function BoxChat() {
         >
           {!isLoading &&
             messages.map((message, index) => {
-              const before = new Date(messages?.at(index + 1)?.createdAt);
-              const after = new Date(message.createdAt);
 
-              if (isNaN(before)) {
-                const date =
-                  after.getHours() +
-                  " : " +
-                  after.getMinutes() +
-                  "  " +
-                  after.getUTCDate() +
-                  "/" +
-                  (after.getMonth() + 1) +
-                  "/" +
-                  after.getUTCFullYear();
-                return (
-                  <>
-                    <Message key={index} message={message} />
-                    <Divider key={index + "a"}>{date}</Divider>
-                  </>
-                );
-              }
-              var hours = Math.abs(before - after) / 36e5;
-              if (hours > 1) {
-                let date = "";
-                const currentDate = new Date();
-                if (
-                  after.getMonth() === currentDate.getMonth() &&
-                  after.getUTCFullYear() === currentDate.getUTCFullYear() &&
-                  after.getUTCDate() === currentDate.getUTCDate()
-                ) {
-                  date =
-                    after.getHours() +
-                    " : " +
-                    after.getMinutes() +
-                    "  " +
-                    "Hôm nay";
-                } else {
-                  date =
+              if (message.type === "notification") {
+                return <Divider key={index + "c"}>{message.text}</Divider>
+              } else {
+                const before = new Date(messages?.at(index + 1)?.createdAt);
+                const after = new Date(message.createdAt);
+
+                if (isNaN(before)) {
+                  const date =
+
                     after.getHours() +
                     " : " +
                     after.getMinutes() +
@@ -191,16 +163,50 @@ function BoxChat() {
                     (after.getMonth() + 1) +
                     "/" +
                     after.getUTCFullYear();
+                  return (
+                    <>
+                      <Message key={index} message={message} />
+                      <Divider key={index + "a"}>{date}</Divider>
+                    </>
+                  );
                 }
+                var hours = Math.abs(before - after) / 36e5;
+                if (hours > 1) {
+                  let date = "";
+                  const currentDate = new Date();
+                  if (
+                    after.getMonth() === currentDate.getMonth() &&
+                    after.getUTCFullYear() === currentDate.getUTCFullYear() &&
+                    after.getUTCDate() === currentDate.getUTCDate()
+                  ) {
+                    date =
+                      after.getHours() +
+                      " : " +
+                      after.getMinutes() +
+                      "  " +
+                      "Hôm nay";
+                  } else {
+                    date =
+                      after.getHours() +
+                      " : " +
+                      after.getMinutes() +
+                      "  " +
+                      after.getUTCDate() +
+                      "/" +
+                      (after.getMonth() + 1) +
+                      "/" +
+                      after.getUTCFullYear();
+                  }
 
-                return (
-                  <>
-                    <Message key={index} message={message} />
-                    <Divider key={index + "b"}>{date}</Divider>
-                  </>
-                );
+                  return (
+                    <>
+                      <Message key={index} message={message} />
+                      <Divider key={index + "b"}>{date}</Divider>
+                    </>
+                  );
+                }
+                return <Message key={index} message={message} />;
               }
-              return <Message key={index} message={message} />;
             })}
         </InfiniteScroll>
       </Paper>
