@@ -13,10 +13,12 @@ import TestPo from "./TestPo";
 import { SignalCellularNull, StarRateTwoTone } from "@material-ui/icons";
 import {
   deleteMemberGroup,
+  outGroup,
   showConversationByIdFriend,
 } from "../../redux/actions/currentConversation";
 import { deleteFriend } from "../../redux/actions/friends";
 import { showConversation } from "../../redux/actions/sideBar";
+import { showChangeCreator } from "../../redux/actions/modal";
 
 function DeletePopover({
   children,
@@ -43,6 +45,38 @@ function DeletePopover({
     dispatch(deleteMemberGroup(data, user, member, socket.current));
   };
 
+  const handleShowChangeCreator = () => {
+    dispatch(showChangeCreator());
+  };
+
+  const handleOutGroup = () => {
+    if (user._id === currentConversation.createdBy._id) {
+      handleShowChangeCreator();
+    } else {
+      confirmOutGroup();
+    }
+  };
+
+  const confirmOutGroup = () => {
+    if (window.confirm(`Bạn chắc chắn muốn rời nhóm ?`)) {
+      const data = {
+        conversationId: currentConversation._id,
+      };
+      dispatch(
+        sendMessage(
+          {
+            sender: user._id,
+            conversation: currentConversation,
+            text: `${user.username} đã rời khỏi nhóm`,
+            type: "notification",
+          },
+          socket.current
+        )
+      );
+      dispatch(outGroup(data, user, socket.current));
+    }
+  };
+
   const handleDeleteUser = () => {
     if (isDeleteAndConv) {
       if (
@@ -56,24 +90,31 @@ function DeletePopover({
         dispatch(deleteFriend(data,user, socket.current));
       }
     } else {
-      if (
-        window.confirm(
-          `Bạn chắc chắn muốn xóa ${member.username} ra khỏi nhóm ?`
-        )
-      ) {
-        dispatch(
-          sendMessage(
-            {
-              sender: user._id,
-              conversation: currentConversation,
-              text: `${user.username} đã xóa ${member.username} khỏi nhóm`,
-              type: "notification",
-            },
-            socket.current
+      if(member._id === creator?._id ){
+        handleOutGroup()
+      }else if(isMember){
+        handleOutGroup()
+      }else{
+        if (
+          window.confirm(
+            `Bạn chắc chắn muốn xóa ${member.username} ra khỏi nhóm ?`
           )
-        );
-        deleteId(member._id);
+        ) {
+          dispatch(
+            sendMessage(
+              {
+                sender: user._id,
+                conversation: currentConversation,
+                text: `${user.username} đã xóa ${member.username} khỏi nhóm`,
+                type: "notification",
+              },
+              socket.current
+            )
+          );
+          deleteId(member._id);
+        }
       }
+      
     }
   };
 

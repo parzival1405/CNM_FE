@@ -26,7 +26,9 @@ export default makeStyles((theme) => ({
     textAlign: "end",
     
   },
-  
+  hideAvt:{
+    display:"none",
+  },
   textWrapper: {
     // backgroundColor: theme.palette.grey[300],
     backgroundColor: "#E1E1E1",

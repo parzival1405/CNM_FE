@@ -66,7 +66,8 @@ function Messages({ message,showName=false }) {
             </div>
             <Avatar
               className={
-                message?.sender?._id == user._id ? classes.avatarHidden : ""
+                message?.sender?._id == user._id ? classes.avatarHidden : "" 
+                // (!showName ? classes.hideAvt : "")
               }
               src={message?.sender?.avatarURL}
               {...stringAvatar(message?.sender?.username)}
@@ -215,6 +216,7 @@ function Messages({ message,showName=false }) {
               message?.sender?._id == user._id ? classes.avatarHidden : ""
             }
             src={message?.sender?.avatarURL}
+            {...stringAvatar(message?.sender?.username)}
           ></Avatar>
           <div
             className={clsx(
