@@ -215,8 +215,12 @@ export default function PersistentDrawerRight() {
         >
           {currentConversation.isGroup ? (
             currentConversation.member.map((member) => (
-
-              <Avatar key={member?._id} src={member?.avatarURL} alt="avatar" {...stringAvatar(member?.username)} />
+              <Avatar
+                key={member?._id}
+                src={member?.avatarURL}
+                alt="avatar"
+                {...stringAvatar(member?.username)}
+              />
             ))
           ) : (
             <Avatar
@@ -362,10 +366,6 @@ export default function PersistentDrawerRight() {
         </AccordionDetails>
       </Accordion> */}
 
-        <ListItem button>
-          <ListItemText primary="Inbox" />
-          {isShowInformation ? <ExpandLess /> : <ExpandMore />}
-        </ListItem>
         {user._id === currentConversation.createdBy._id &&
           currentConversation.isGroup && (
             <ListItem button onClick={handleShowChangeCreator}>
