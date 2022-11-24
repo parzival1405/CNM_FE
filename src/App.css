@@ -10,7 +10,7 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-
+  font-family: "Roboto";
 }
 
 #root {
@@ -80,7 +80,8 @@ body {
   color: #000;
   width: 100%;
   font-weight: unset;
-  font-family: Arial, Helvetica, sans-serif;
+  /* font-family: Arial, Helvetica, sans-serif; */
+  font-family: "Roboto";
 }
 
 .form-group-column input:hover {
@@ -255,7 +256,8 @@ body {
 }
 
 .channel-empty__first {
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
   font-weight: bold;
   font-size: 18px;
   line-height: 120%;
@@ -268,7 +270,8 @@ body {
 }
 
 .channel-empty__second {
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
   font-size: 14px;
   line-height: 120%;
   margin: 0;
@@ -319,7 +322,8 @@ body {
 }
 
 .custom-thread-header__left-title {
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
   font-weight: bold;
   font-size: 18px;
   line-height: 22px;
@@ -328,7 +332,8 @@ body {
 }
 
 .custom-thread-header__left-count {
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
   font-size: 14px;
   color: #858688;
 }
@@ -384,7 +389,8 @@ body {
 }
 
 .icon1__inner {
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
   height: 100%;
   display: flex;
   align-items: center;
@@ -407,7 +413,8 @@ body {
 }
 
 .icon2__inner {
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
   height: 100%;
   display: flex;
   align-items: center;
@@ -420,7 +427,8 @@ body {
 }
 
 .channel-list__header__text {
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
   font-style: normal;
   font-weight: bold;
   font-size: 18px;
@@ -463,7 +471,8 @@ body {
   background: none;
   border: none;
   color: #fff;
-  font-family: Helvetica Neue, sans-serif,Poppins;
+  /* font-family: Helvetica Neue, sans-serif,Poppins; */
+  font-family: "Roboto";
   font-size: 16px;
   outline: none;
 }
@@ -492,7 +501,7 @@ body {
   width: fit-content;
   display: flex;
   align-items: center;
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
@@ -541,7 +550,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
   font-weight: bold;
   font-size: 14px;
   line-height: 120%;
@@ -550,7 +560,8 @@ body {
 
 .channel-search__result-text {
   width: 100%;
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
   font-weight: 500;
   font-size: 14px;
   line-height: 120%;
@@ -573,7 +584,8 @@ body {
 }
 
 .create-channel__header p {
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
   font-weight: bold;
   font-size: 18px;
   line-height: 22px;
@@ -594,7 +606,9 @@ body {
 }
 
 .channel-name-input__wrapper p {
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
+
   font-size: 16px;
   line-height: 120%;
   color: #2c2c30;
@@ -602,7 +616,8 @@ body {
 }
 
 .channel-name-input__wrapper input {
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
   font-size: 18px;
   color: rgba(0, 0, 0, 0.5);
   height: 50px;
@@ -637,7 +652,8 @@ body {
 
 .create-channel__button-wrapper p {
   background: var(--primary-color);
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
   font-weight: bold;
   font-size: 18px;
   padding: 10px 20px;
@@ -660,7 +676,8 @@ body {
 }
 
 .user-list__header p {
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
   font-size: 14px;
   line-height: 17px;
   color: #858688;
@@ -678,7 +695,8 @@ body {
 }
 
 .user-list__message {
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
   font-size: 16px;
   color: #2c2c30;
   margin: 20px;
@@ -704,7 +722,8 @@ body {
 }
 
 .user-item__wrapper p {
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
   font-size: 14px;
   line-height: 17px;
   color: #2c2c30;
@@ -750,7 +769,8 @@ body {
 }
 
 .edit-channel__header p {
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
   font-weight: bold;
   font-size: 18px;
   line-height: 22px;
@@ -771,7 +791,8 @@ body {
 }
 
 .channel-name-input__wrapper p {
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
   font-size: 16px;
   line-height: 120%;
   color: #2c2c30;
@@ -779,7 +800,8 @@ body {
 }
 
 .channel-name-input__wrapper input {
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
   font-size: 18px;
   color: rgba(0, 0, 0);
   height: 50px;
@@ -812,7 +834,8 @@ body {
 
 .edit-channel__button-wrapper p {
   background: var(--primary-color);
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
   font-weight: bold;
   font-size: 18px;
   padding: 10px 20px;
@@ -845,7 +868,8 @@ body {
 }
 
 .team-channel-header__name {
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
   font-weight: bold;
   font-size: 18px;
   color: #2c2c30;
@@ -912,7 +936,8 @@ body {
 }
 
 .team-channel-header__right-text {
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
   font-size: 14px;
   color: #858688;
 }
@@ -944,7 +969,8 @@ body {
 }
 
 .team-channel-list__header__title {
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
   font-size: 13px;
   line-height: 16px;
   height: 16px;
@@ -983,7 +1009,8 @@ body {
 .channel-preview__item {
   display: flex;
   align-items: center;
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
   font-size: 14px;
   color: #ffffff;
   padding: 0px 20px;
@@ -1035,7 +1062,8 @@ body {
 }
 
 .str-chat__message-team-content p {
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
   font-style: normal;
   font-weight: normal;
   line-height: 120%;
@@ -1064,7 +1092,8 @@ body {
 .str-chat__message-team-meta time {
   visibility: visible;
   z-index: 2;
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
   font-style: normal;
   font-weight: normal;
   font-size: 10px;
@@ -1095,7 +1124,8 @@ body {
   z-index: 2;
   display: flex;
   /* justify-content: flex-end; */
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
   font-style: normal;
   font-weight: bold;
   font-size: 14px;
@@ -1112,7 +1142,8 @@ body {
 
 .str-chat__date-separator-date {
   color: #858688;
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
   font-style: normal;
   font-weight: normal;
 }
@@ -1172,7 +1203,8 @@ ul.str-chat__simple-reactions-list:hover {
 }
 
 .str-chat__simple-reactions-list-item--last-number {
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
   font-style: normal;
   font-weight: normal;
   font-size: 11px;
@@ -1242,7 +1274,8 @@ ul.str-chat__simple-reactions-list:hover {
 .str-chat__edit-message-form .str-chat__message-team-form-footer button {
   cursor: pointer;
   color: rgba(0, 0, 0, 0.33);
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
   font-size: 14px;
 }
 
@@ -1288,7 +1321,8 @@ ul.str-chat__simple-reactions-list:hover {
 }
 
 .str-chat__message-team-pin-indicator div div {
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
   font-size: 10px !important;
   line-height: 120%;
   color: #858688;
@@ -1360,7 +1394,8 @@ ul.str-chat__simple-reactions-list:hover {
 }
 
 .team-message-input__wrapper .giphy-icon__text {
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
   font-style: normal;
   font-weight: bold;
   font-size: 11px;
@@ -1394,7 +1429,8 @@ ul.str-chat__simple-reactions-list:hover {
   background: #fff;
   border: none;
   outline: none;
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
   font-style: normal;
   font-weight: normal;
   font-size: 15px;
@@ -1491,7 +1527,8 @@ div.rta__autocomplete.str-chat__emojisearch {
 }
 
 .rta__list-header {
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
   font-size: 14px;
   line-height: 16px;
   color: #2c2c30;
@@ -1518,7 +1555,8 @@ div.rta__autocomplete.str-chat__emojisearch {
 }
 
 .str-chat__thread-header-details strong {
-  font-family: Helvetica, sans-serif;
+  /* font-family: Helvetica, sans-serif; */
+  font-family: "Roboto";
   font-style: normal;
   font-weight: bold;
   font-size: 18px;
@@ -1528,7 +1566,8 @@ div.rta__autocomplete.str-chat__emojisearch {
 }
 
 .str-chat__thread-header-details small {
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
   font-style: normal;
   font-weight: normal;
   font-size: 14px;
@@ -1600,7 +1639,8 @@ div.rta__autocomplete.str-chat__emojisearch {
 }
 
 .thread-message-input__wrapper .giphy-icon__text {
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
   font-style: normal;
   font-weight: bold;
   font-size: 11px;
@@ -1643,7 +1683,8 @@ div.rta__autocomplete.str-chat__emojisearch {
   background: #fff;
   border: none;
   outline: none;
-  font-family: Helvetica Neue, sans-serif;
+  /* font-family: Helvetica Neue, sans-serif; */
+  font-family: "Roboto";
   font-size: 15px;
   line-height: 10px;
 }
