@@ -58,8 +58,8 @@ body {
 
 .auth__form-container_fields-content p {
   font-size: 15px;
-  font-family: Arial, Helvetica, sans-serif;
-  
+  /* font-family: Arial, Helvetica, sans-serif; */
+  font-family: "Roboto";
   font-weight: 900;
  
   width: fit-content;
@@ -111,7 +111,8 @@ body {
   background: #005fff;
   border: 1px solid #005fff;
   color: #fff;
-  font-family: Arial, Helvetica, sans-serif;
+  /* font-family: Arial, Helvetica, sans-serif; */
+  font-family: "Roboto";
   font-weight: 500;
   padding: 0.7rem 1.2rem;
   outline: none;
@@ -122,13 +123,15 @@ body {
 .auth__form-container_fields-content_button button:hover {
   background: #0066ff;
 }
-
+.auth__form-container_fields{
+  font-family: "Roboto";
+}
 .auth__form-container_fields-account {
   display: flex;
   justify-content: flex-start;
   align-items: center;
 
-  margin-top: 0.2rem;
+  margin-top: 2.0rem;
 }
 
 .auth__form-container_fields-account p {
@@ -1873,7 +1876,7 @@ label{
 margin-bottom: 4px;
 }
 .auth__form-container_fields-content p, label, input{
-font-family:"Poppins", "Roboto", "Helvetica", "Arial", sans-serif;
+font-family:"Roboto";
 }
 a{
   text-decoration: none;
@@ -1887,4 +1890,14 @@ h2 h4 {
 }
 .begintext{
   font-family: "Roboto";
+}
+.expansion-panel {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
+.MuiPaper-root.MuiAccordion-root::before {
+  background-color: #f7f7f7;
+  height: 0;
 }

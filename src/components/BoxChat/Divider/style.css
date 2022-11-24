@@ -5,15 +5,17 @@
   margin: 20px 0;
 }
 
-.border-divider {
+/* .border-divider {
   border-bottom: 1px solid rgb(234, 234, 234);
   width: 10%;
-}
+} */
 
 .content-divider {
-  color: rgb(78, 78, 78);
-  border-radius: 10px;
-  background-color: aliceblue;
-  padding: 0 10px 0 10px;
+  /* color: rgb(78, 78, 78); */
+  color:white ;
+  border-radius: 20px;
+  background-color:   #707070;
+  padding: 4px 15px 4px 15px;
   margin: 0 5px;
+  font-size: 14px;
 }
