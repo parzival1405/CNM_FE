@@ -14,7 +14,6 @@ import PhoneBooks from "./PhoneBooks";
 import { Group } from "@material-ui/icons";
 import DrawerInfoChat from "./Bar/DrawerInfoChat";
 
-
 import { useSnackbar } from "notistack";
 
 const listGroup = [
@@ -110,25 +109,25 @@ function Demo() {
     }
     return () => socket?.current.off("addConversation-receive");
   }, [socket, dispatch]);
-    // Call User
-    useEffect(() => {
-      socket?.current.on("callUserToClient", (data) => {
-        dispatch({ type: GLOBALTYPES.CALL, payload: data });
+  // Call User
+  useEffect(() => {
+    socket?.current.on("callUserToClient", (data) => {
+      dispatch({ type: GLOBALTYPES.CALL, payload: data });
+    });
+
+    return () => socket?.current.off("callUserToClient");
+  }, [socket, dispatch]);
+
+  useEffect(() => {
+    socket?.current.on("userBusy", (data) => {
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { error: `${call.username} is busy!` },
       });
-  
-      return () => socket?.current.off("callUserToClient");
-    }, [socket, dispatch]);
-  
-    useEffect(() => {
-      socket?.current.on("userBusy", (data) => {
-        dispatch({
-          type: GLOBALTYPES.ALERT,
-          payload: { error: `${call.username} is busy!` },
-        });
-      });
-  
-      return () => socket?.current.off("userBusy");
-    }, [socket, dispatch, call]);
+    });
+
+    return () => socket?.current.off("userBusy");
+  }, [socket, dispatch, call]);
 
   useEffect(() => {
     socket?.current.emit("checkUserOnline", user);
@@ -141,7 +140,7 @@ function Demo() {
 
     return () => socket?.current.off("checkUserOnlineToMe");
   }, [socket, dispatch, online]);
-  
+
   useEffect(() => {
     socket?.current.on("CheckUserOffline", (item) => {
       dispatch({ type: GLOBALTYPES.OFFLINE, payload: item });
@@ -330,7 +329,7 @@ function Demo() {
         }
         dispatch({
           type: GLOBALTYPES.UPDATEPROFILE,
-          data : user,
+          data: user,
         });
       });
     }
@@ -355,7 +354,6 @@ function Demo() {
       });
     }
     return () => socket?.current.off("offTypingTextToClient");
-
   }, [socket, dispatch]);
 
   useEffect(() => {
@@ -434,7 +432,13 @@ function Demo() {
         </Grid>
       )}
       {isShowPhoneBook && (
-        <Grid style={{ flexGrow: 1, height: "inherit" }}>
+        <Grid
+          style={{
+            flexGrow: 1,
+            height: "inherit",
+            borderLeft: "1px solid #E1E1E1",
+          }}
+        >
           <div className="friend-request__container">
             <div className="friend-request__container--list">
               {isShowRequestAddFriend && <ListFriendsRequest />}

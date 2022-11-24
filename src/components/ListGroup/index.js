@@ -12,7 +12,7 @@ import Select from "@material-ui/core/Select";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import SearchComponent from "../Search";
 import Paper from "@material-ui/core/Paper";
-import GroupIcon from "@material-ui/icons/Group";
+import PeopleAltTwoToneIcon from "@material-ui/icons/PeopleAltTwoTone";
 import {
   styled,
   IconButton,
@@ -103,7 +103,9 @@ const ListGroup = ({ listFriendsRequest }) => {
             }}
           >
             <Toolbar>
-              <GroupIcon style={{ fontSize: 30 }}></GroupIcon>
+              <PeopleAltTwoToneIcon
+                style={{ fontSize: 30 }}
+              ></PeopleAltTwoToneIcon>
               <Typography style={{ marginLeft: 30, fontSize: 20 }}>
                 Danh sách nhóm
               </Typography>
@@ -121,7 +123,12 @@ const ListGroup = ({ listFriendsRequest }) => {
             >
               <option value={10}> Tất cả ({groupsFilter.length})</option>
               <option value={20}>
-                Tôi quản lý({groupsFilter.filter(conv => conv.createdBy._id === user._id).length})
+                Tôi quản lý(
+                {
+                  groupsFilter.filter((conv) => conv.createdBy._id === user._id)
+                    .length
+                }
+                )
               </option>
             </NativeSelect>
           </FormControl>
@@ -134,6 +141,7 @@ const ListGroup = ({ listFriendsRequest }) => {
             display: "flex",
             flexWrap: "wrap",
             justifyContent: "space-around",
+            boxShadow: "none",
           }}
         >
           {groupsFilter.length > 0 &&

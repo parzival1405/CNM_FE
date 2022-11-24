@@ -1,12 +1,16 @@
 import React from "react";
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Typography, Box, AppBar, Toolbar } from "@material-ui/core";
 
 import "./styles.css";
 import { useDispatch, useSelector } from "react-redux";
-import { acceptAddFriend, deniedAddFriend, recallFriend } from "../../redux/actions/friends";
+import {
+  acceptAddFriend,
+  deniedAddFriend,
+  recallFriend,
+} from "../../redux/actions/friends";
 import { createConversation } from "../../redux/actions/coversations";
 import { checkConversation } from "../../api";
-
+import PersonAddTwoToneIcon from "@material-ui/icons/PersonAddTwoTone";
 const FriendRequest = ({ item }) => {
   const { socket } = useSelector((state) => state.socket);
   const { user } = useSelector((state) => state.auth);
@@ -117,15 +121,30 @@ const ListFriendsRequest = () => {
     <>
       <div className="list-friends-request">
         <div className="list-friends-request__container">
-          <Typography
-            variant="subtitle1"
-            display="block"
-            className="list-friends-request__container-title"
-            gutterBottom
-          >
-            Lời mời kết bạn (
-            {listFriendsRequest?.length ? listFriendsRequest?.length : "0"})
-          </Typography>
+          <Box sx={{ flexGrow: 1 }}>
+            <AppBar
+              position="static"
+              style={{
+                backgroundColor: "#0978f5",
+                boxShadow: "none",
+                borderLeft: "1px solid #E1E1E1",
+                height: "60px",
+              }}
+            >
+              <Toolbar>
+                <PersonAddTwoToneIcon
+                  style={{ fontSize: 30 }}
+                ></PersonAddTwoToneIcon>
+                <Typography style={{ marginLeft: 30, fontSize: 20 }}>
+                  Lời mời kết bạn (
+                  {listFriendsRequest?.length
+                    ? listFriendsRequest?.length
+                    : "0"}
+                  )
+                </Typography>
+              </Toolbar>
+            </AppBar>
+          </Box>
           {listFriendsRequest?.length > 0 &&
             listFriendsRequest?.map((friend) => (
               <FriendRequest item={friend} key={friend._id} />
@@ -139,6 +158,7 @@ const ListFriendsRequest = () => {
             display="block"
             className="list-friends-request__container-title"
             gutterBottom
+            style={{ paddingLeft: 30 }}
           >
             Đã gửi lời mời kết bạn (
             {listFriendsRecall?.length ? listFriendsRecall?.length : "0"})
