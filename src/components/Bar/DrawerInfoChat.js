@@ -312,10 +312,6 @@ export default function PersistentDrawerRight() {
           </AccordionDetails>
         </Accordion>
 
-        <ListItem button>
-          <ListItemText primary="Inbox" />
-          {isShowInformation ? <ExpandLess /> : <ExpandMore />}
-        </ListItem>
         {user._id === currentConversation.createdBy._id &&
           currentConversation.isGroup && (
             <ListItem button onClick={handleShowChangeCreator}>

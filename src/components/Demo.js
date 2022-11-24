@@ -418,25 +418,26 @@ function Demo() {
       </Grid>
       {isShowConversation && (
         <Grid item style={{ flexGrow: 1, height: "inherit" }}>
-          {
-            currentConversation ? (
-              <>
-                <BoxChat style={{ height: "100%" }} />
-                <Grid className="infor">
-                  <DrawerInfoChat
-                    style={{ with: 0, height: 0 }}
-                  ></DrawerInfoChat>
-                </Grid>
-              </>
-            ) : (
-              ""
-            )
-            // <Slider/>
-          }
+          {currentConversation ? (
+            <>
+              <BoxChat style={{ height: "100%" }} />
+              <Grid className="infor">
+                <DrawerInfoChat style={{ with: 0, height: 0 }}></DrawerInfoChat>
+              </Grid>
+            </>
+          ) : (
+            <Slider />
+          )}
         </Grid>
       )}
       {isShowPhoneBook && (
-        <Grid style={{ flexGrow: 1, height: "inherit" }}>
+        <Grid
+          style={{
+            flexGrow: 1,
+            height: "inherit",
+            borderLeft: "1px solid #E1E1E1",
+          }}
+        >
           <div className="friend-request__container">
             <div className="friend-request__container--list">
               {isShowRequestAddFriend && <ListFriendsRequest />}
