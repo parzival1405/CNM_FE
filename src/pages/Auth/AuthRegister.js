@@ -74,6 +74,7 @@ function Register() {
       confirmPassword:values.confirmPassword,
       gender:values.gender,
       dob:values.dob,
+      avatarURL: "",
     };
     window.dataUser = data;
     window.isSignup = true;

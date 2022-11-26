@@ -180,7 +180,6 @@ function Demo() {
   useEffect(() => {
     if (socket?.current) {
       socket.current.on("addMemberToGroup-receive", (data) => {
-        console.log("here", data);
         if (data._id === currentConversation?._id) {
           dispatch({
             type: GLOBALTYPES.UPDATEMEMBER,
@@ -234,6 +233,7 @@ function Demo() {
   useEffect(() => {
     if (socket?.current) {
       socket.current.on("outGroup-receive", (data) => {
+        console.log(data)
         if (data._id === currentConversation?._id) {
           dispatch({
             type: GLOBALTYPES.OUT_GROUP,
@@ -275,6 +275,7 @@ function Demo() {
           isShowPhoneBook ||
           data.conversation._id !== currentConversation?._id
         ) {
+          console.log("here")
           dispatch({
             type: GLOBALTYPES.UPDATE_COUNT_WAITING_MESSAGE,
             payload: data.conversation,

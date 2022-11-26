@@ -14,11 +14,12 @@ import {
   PhoneForwarded,
   PhoneCallback,
   AttachFile,
+  GetApp,
 } from "@material-ui/icons";
 import BasicPopover from "../Popover/BasePopover";
 import { stringAvatar } from "../../utils/LetterAvatar";
 import Times from "../../utils/Times";
-function Messages({ message,showName=false }) {
+function Messages({ message, showName = false }) {
   const { user } = useSelector((state) => state.auth);
   const { currentConversation } = useSelector(
     (state) => state.currentConversation
@@ -66,7 +67,7 @@ function Messages({ message,showName=false }) {
             </div>
             <Avatar
               className={
-                message?.sender?._id == user._id ? classes.avatarHidden : "" 
+                message?.sender?._id == user._id ? classes.avatarHidden : ""
                 // (!showName ? classes.hideAvt : "")
               }
               src={message?.sender?.avatarURL}
@@ -78,7 +79,6 @@ function Messages({ message,showName=false }) {
                 message?.sender?._id == user._id ? `${classes.wrapperEnd}` : ""
               )}
             >
-              
               {message.text && message?.media.length === 0 && (
                 <div
                   className={clsx(
@@ -94,7 +94,7 @@ function Messages({ message,showName=false }) {
                       message?.sender?._id == user._id
                         ? `${classes.flexFirstRight}`
                         : "",
-                        classes.nameSmall,
+                      classes.nameSmall
                     )}
                     color="textPrimary"
                     component="p"
@@ -163,7 +163,8 @@ function Messages({ message,showName=false }) {
                         backgroundColor: "white",
                         padding: ".5rem",
                         borderRadius: ".5rem",
-                        
+                        width:"90%",
+                        wordBreak:"break-word",
                       }}
                     >
                       <a
@@ -173,14 +174,30 @@ function Messages({ message,showName=false }) {
                         style={{
                           textDecoration: "none",
                           color: "black",
-                          display:"flex",
-                        alignItems:"center",
-                        color: "#005fff" 
+                          display: "flex",
+                          alignItems: "center",
+                          color: "#005fff",
                         }}
                       >
-                        <AttachFile  /> {message.text}
+                        <AttachFile /> {message.text}
                       </a>
                     </div>
+                  )}
+                  {item.type.match(/application/i) && (
+                    <a
+                      href={`${item.url}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      style={{
+                        textDecoration: "none",
+                        color: "black",
+                        display: "flex",
+                        alignItems: "center",
+                        color: "#005fff",
+                      }}
+                    >
+                      <GetApp />
+                    </a>
                   )}
                 </div>
               ))}

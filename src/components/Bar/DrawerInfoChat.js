@@ -161,17 +161,17 @@ export default function PersistentDrawerRight() {
       const data = {
         conversationId: currentConversation._id,
       };
-      // dispatch(
-      //   sendMessage(
-      //     {
-      //       sender: user._id,
-      //       conversation: currentConversation,
-      //       text: `${user.username} đã rời khỏi nhóm`,
-      //       type: "notification",
-      //     },
-      //     socket.current
-      //   )
-      // );
+      dispatch(
+        sendMessage(
+          {
+            sender: user._id,
+            conversation: currentConversation,
+            text: `${user.username} đã rời khỏi nhóm`,
+            type: "notification",
+          },
+          socket.current
+        )
+      );
       dispatch(outGroup(data, user, socket.current));
     }
   };

@@ -46,7 +46,7 @@ function AddFriendToGroupModal() {
   const [listMember, setListMember] = useState([]);
   const [listMemberErr, setListMemberErr] = useState("");
   const [show, toggleShow] = useState(false);
-  const handleSubmitForm = React.useCallback(() => {
+  const handleSubmitForm = React.useCallback( async () => {
     if (listMember.length === 0) {
       setListMemberErr("Chọn ít nhất 1 thành viên");
       toggleShow(true);
@@ -58,19 +58,19 @@ function AddFriendToGroupModal() {
       conversationId: currentConversation._id,
       newMember: _listMember,
     };
-    // listMember.map(member => {
-    //   dispatch(
-    //     sendMessage(
-    //       {
-    //         sender: user._id,
-    //         conversation: currentConversation,
-    //         text: `${user.username} đã thêm ${member.username} vào nhóm`,
-    //         type: "notification",
-    //       },
-    //       socket.current
-    //     )
-    //   );
-    // })
+    listMember.map(member => {
+        dispatch(
+        sendMessage(
+          {
+            sender: user._id,
+            conversation: currentConversation,
+            text: `${user.username} đã thêm ${member.username} vào nhóm`,
+            type: "notification",
+          },
+          socket.current
+        )
+      );
+    })
     
     dispatch(addMembersToGroup(data, user, socket.current));
     setListMember([]);

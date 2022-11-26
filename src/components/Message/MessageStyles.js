@@ -97,11 +97,12 @@ export default makeStyles((theme) => ({
   },
   media: {
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "row",
     // marginTop: "1rem",
   },
   mediaRight: {
-    alignItems: "end",
+    alignItems: "center",
+    flexDirection: "row-reverse",
     // width: "150px",
   },
   imageWrapper: {

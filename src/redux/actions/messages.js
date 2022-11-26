@@ -3,7 +3,9 @@ import { GLOBALTYPES } from "../../constants/actionType";
 
 export const sendMessage = (messageData, socket) => async (dispatch) => {
   try {
+    
     dispatch({ type: GLOBALTYPES.START_LOADING });
+    
     const {
       data: { data },
     } = await api.sendMessage(messageData);
@@ -19,7 +21,6 @@ export const sendMessage = (messageData, socket) => async (dispatch) => {
       ...data,
       conversation: messageData.conversation,
     }));
-    
     dispatch({ type: GLOBALTYPES.ADDMESSAGE, data });
     dispatch({ type: GLOBALTYPES.END_LOADING });
   } catch (error) {

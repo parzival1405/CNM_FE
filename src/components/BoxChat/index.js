@@ -116,9 +116,6 @@ function BoxChat() {
     }, 1500);
     
   };
-
-  console.log("rerender");
-
   return (
     // Drawer Open and Close
     <Wrapper className={clsx(classes.wrapperDrawerOpen)}>

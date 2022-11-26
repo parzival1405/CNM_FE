@@ -22,6 +22,7 @@ export default (state = initialState, action) => {
       let conversationSend = state.conversations.find(
         (convers) => convers._id === action?.payload._id
       );
+      console.log(conversationSend);
       let count_waiting_msg = conversationSend.count_waiting_msg
         ? conversationSend.count_waiting_msg + 1
         : 1;
@@ -29,6 +30,7 @@ export default (state = initialState, action) => {
         ...conversationSend,
         count_waiting_msg,
       };
+      console.log(count_waiting_msg);
       return {
         ...state,
         numberOfNotification: state.numberOfNotification + 1,
@@ -120,7 +122,7 @@ export default (state = initialState, action) => {
           return {
             ...state,
             conversations: state.conversations.map((conver) =>
-              conver._id == conversation._id ? conversation : conver
+              conver._id == conversation._id ? {...conversation,count_waiting_msg : conver.count_waiting_msg} : conver
             ),
           };
         }else{
@@ -148,7 +150,7 @@ export default (state = initialState, action) => {
         return {
           ...state,
           conversations: state.conversations.map((conver) =>
-            conver._id == conversation._id ? conversation : conver
+            conver._id == conversation._id ? {...conversation,count_waiting_msg : conver.count_waiting_msg} : conver
           ),
         };
       } else {

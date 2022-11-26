@@ -145,6 +145,7 @@ export const changeCreator = (data2, user, socket) => async (dispatch) => {
 
 export const outGroup = (data2, user, socket) => async (dispatch) => {
   try {
+    console.log("update");
     const { data } = await api.outGroup(data2);
     dispatch({
       type: GLOBALTYPES.OUT_GROUP,
