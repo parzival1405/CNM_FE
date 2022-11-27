@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   IconButton,
   Box,
@@ -28,7 +28,9 @@ import {
 import { showInformation } from "../../redux/actions/sideBar";
 import { stringAvatar } from "../../utils/LetterAvatar";
 import { GLOBALTYPES } from "../../constants/actionType";
-import { requestAddFriend } from "../../redux/actions/friends";
+import { acceptAddFriend, requestAddFriend } from "../../redux/actions/friends";
+import { createConversation } from "../../redux/actions/coversations";
+import { checkConversation } from "../../api";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -152,14 +154,15 @@ function HeaderBoxChat() {
   const peer = useSelector((state) => state.peer);
   const { socket } = useSelector((state) => state.socket);
   const { user } = useSelector((state) => state.auth);
-  const _friends = currentConversation?.member?.filter(
-    (m) => m._id !== user._id
-  );
+  let _friends = currentConversation?.member?.filter((m) => m._id !== user._id);
 
   const handleRequestAddFriend = React.useCallback(() => {
     dispatch(requestAddFriend(_friends[0], user, socket.current));
   }, [user, dispatch, socket]);
 
+  useEffect(() => {
+    _friends = currentConversation?.member?.filter((m) => m._id !== user._id);
+  }, [user, currentConversation]);
   const caller = ({ video }) => {
     const { _id, avatarURL, username } = _friends[0];
 
@@ -198,12 +201,29 @@ function HeaderBoxChat() {
   };
 
   const isRoom = currentConversation.isGroup;
-  
+
   const handleShowAddFriendToGroupModal = () => {
     dispatch(showAddFriendToGroupModal());
   };
   const handleShowInformation = () => {
     dispatch(showInformation());
+  };
+  const handleAccept = async () => {
+    const data = {
+      acceptFriendId: _friends[0]._id,
+    };
+    dispatch(acceptAddFriend(data, user, socket.current));
+    const data2 = {
+      label: "",
+      member: [user._id, _friends[0]._id],
+      createdBy: user._id,
+      isGroup: false,
+    };
+
+    const already = await checkConversation(data2);
+    if (!already.data.already) {
+      dispatch(createConversation(data2, socket.current));
+    }
   };
   return (
     <Box>
@@ -225,16 +245,77 @@ function HeaderBoxChat() {
             style={{ display: "flex", flex: "1 1 auto" }}
           />
           <Box style={{ display: "flex", flex: "0 1 auto" }}>
-            {!currentConversation.isGroup && !user.friends.map((fr) => fr._id).includes(_friends[0]._id) && (
+            {!currentConversation.isGroup &&
+              (user.SendRequestQueue?.map((fr) => fr._id).includes(
+                _friends[0]._id
+              ) ? (
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  style={{ color: "white" }}
+                  disabled
+                >
+                  Đã gửi yêu cầu
+                </Button>
+              ) : user.friendsQueue
+                  .map((fr) => fr._id)
+                  .includes(_friends[0]._id) ? (
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  style={{ color: "white" }}
+                  onClick={handleAccept}
+                >
+                  Chấp nhận kết bạn
+                </Button>
+              ) : (
+                !user.friends.map((fr) => fr._id).includes(_friends[0]._id) && (
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    style={{ color: "white" }}
+                    onClick={handleRequestAddFriend}
+                  >
+                    Kết bạn
+                  </Button>
+                )
+              ))}
+            {/* (
+              user.SendRequestQueue?.map((fr) => fr._id).includes(
+               _friends[0]._id
+              ) ? (
               <Button
                 variant="outlined"
-                color="white"
-                style={{color:"white"}}
-                onClick={handleRequestAddFriend}
+                color="primary"
+                style={{ color: "white" }}
+                disabled
               >
-                Kết bạn
+                Đã gửi yêu cầu
               </Button>
-            )}
+              ) : 
+              user.friendsQueue.map((fr) => fr._id).includes(_friends[0]._id) ? 
+                  (
+                                <Button
+                                  variant="outlined"
+                                  color="primary"
+                                  style={{ color: "white" }}
+                                  onClick={handleRequestAddFriend}
+                                >
+                                  Chấp nhận kết bạn
+                                </Button>
+                  ) :
+                    !user.friends.map((fr) => fr._id).includes(_friends[0]._id) && (
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        style={{ color: "white" }}
+                        onClick={handleRequestAddFriend}
+                      >
+                        Kết bạn
+                      </Button>
+                    )
+            )
+                    } */}
             <IconButton>
               <Search style={{ color: "white" }} />
             </IconButton>
