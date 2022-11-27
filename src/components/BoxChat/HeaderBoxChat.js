@@ -9,6 +9,7 @@ import {
   Badge,
   styled,
   makeStyles,
+  Button,
 } from "@material-ui/core";
 import { AvatarGroup } from "@material-ui/lab";
 
@@ -27,6 +28,7 @@ import {
 import { showInformation } from "../../redux/actions/sideBar";
 import { stringAvatar } from "../../utils/LetterAvatar";
 import { GLOBALTYPES } from "../../constants/actionType";
+import { requestAddFriend } from "../../redux/actions/friends";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -76,8 +78,8 @@ const AvatarCom = ({ _friends }) => {
 
 const useStyles = makeStyles({
   headerTitle: {
-    fontWeight:"bold"
-  }
+    fontWeight: "bold",
+  },
 });
 
 const HeaderInfo = ({ currentConversation }) => {
@@ -89,6 +91,7 @@ const HeaderInfo = ({ currentConversation }) => {
   const _friends = currentConversation?.member?.filter(
     (m) => m._id !== user._id
   );
+
   const handleShowChangeGroupLabelModal = () => {
     dispatch(showChangeGroupLabelModal());
   };
@@ -113,8 +116,8 @@ const HeaderInfo = ({ currentConversation }) => {
           )
         }
         classes={{
-          title: materializeUIClasses.headerTitle
-        }} 
+          title: materializeUIClasses.headerTitle,
+        }}
         title={
           !currentConversation.isGroup
             ? _friends[0].username.slice(0, 30)
@@ -145,12 +148,18 @@ function HeaderBoxChat() {
   const { currentConversation } = useSelector(
     (state) => state.currentConversation
   );
+  const dispatch = useDispatch();
   const peer = useSelector((state) => state.peer);
   const { socket } = useSelector((state) => state.socket);
   const { user } = useSelector((state) => state.auth);
   const _friends = currentConversation?.member?.filter(
     (m) => m._id !== user._id
   );
+
+  const handleRequestAddFriend = React.useCallback(() => {
+    dispatch(requestAddFriend(_friends[0], user, socket.current));
+  }, [user, dispatch, socket]);
+
   const caller = ({ video }) => {
     const { _id, avatarURL, username } = _friends[0];
 
@@ -189,7 +198,7 @@ function HeaderBoxChat() {
   };
 
   const isRoom = currentConversation.isGroup;
-  const dispatch = useDispatch();
+  
   const handleShowAddFriendToGroupModal = () => {
     dispatch(showAddFriendToGroupModal());
   };
@@ -216,6 +225,16 @@ function HeaderBoxChat() {
             style={{ display: "flex", flex: "1 1 auto" }}
           />
           <Box style={{ display: "flex", flex: "0 1 auto" }}>
+            {!currentConversation.isGroup && !user.friends.map((fr) => fr._id).includes(_friends[0]._id) && (
+              <Button
+                variant="outlined"
+                color="white"
+                style={{color:"white"}}
+                onClick={handleRequestAddFriend}
+              >
+                Kết bạn
+              </Button>
+            )}
             <IconButton>
               <Search style={{ color: "white" }} />
             </IconButton>
