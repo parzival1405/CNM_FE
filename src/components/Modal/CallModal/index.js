@@ -202,6 +202,7 @@ function CallModal() {
   // Play - Pause Audio
   const playAudio = (newAudio) => {
     newAudio.play();
+    console.log("ok play video")
   };
 
   const pauseAudio = (newAudio) => {
