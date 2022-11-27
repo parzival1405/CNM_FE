@@ -203,10 +203,11 @@ function CallModal() {
   // Play - Pause Audio
   const playAudio = (newAudio) => {
     newAudio.play();
-    console.log("ok play video")
+    console.log(newAudio)
   };
 
   const pauseAudio = (newAudio) => {
+    console.log("ok pause video")
     newAudio.pause();
     newAudio.currentTime = 0;
   };
