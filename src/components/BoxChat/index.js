@@ -250,7 +250,7 @@ function BoxChat() {
           }}
         >
           <Typing />
-          {members} đang nhập
+          {members.toString()} đang nhập
         </div>
       )}
       <FootBoxChat handleSendMsg={handleSendMsg} />
