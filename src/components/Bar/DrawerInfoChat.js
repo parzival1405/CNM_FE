@@ -188,12 +188,15 @@ export default function PersistentDrawerRight() {
   );
 
   React.useEffect(() => {
-    const data = {
-      conversationId: currentConversation._id,
-    };
-    dispatch(getImageAndVideo(data));
-    dispatch(getFileApplication(data));
-  }, [currentConversation, dispatch]);
+    if(messages[0]?.type !== 'text' && messages[0]?.type !== 'notification'){
+      const data = {
+        conversationId: currentConversation._id,
+      };
+      dispatch(getImageAndVideo(data));
+      dispatch(getFileApplication(data));
+    }
+    
+  }, [currentConversation,messages, dispatch]);
 
   return (
     <>
