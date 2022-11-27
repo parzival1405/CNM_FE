@@ -1,5 +1,5 @@
-import React from "react";
-import { Button, InputAdornment, TextField } from "@material-ui/core";
+import React, { useState } from "react";
+import { Button, IconButton, InputAdornment, TextField } from "@material-ui/core";
 import { Link, useNavigate } from "react-router-dom";
 import SigninImage from "../../assets/signup.jpg";
 import { useDispatch } from "react-redux";
@@ -10,7 +10,7 @@ import { validationLogin } from "../../utils/Validation";
 import * as api from "../../api";
 import { ShowOTP } from "../../redux/actions/modal";
 import { blue } from "@material-ui/core/colors";
-import { ErrorOutline } from "@material-ui/icons";
+import { ErrorOutline, Visibility, VisibilityOff } from "@material-ui/icons";
 
 function Login() {
   const navigate = useNavigate();
@@ -70,6 +70,15 @@ function Login() {
     dispatch(signin(values, navigate));
   };
 
+  const [showPassword,setShowPassword] = useState(false);
+  const handleClickShowPassword = () => {
+    setShowPassword(prev => !prev)
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
   return (
     <div className="auth__form-container" style={{ height: "100vh" }}>
       <div className="auth__form-container_fields">
@@ -96,6 +105,7 @@ function Login() {
               handleChange,
               handleSubmit,
               isSubmitting,
+              setFieldValue,
             }) => (
               <Form onSubmit={handleSubmit} method="POST">
                 <div className="form-group-column">
@@ -139,7 +149,7 @@ function Login() {
                     className="tf"
                     helperText={errors.password}
                     touched={touched.password}
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     name="password"
                     placeholder="Nhập mật khẩu"
                     onChange={handleChange}
@@ -152,12 +162,18 @@ function Login() {
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
-                          <ErrorOutline
-                            style={{
-                              color: "red",
-                              display: !errors.password ? "none" : "block",
-                            }}
-                          />
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                          >
+                            {showPassword ? (
+                              <VisibilityOff />
+                            ) : (
+                              <Visibility />
+                            )}
+                          </IconButton>
                         </InputAdornment>
                       ),
                     }}

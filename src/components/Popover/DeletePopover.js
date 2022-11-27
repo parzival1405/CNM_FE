@@ -36,7 +36,7 @@ function DeletePopover({
   const { socket } = useSelector((state) => state.socket);
   const dispatch = useDispatch();
 
-  const deleteId = (id) => {
+  const deleteId = async (id) => {
     listMember.push(id);
     const data = {
       conversationId: currentConversation._id,
@@ -77,7 +77,7 @@ function DeletePopover({
     }
   };
 
-  const handleDeleteUser = () => {
+  const handleDeleteUser = async () => {
     if (isDeleteAndConv) {
       if (
         window.confirm(
@@ -100,18 +100,24 @@ function DeletePopover({
             `Bạn chắc chắn muốn xóa ${member.username} ra khỏi nhóm ?`
           )
         ) {
-          deleteId(member._id);
-          dispatch(
-            sendMessage(
-              {
-                sender: user._id,
-                conversation: currentConversation,
-                text: `${user.username} đã xóa ${member.username} khỏi nhóm`,
-                type: "notification",
-              },
-              socket.current
-            )
-          );
+          await deleteId(member._id);
+          let con = currentConversation;
+          const member2 = con.member.filter(mem => mem._id != member._id) 
+          con = {...currentConversation,member:member2}
+          setTimeout(() => {
+            dispatch(
+              sendMessage(
+                {
+                  sender: user._id,
+                  conversation: con,
+                  text: `${user.username} đã xóa ${member.username} khỏi nhóm`,
+                  type: "notification",
+                },
+                socket.current
+              )
+            );
+          },1500 )
+          
           
         }
       }
