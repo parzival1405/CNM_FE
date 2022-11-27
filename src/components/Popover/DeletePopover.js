@@ -100,6 +100,7 @@ function DeletePopover({
             `Bạn chắc chắn muốn xóa ${member.username} ra khỏi nhóm ?`
           )
         ) {
+          deleteId(member._id);
           dispatch(
             sendMessage(
               {
@@ -111,7 +112,7 @@ function DeletePopover({
               socket.current
             )
           );
-          deleteId(member._id);
+          
         }
       }
       
