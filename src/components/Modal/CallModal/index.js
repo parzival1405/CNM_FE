@@ -207,7 +207,6 @@ function CallModal() {
   };
 
   const pauseAudio = (newAudio) => {
-    console.log("ok pause video")
     newAudio.pause();
     newAudio.currentTime = 0;
   };
