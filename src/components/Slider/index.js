@@ -4,7 +4,7 @@ import { Paper } from "@material-ui/core";
 
 function Item({ item }) {
   return (
-    <div>
+    <div style={{ marginTop:"50px"}}>
       <img style={{ width: "100%", height: "650px" }} src={item.src}></img>
     </div>
   );
@@ -12,20 +12,20 @@ function Item({ item }) {
 function Slider() {
   var items = [
     {
-      src: require("../../assets/slide_img1.jpg"),
+      src: require("../../assets/slide_img1.png"),
+    },
+    {
+      src: require("../../assets/slide_img2.png"),
     },
     {
       src: require("../../assets/slide_img2.jpg"),
     },
     {
-      src: require("../../assets/slide_img3.jpg"),
-    },
-    {
-      src: require("../../assets/slide_img4.jpg"),
+      src: require("../../assets/slide_img3.png"),
     },
   ];
   return (
-    <Carousel>
+    <Carousel animation="slide" duration={2000}>
       {items.map((item, i) => (
         <Item key={i} item={item} />
       ))}
