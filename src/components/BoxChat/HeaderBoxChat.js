@@ -129,7 +129,7 @@ const HeaderInfo = ({ currentConversation }) => {
           !currentConversation.isGroup
             ? online?.includes(_friends[0]._id)
               ? "Đang hoạt động"
-              : "offline"
+              : "Ngoại tuyến"
             : `${currentConversation.member.length} thành viên`
         }
         subheaderTypographyProps={{ color: "white" }}
