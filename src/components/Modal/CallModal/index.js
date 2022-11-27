@@ -13,6 +13,7 @@ import { sendMessage } from "../../../redux/actions/messages";
 import { GLOBALTYPES } from "../../../constants/actionType";
 import BaseModal from "../../Modal/BaseModal";
 import RingRing from "./../../../audio/ringring.mp3";
+import RickRoll from "../../../audio/rickroll.mp3";
 import useStyles from "./styles";
 import Typing from "../../../utils/Typing";
 function CallModal() {
@@ -211,7 +212,7 @@ function CallModal() {
   };
 
   useEffect(() => {
-    let newAudio = new Audio(RingRing);
+    let newAudio = new Audio(RickRoll);
     if (answer) {
       pauseAudio(newAudio);
     } else {
